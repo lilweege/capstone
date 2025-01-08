@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+January 7, 2025 & 1.0 & Initial document\\
+% Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
@@ -72,7 +72,7 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
+  \progname & SyntaxSentinals Code Plagiarism Detector\\
   UC & Unlikely Change \\
   \wss{etc.} & \wss{...}\\
   \bottomrule
@@ -150,18 +150,23 @@ unlikely changes are listed in Section \ref{SecUchange}.
 
 \subsection{Anticipated Changes} \label{SecAchange}
 
-Anticipated changes are the source of the information that is to be hidden
-inside the modules. Ideally, changing one of the anticipated changes will only
-require changing the one module that hides the associated decision. The approach
-adapted here is called design for
-change.
+% Anticipated changes are the source of the information that is to be hidden
+% inside the modules. Ideally, changing one of the anticipated changes will only
+% require changing the one module that hides the associated decision. The approach
+% adapted here is called design for
+% change.
+
+Anticipated changes are modifications that are likely to occur during the development or maintenance of the system. 
+These changes are identified based on the project's goals, stakeholder feedback, and potential future requirements. 
+By isolating these changes within specific modules, we ensure that the system remains flexible and maintainable.
+
+The following are the anticipated changes for the SyntaxSentinals Code Plagiarism Detector:
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] Changes in the input format of code snippets, such as supporting additional programming languages (e.g., C++, JavaScript) or new file formats.
+\item[\refstepcounter{acnum} \actheacnum \label{acNLP}:] Upgrades to the NLP model to improve semantic understanding, such as incorporating newer machine learning techniques or larger training datasets.
+\item[\refstepcounter{acnum} \actheacnum \label{acUI}:] Changes in the user interface, such as adding new features (e.g., online learning, language-agnostic support) or improving usability (e.g., better navigation, accessibility features).
+\item[\refstepcounter{acnum} \actheacnum \label{acThreshold}:] Adjustments to the similarity threshold for plagiarism detection, allowing users to customize sensitivity levels based on their specific needs.
 \end{description}
 
 \wss{Anticipated changes relate to changes that would be made in requirements,
@@ -178,9 +183,8 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucNLP}:] Switching from an NLP-based approach to a non-NLP-based approach.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucDataRetention}:] Storing user data beyond the immediate task (violating the zero data retention policy).
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -191,53 +195,100 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
-\end{description}
+  \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] User Authentication Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mUpload}:] Code Upload Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
+  \end{description}
 
+  \begin{table}[h!]
+    \centering
+    \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{Level 1} & \textbf{Level 2}\\
+    \midrule
+    {Hardware-Hiding Module} & ~ \\
+    \midrule
+    \multirow{4}{0.3\textwidth}{Behaviour-Hiding Module}
+    & User Authentication Module \\
+    & Code Upload Module \\
+    & Report Generation Module \\
+    \midrule
+    \multirow{3}{0.3\textwidth}{Software Decision Module} 
+    & NLP Model Module \\
+    & Similarity Scoring Module \\
+    & Threshold Adjustment Module \\
+    \bottomrule
+    \end{tabular}
+    \caption{Module Hierarchy}
+    \label{TblMH}
+  \end{table}
+% \begin{table}[h!]
+% \centering
+% \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+% \toprule
+% \textbf{Level 1} & \textbf{Level 2}\\
+% \midrule
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
+% {Hardware-Hiding Module} & ~ \\
+% \midrule
 
-{Hardware-Hiding Module} & ~ \\
-\midrule
+% \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
+% & ?\\
+% & ?\\
+% & ?\\
+% & ?\\
+% & ?\\
+% & ?\\ 
+% & ?\\
+% \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
-\midrule
+% \multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
+% & ?\\
+% & ?\\
+% \bottomrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
-\end{table}
+% \end{tabular}
+% \caption{Module Hierarchy}
+% \label{TblMH}
+% \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
 The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  FR-1 & \mref{mUpload} \\
+  FR-2 & \mref{mScoring} \\
+  FR-3 & \mref{mReport} \\
+  FR-4 & \mref{mThreshold} \\
+  FR-5 & \mref{mNLP} \\
+  FR-6 & \mref{mReport} \\
+  FR-7 & \mref{mAuth} \\
+  FR-8 & \mref{mAuth} \\
+  FR-9 & \mref{mReport} \\
+  FR-10 & \mref{mReport} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Requirements and Modules}
+  \label{TblRT}
+\end{table}
+  
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
+% \wss{The intention of this section is to document decisions that are made
+%   ``between'' the requirements and the design.  To satisfy some requirements,
+%   design decisions need to be made.  Rather than make these decisions implicit,
+%   they are explicitly recorded here.  For instance, if a program has security
+%   requirements, a specific design decision may be made to satisfy those
+%   requirements with a password.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -255,12 +306,16 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
+Only the leaf modules in the hierarchy have to be implemented. If a dash
+(\emph{--}) is shown, this means that the module is not a leaf and will not have
+to be implemented.
+
 \subsection{Hardware Hiding Modules (\mref{mHH})}
 
 \begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
+\item[Secrets:] The data structure and algorithm used to implement the virtual
   hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
+\item[Services:] Serves as a virtual hardware used by the rest of the
   system. This module provides the interface between the hardware and the
   software. So, the system can use it to display outputs or to accept inputs.
 \item[Implemented By:] OS
@@ -269,8 +324,8 @@ to be implemented.
 \subsection{Behaviour-Hiding Module}
 
 \begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
+\item[Secrets:] The contents of the required behaviours.
+\item[Services:] Includes programs that provide externally visible behaviour of
   the system as specified in the software requirements specification (SRS)
   documents. This module serves as a communication layer between the
   hardware-hiding module and the software decision module. The programs in this
@@ -278,19 +333,33 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Code Upload Module (\mref{mUpload})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Secrets:] The format and structure of the input data.
+\item[Services:] Converts the input data into the data structure used by the
+  NLP model module.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Report Generation Module (\mref{mReport})}
 
+\begin{description}
+\item[Secrets:] The format and structure of the output reports.
+\item[Services:] Generates plagiarism reports, including similarity scores and flagged cases.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{User Authentication Module (\mref{mAuth})}
+
+\begin{description}
+\item[Secrets:] The authentication and authorization mechanisms.
+\item[Services:] Handles user account creation, login, and access control.
+\item[Implemented By:] Auth0
+\item[Type of Module:] Abstract Data Type
+\end{description}
 
 \subsection{Software Decision Module}
 
@@ -300,12 +369,87 @@ to be implemented.
   \emph{not} described in the SRS.
 \item[Services:] Includes data structure and algorithms used in the system that
   do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{NLP Model Module (\mref{mNLP})}
+
+\begin{description}
+\item[Secrets:] The NLP-based plagiarism detection logic.
+\item[Services:] Processes code snippets and generates semantic representations for similarity scoring.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Similarity Scoring Module (\mref{mScoring})}
+
+\begin{description}
+\item[Secrets:] The algorithm for calculating similarity scores.
+\item[Services:] Compares semantic representations of code snippets and generates similarity scores.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
+
+\begin{description}
+\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
+\item[Services:] Allows users to customize the similarity threshold for plagiarism detection.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+
+% \subsection{Hardware Hiding Modules (\mref{mHH})}
+
+% \begin{description}
+% \item[Secrets:]The data structure and algorithm used to implement the virtual
+%   hardware.
+% \item[Services:]Serves as a virtual hardware used by the rest of the
+%   system. This module provides the interface between the hardware and the
+%   software. So, the system can use it to display outputs or to accept inputs.
+% \item[Implemented By:] OS
+% \end{description}
+
+% \subsection{Behaviour-Hiding Module}
+
+% \begin{description}
+% \item[Secrets:]The contents of the required behaviours.
+% \item[Services:]Includes programs that provide externally visible behaviour of
+%   the system as specified in the software requirements specification (SRS)
+%   documents. This module serves as a communication layer between the
+%   hardware-hiding module and the software decision module. The programs in this
+%   module will need to change if there are changes in the SRS.
+% \item[Implemented By:] --
+% \end{description}
+
+% \subsubsection{Input Format Module (\mref{mInput})}
+
+% \begin{description}
+% \item[Secrets:]The format and structure of the input data.
+% \item[Services:]Converts the input data into the data structure used by the
+%   input parameters module.
+% \item[Implemented By:] [Your Program Name Here]
+% \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+%   [Information to include for leaf modules in the decomposition by secrets tree.]
+% \end{description}
+
+% \subsubsection{Etc.}
+
+% \subsection{Software Decision Module}
+
+% \begin{description}
+% \item[Secrets:] The design decision based on mathematical theorems, physical
+%   facts, or programming considerations. The secrets of this module are
+%   \emph{not} described in the SRS.
+% \item[Services:] Includes data structure and algorithms used in the system that
+%   do not provide direct interaction with the user. 
+%   % Changes in these modules are more likely to be motivated by a desire to
+%   % improve performance than by externally imposed changes.
+% \item[Implemented By:] --
+% \end{description}
+
+% \subsubsection{Etc.}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -315,51 +459,88 @@ requirements and between the modules and the anticipated changes.
 % the table should use mref, the requirements should be named, use something
 % like fref
 \begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Req.} & \textbf{Modules}\\
-\midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
-\bottomrule
-\end{tabular}
-\caption{Trace Between Requirements and Modules}
-\label{TblRT}
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  FR-1 & \mref{mUpload} \\
+  FR-2 & \mref{mScoring} \\
+  FR-3 & \mref{mReport} \\
+  FR-4 & \mref{mThreshold} \\
+  FR-5 & \mref{mNLP} \\
+  FR-6 & \mref{mReport} \\
+  FR-7 & \mref{mAuth} \\
+  FR-8 & \mref{mAuth} \\
+  FR-9 & \mref{mReport} \\
+  FR-10 & \mref{mReport} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Requirements and Modules}
+  \label{TblRT}
 \end{table}
 
 \begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{AC} & \textbf{Modules}\\
-\midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
-\bottomrule
-\end{tabular}
-\caption{Trace Between Anticipated Changes and Modules}
-\label{TblACT}
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{AC} & \textbf{Modules}\\
+  \midrule
+  \acref{acInput} & \mref{mUpload} \\
+  \acref{acNLP} & \mref{mNLP} \\
+  \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
+  \acref{acThreshold} & \mref{mThreshold} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Anticipated Changes and Modules}
+  \label{TblACT}
 \end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+% \toprule
+% \textbf{Req.} & \textbf{Modules}\\
+% \midrule
+% R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
+% R2 & \mref{mInput}, \mref{mParams}\\
+% R3 & \mref{mVerify}\\
+% R4 & \mref{mOutput}, \mref{mControl}\\
+% R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
+% R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
+% R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
+% R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
+% R9 & \mref{mVerifyOut}\\
+% R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
+% R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+% \bottomrule
+% \end{tabular}
+% \caption{Trace Between Requirements and Modules}
+% \label{TblRT}
+% \end{table}
+
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+% \toprule
+% \textbf{AC} & \textbf{Modules}\\
+% \midrule
+% \acref{acHardware} & \mref{mHH}\\
+% \acref{acInput} & \mref{mInput}\\
+% \acref{acParams} & \mref{mParams}\\
+% \acref{acVerify} & \mref{mVerify}\\
+% \acref{acOutput} & \mref{mOutput}\\
+% \acref{acVerifyOut} & \mref{mVerifyOut}\\
+% \acref{acODEs} & \mref{mODEs}\\
+% \acref{acEnergy} & \mref{mEnergy}\\
+% \acref{acControl} & \mref{mControl}\\
+% \acref{acSeqDS} & \mref{mSeqDS}\\
+% \acref{acSolver} & \mref{mSolver}\\
+% \acref{acPlot} & \mref{mPlot}\\
+% \bottomrule
+% \end{tabular}
+% \caption{Trace Between Anticipated Changes and Modules}
+% \label{TblACT}
+% \end{table}
 
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
