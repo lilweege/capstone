@@ -169,9 +169,9 @@ The following are the anticipated changes for the SyntaxSentinals Code Plagiaris
 \item[\refstepcounter{acnum} \actheacnum \label{acThreshold}:] Adjustments to the similarity threshold for plagiarism detection, allowing users to customize sensitivity levels based on their specific needs.
 \end{description}
 
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
+% \wss{Anticipated changes relate to changes that would be made in requirements,
+% design or implementation choices.  They are not related to changes that are made
+% at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
@@ -199,8 +199,8 @@ actually be implemented.
   \item [\refstepcounter{mnum} \mthemnum \label{mUpload}:] Code Upload Module
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
   \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
   \end{description}
 
   \begin{table}[h!]
@@ -267,10 +267,10 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
   FR-1 & \mref{mUpload} \\
-  FR-2 & \mref{mScoring} \\
+  FR-2 & \mref{mNLP} \mref{mScoring} \\
   FR-3 & \mref{mReport} \\
   FR-4 & \mref{mThreshold} \\
-  FR-5 & \mref{mNLP} \\
+  FR-5 & \mref{mNLP} \mref{mScoring} \\
   FR-6 & \mref{mReport} \\
   FR-7 & \mref{mAuth} \\
   FR-8 & \mref{mAuth} \\
@@ -301,10 +301,6 @@ implementing software is given under the \emph{Implemented By} title. If the
 entry is \emph{OS}, this means that the module is provided by the operating
 system or by standard programming language libraries.  \emph{\progname{}} means the
 module will be implemented by the \progname{} software.
-
-Only the leaf modules in the hierarchy have to be implemented. If a dash
-(\emph{--}) is shown, this means that the module is not a leaf and will not have
-to be implemented.
 
 Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
