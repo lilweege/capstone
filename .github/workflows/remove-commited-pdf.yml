@@ -1,0 +1,43 @@
+name: Remove Committed PDFs in PR
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Ensure full history for PR comparison
+
+      # Step 2: Find and remove PDFs in the PR
+      - name: Remove committed PDFs in PR
+        run: |
+          # Find PDFs added or modified in the current PR
+          pdfs=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep '\.pdf$' || echo "")
+
+          if [ -z "$pdfs" ]; then
+            echo "No PDFs to remove in this PR."
+            exit 0
+          fi
+
+          # Remove the found PDFs from Git tracking
+          echo "$pdfs" | xargs -r git rm --cached
+
+          # Commit the changes
+          git commit -m "Remove committed PDFs from this PR" || echo "No changes to commit"
+
+      # Step 3: Push changes to the PR branch
+      - name: Push changes
+        uses: ad-m/github-push-action@master # Use the master branch of github-push-action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
