@@ -1,0 +1,23 @@
+name: Remove Committed PDFs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Remove committed PDFs
+        run: |
+          git rm --cached **/*.pdf || true
+          git commit -m "Remove committed PDFs" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
