@@ -1,1 +1,0 @@
-for i in sorted([input() for _ in xrange(10)])[:-4:-1]: print i

@@ -1,1 +1,0 @@
-[print(y) for y in sorted([int(input()) for x in range(10)], reverse=True)[:3]]

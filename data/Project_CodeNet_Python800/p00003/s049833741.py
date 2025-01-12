@@ -1,1 +1,0 @@
-[print("YES" if y[0] + y[1] == y[2] else "NO") for y in [sorted([int(x)**2 for x in input().split()]) for _ in range(int(input()))]]

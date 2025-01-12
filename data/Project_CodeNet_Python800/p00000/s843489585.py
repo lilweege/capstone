@@ -1,1 +1,0 @@
-a='range(1,10)';exec("for i in "+a+":\n"+" "*4+"for d in "+a+":\n"+" "*8+"print str(i)+'x'+str(d)+'='+str(i*d)")

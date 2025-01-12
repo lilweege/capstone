@@ -1,1 +1,0 @@
-main = (lambda a: [print(i) for i in a[:3]])(sorted([int(input()) for i in range(10)])[::-1])

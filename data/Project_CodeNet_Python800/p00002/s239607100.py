@@ -1,1 +1,0 @@
-[print(len(str(i)))for i in[sum(int(e)for e in ln.split())for ln in __import__("sys").stdin]]

@@ -1,1 +1,0 @@
-[print(x) for x in sorted([int(input()) for _ in range(10)], reverse=True)[0:3]]
