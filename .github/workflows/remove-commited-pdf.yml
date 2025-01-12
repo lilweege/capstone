@@ -18,6 +18,10 @@ jobs:
         with:
           fetch-depth: 0 # Ensure full history for PR comparison
 
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
       # Step 2: Find and remove PDFs in the PR
       - name: Remove committed PDFs in PR
         run: |
