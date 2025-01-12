@@ -30,7 +30,19 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
+      - name: Cache TeX Live
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/texlive # Adjust to where TeX Live is installed
+            /usr/share/texlive
+            ~/.texlive
+          key: texlive-2024-${{ runner.os }}-latexmk
+          restore-keys: |
+            texlive-
+
       - name: Set up LaTeX environment
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science

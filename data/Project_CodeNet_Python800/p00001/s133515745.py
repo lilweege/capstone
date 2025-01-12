@@ -1,0 +1,1 @@
+print("\n".join(map(str,sorted([int(input())for _ in[0]*10])[:-4:-1])))

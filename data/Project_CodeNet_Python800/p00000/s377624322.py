@@ -1,0 +1,1 @@
+print "\n".join(["%dx%d=%d"%((i/10+1),(i%10),(i/10+1)*(i%10)) for i in xrange(90)if i%10!=0])

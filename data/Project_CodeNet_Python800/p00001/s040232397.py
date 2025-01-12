@@ -1,0 +1,1 @@
+print(*sorted([int(input()) for _ in [0]*10])[:6:-1], sep="\n")
