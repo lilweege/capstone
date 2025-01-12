@@ -195,12 +195,12 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-  \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] User Authentication Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mUpload}:] Code Upload Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] \textbf{User Authentication Module:} Will authenticate the user with Auth0 and grant them access to the application. 
+  \item [\refstepcounter{mnum} \mthemnum \label{mUpload}:] \textbf{Code Upload Module:} Responsible for the handling of user's code upload. Acts as the entry point for the code similarity detection process.
+  \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] \textbf{NLP Model Module:} Processes code snippets and tokenizes them in order to create machine-readable representations that can be used for similarity detection.
+  \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] \textbf{Similarity Scoring Module:} Utilizes algorithm to compare tokenized representation of code snippets in order to compare code similarities
+  \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] \textbf{Threshold Adjustment Module:} Enables user to adjust the similarity threshold that constitutes plagiarism. This parameter directly modifies the algorithm.
+  \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] \textbf{Report Generation Module:} Module that generates plagiarism reports. These reports summarize code similarity scores as well as flagged pairs of code snippets.
   \end{description}
 
   \begin{table}[h!]
