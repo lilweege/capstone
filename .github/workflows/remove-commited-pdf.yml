@@ -22,7 +22,7 @@ jobs:
 
       # Step 3: Push changes to the current branch
       - name: Push changes
-        uses: ad-m/github-push-action@v0.6
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}
