@@ -54,7 +54,12 @@ jobs:
             file=$(basename -- "$tex_file")
             dir=$(dirname "$tex_file")
             cd "$dir"
-            pdflatex $file
+            # First pass
+            pdflatex -interaction=nonstopmode $file
+            # Second pass for Table of Contents, cross-references, etc.
+            pdflatex -interaction=nonstopmode $file
+            # Optional: Third pass if necessary
+            pdflatex -interaction=nonstopmode $file
             cd -
           done
 
