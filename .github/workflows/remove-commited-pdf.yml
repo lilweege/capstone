@@ -1,9 +1,11 @@
-name: Remove Committed PDFs
+name: Remove Committed PDFs in PR
 
 on:
-  push:
-    branches:
-      - "**" # Trigger on pushes to all branches
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
 
 jobs:
   cleanup:
@@ -14,23 +16,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch the full history to ensure all commits are available
+          fetch-depth: 0 # Ensure full history for PR comparison
 
-      # Step 2: Find and remove committed PDFs
-      - name: Remove committed PDFs
+      # Step 2: Find and remove PDFs in the PR
+      - name: Remove committed PDFs in PR
         run: |
-          # Find committed PDF files in the current branch
-          git ls-tree -r --name-only HEAD | grep '\.pdf$' || echo "No PDFs found"
+          # Find PDFs added or modified in the current PR
+          pdfs=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep '\.pdf$' || echo "")
 
-          # Remove found PDFs from Git tracking
-          git ls-tree -r --name-only HEAD | grep '\.pdf$' | xargs -r git rm --cached
+          if [ -z "$pdfs" ]; then
+            echo "No PDFs to remove in this PR."
+            exit 0
+          fi
 
-          # Commit the changes (if any)
-          git commit -m "Remove committed PDFs from this branch" || echo "No changes to commit"
+          # Remove the found PDFs from Git tracking
+          echo "$pdfs" | xargs -r git rm --cached
 
-      # Step 3: Push changes to the current branch
+          # Commit the changes
+          git commit -m "Remove committed PDFs from this PR" || echo "No changes to commit"
+
+      # Step 3: Push changes to the PR branch
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@master # Use the master branch of github-push-action
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
+          branch: ${{ github.head_ref }}
