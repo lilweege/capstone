@@ -13,12 +13,20 @@ jobs:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch the full history to ensure all commits are available
 
-      # Step 2: Remove committed PDFs
+      # Step 2: Find and remove committed PDFs
       - name: Remove committed PDFs
         run: |
-          git rm --cached **/*.pdf || true
-          git commit -m "Remove committed PDFs" || echo "No changes to commit"
+          # Find committed PDF files in the current branch
+          git ls-tree -r --name-only HEAD | grep '\.pdf$' || echo "No PDFs found"
+
+          # Remove found PDFs from Git tracking
+          git ls-tree -r --name-only HEAD | grep '\.pdf$' | xargs -r git rm --cached
+
+          # Commit the changes (if any)
+          git commit -m "Remove committed PDFs from this branch" || echo "No changes to commit"
 
       # Step 3: Push changes to the current branch
       - name: Push changes
