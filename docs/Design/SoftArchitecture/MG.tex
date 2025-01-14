@@ -193,39 +193,44 @@ decisions will be changed.
 This section provides an overview of the module design. Modules are summarized
 in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
-actually be implemented.
-
+actually be implemented. \\
+\textbf{User Interface Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] User Authentication Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mUpload}:] Code Upload Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mCodeUpload}:] Code Upload Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mResultsUpload}:] Results Upload Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mResults}:] Report Results Module
+\end{description}
+\textbf{Backend Modules}
+\begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
-  \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
-  \end{description}
+\end{description}
 
-  \begin{table}[h!]
-    \centering
-    \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-    \toprule
-    \textbf{Level 1} & \textbf{Level 2}\\
-    \midrule
-    {Hardware-Hiding Module} & ~ \\
-    \midrule
-    \multirow{4}{0.3\textwidth}{Behaviour-Hiding Module}
-    & User Authentication Module \\
-    & Code Upload Module \\
-    & Report Generation Module \\
-    \midrule
-    \multirow{3}{0.3\textwidth}{Software Decision Module} 
-    & NLP Model Module \\
-    & Similarity Scoring Module \\
-    & Threshold Adjustment Module \\
-    \bottomrule
-    \end{tabular}
-    \caption{Module Hierarchy}
-    \label{TblMH}
-  \end{table}
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Level 1} & \textbf{Level 2}\\
+  \midrule
+  {Hardware-Hiding Module} & ~ \\
+  \midrule
+  \multirow{4}{0.3\textwidth}{Behaviour-Hiding Module}
+  & User Authentication Module \\
+  & Code Upload Module \\
+  & Report Generation Module \\
+  \midrule
+  \multirow{3}{0.3\textwidth}{Software Decision Module} 
+  & NLP Model Module \\
+  & Similarity Scoring Module \\
+  & Threshold Adjustment Module \\
+  \bottomrule
+  \end{tabular}
+  \caption{Module Hierarchy}
+  \label{TblMH}
+\end{table}
 % \begin{table}[h!]
 % \centering
 % \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
