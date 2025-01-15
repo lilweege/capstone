@@ -280,3 +280,4 @@ TSWLatexianTemp*
 
 .venv
 venv
+similarity_results.json
