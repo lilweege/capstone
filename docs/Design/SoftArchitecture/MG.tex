@@ -335,32 +335,64 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Code Upload Module (\mref{mUpload})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the input data.
-\item[Services:] Converts the input data into the data structure used by the
-  NLP model module.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Report Generation Module (\mref{mReport})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the output reports.
-\item[Services:] Generates plagiarism reports, including similarity scores and flagged cases.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
 \subsubsection{User Authentication Module (\mref{mAuth})}
 
 \begin{description}
 \item[Secrets:] The authentication and authorization mechanisms.
 \item[Services:] Handles user account creation, login, and access control.
 \item[Implemented By:] Auth0
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Code Upload Module (\mref{mCodeUpload})}
+
+\begin{description}
+\item[Secrets:] The format and structure of the input data for the model.
+\item[Services:] Converts the input data files into the data structure
+used by the NLP model module.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Results Upload Module (\mref{mResultsUpload})}
+
+\begin{description}
+\item[Secrets:] The logic to intake report files as well as display information 
+contained within them.
+\item[Services:] Handles visualizing report files for user in front end.
+\item[Implemented By:] \progname
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
+
+\begin{description}
+\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
+\item[Services:] Allows users to customize the similarity threshold for 
+plagiarism detection.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Report Results Module (\mref{mResults})}
+
+\begin{description}
+\item[Secrets:] The logic for displaying outputs of
+the model on front end.
+\item[Services:] Displays results of plagiarism upon completion of analysis
+to user to allow them to inspect and flag code snippets.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Report Generation Module (\mref{mReport})}
+
+\begin{description}
+\item[Secrets:] The logic for creating and emailing report files
+from an analysis.
+\item[Services:] Creates and emails a report from plagarism run.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
 \end{description}
 
 \subsection{Software Decision Module}
@@ -377,10 +409,10 @@ to be implemented.
 \subsubsection{NLP Model Module (\mref{mNLP})}
 
 \begin{description}
-\item[Secrets:] The NLP-based plagiarism detection logic.
+\item[Secrets:] The NLP-based plagiarism detection algorithms and functions.
 \item[Services:] Processes code snippets and generates semantic representations for similarity scoring.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
 \end{description}
 
 \subsubsection{Similarity Scoring Module (\mref{mScoring})}
@@ -389,16 +421,7 @@ to be implemented.
 \item[Secrets:] The algorithm for calculating similarity scores.
 \item[Services:] Compares semantic representations of code snippets and generates similarity scores.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
-
-\begin{description}
-\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
-\item[Services:] Allows users to customize the similarity threshold for plagiarism detection.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Algorithm
 \end{description}
 
 
