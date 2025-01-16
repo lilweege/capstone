@@ -592,9 +592,90 @@ Auth0 will be integrated using its Javascript SDK. Secure communication channels
 
 \section{Timeline}
 
-\wss{Schedule of tasks and who is responsible}
+% \wss{Schedule of tasks and who is responsible}
 
-\wss{You can point to GitHub if this information is included there}
+\subsection{Module Implementation Timeline (Starting Jan 17)}
+
+\subsubsection{User Interface (UI) Modules}
+\begin{itemize}
+    \item \textbf{Jan 17 - Jan 20: User Authentication Module (\ref{mAuth})}
+    \begin{itemize}
+        \item Develop UI for user registration and login.
+        \item Integrate with backend authentication services.
+        \item \textbf{Responsibility:} Lucas.
+    \end{itemize}
+    
+    \item \textbf{Jan 21 - Jan 25: Code Upload Module (\ref{mCodeUpload})}
+    \begin{itemize}
+        \item Implement the file upload interface.
+        \item Validate and display upload status to the user.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Jan 26 - Jan 30: Results Upload Module (\ref{mResultsUpload})}
+    \begin{itemize}
+        \item Create UI for uploading processed result files.
+        \item Display confirmation and errors for invalid uploads.
+        \item To finalize this module it requires the completion of \ref{mEmail}
+        \item \textbf{Responsibility:} Lucas.
+    \end{itemize}
+    
+    \item \textbf{Jan 31 - Feb 4: Threshold Adjustment Module (\ref{mThreshold})}
+    \begin{itemize}
+        \item Develop an interface for adjusting similarity thresholds.
+        \item Provide sliders or input boxes for customization.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Feb 5 - Feb 8: Flagging Module (\ref{mFlagging})}
+    \begin{itemize}
+        \item Add functionality for users to flag suspicious results.
+        \item Ensure flagged items are visually distinct in the UI.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Feb 9 - Feb 14: Report Results Module (\ref{mResults})}
+    \begin{itemize}
+        \item Implement a results display interface with options for sorting and filtering.
+        \item Add the ability to download or email reports directly from the UI.
+        \item \textbf{Responsibility:} Lucas and Mohsin.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Backend Modules}
+\begin{itemize}
+    \item \textbf{Jan 17 - Jan 23: NLP Model Module (\ref{mNLP})}
+    \begin{itemize}
+        \item Finalize and integrate the trained plagiarism detection model.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+
+    \item \textbf{Jan 17 - Jan 29: Similarity Scoring Module (\ref{mScoring})}
+    \begin{itemize}
+        \item Process NLP model outputs for similarity scores.
+        \item Optimize backend logic for performance.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+
+    \item \textbf{Jan 30 - Feb 4: Report Generation Module (\ref{mReport})}
+    \begin{itemize}
+        \item Generate reports based on processed similarity data.
+        \item Ensure compatibility with frontend requirements.
+        \item \textbf{Responsibility:} Entire team.
+    \end{itemize}
+
+    \item \textbf{Feb 5 - Feb 8: Email Sending Module (\ref{mEmail})}
+    \begin{itemize}
+        \item Develop functionality for sending results via email.
+        \item Implement error handling for failed deliveries.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+\end{itemize}
+
+\vspace{0.5cm}
+
+
+% \wss{You can point to GitHub if this information is included there}
 
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
