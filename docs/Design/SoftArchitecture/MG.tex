@@ -191,75 +191,66 @@ decisions will be changed.
 \section{Module Hierarchy} \label{SecMH}
 
 This section provides an overview of the module design. Modules are summarized
-in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
+in a hierarchy decomposed by secrets in Table \ref{TblUIMH} and \ref{TblBMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented. \\
+
 \textbf{User Interface Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] User Authentication Module
   \item [\refstepcounter{mnum} \mthemnum \label{mCodeUpload}:] Code Upload Module
   \item [\refstepcounter{mnum} \mthemnum \label{mResultsUpload}:] Results Upload Module
   \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mFlagging}:] Flagging Module
   \item [\refstepcounter{mnum} \mthemnum \label{mResults}:] Report Results Module
 \end{description}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{p{0.35\textwidth} p{0.55\textwidth}}
+  \toprule
+  \textbf{Level 1} & \textbf{Level 2} \\
+  \midrule
+  {Hardware-Hiding Module} & ~ \\
+  \midrule
+  \multirow{4}{*}{Behaviour-Hiding Module} & User Authentication Module \\
+  & Code Upload Module \\
+  & Results Upload Module \\
+  & Threshold Adjustment Module \\
+  \midrule
+  \multirow{1}{*}{Software Decision Module} & Report Results Module \\
+  \bottomrule
+  \end{tabular}
+  \caption{UI Module Hierarchy}
+  \label{TblUIMH}
+\end{table}
+
 \textbf{Backend Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mEmail}:] Email Sending Module
 \end{description}
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+  \begin{tabular}{p{0.35\textwidth} p{0.55\textwidth}}
   \toprule
-  \textbf{Level 1} & \textbf{Level 2}\\
+  \textbf{Level 1} & \textbf{Level 2} \\
   \midrule
   {Hardware-Hiding Module} & ~ \\
   \midrule
-  \multirow{4}{0.3\textwidth}{Behaviour-Hiding Module}
-  & User Authentication Module \\
-  & Code Upload Module \\
+  \multirow{2}{*}{Behaviour-Hiding Module} & Email Sending Module \\
   & Report Generation Module \\
   \midrule
-  \multirow{3}{0.3\textwidth}{Software Decision Module} 
-  & NLP Model Module \\
+  \multirow{2}{*}{Software Decision Module} & NLP Model Module \\
   & Similarity Scoring Module \\
-  & Threshold Adjustment Module \\
   \bottomrule
   \end{tabular}
-  \caption{Module Hierarchy}
-  \label{TblMH}
+  \caption{Backend Module Hierarchy}
+  \label{TblBMH}
 \end{table}
-% \begin{table}[h!]
-% \centering
-% \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-% \toprule
-% \textbf{Level 1} & \textbf{Level 2}\\
-% \midrule
-
-% {Hardware-Hiding Module} & ~ \\
-% \midrule
-
-% \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\ 
-% & ?\\
-% \midrule
-
-% \multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-% & ?\\
-% & ?\\
-% \bottomrule
-
-% \end{tabular}
-% \caption{Module Hierarchy}
-% \label{TblMH}
-% \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
@@ -272,16 +263,16 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \toprule
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
-  FR-1 & \mref{mUpload} \\
+  FR-1 & \mref{mCodeUpload} \\
   FR-2 & \mref{mNLP} \mref{mScoring} \\
-  FR-3 & \mref{mReport} \\
-  FR-4 & \mref{mThreshold} \\
+  FR-3 & \mref{mReport}\\
+  FR-4 & \mref{mThreshold} \mref{mFlagging}\\
   FR-5 & \mref{mNLP} \mref{mScoring} \\
   FR-6 & \mref{mReport} \\
   FR-7 & \mref{mAuth} \\
   FR-8 & \mref{mAuth} \\
-  FR-9 & \mref{mReport} \\
-  FR-10 & \mref{mReport} \\
+  FR-9 & \mref{mEmail} \\
+  FR-10 & \mref{mResultsUpload} \mref{mResults}\\
   \bottomrule
   \end{tabular}
   \caption{Trace Between Requirements and Modules}
@@ -460,27 +451,7 @@ requirements and between the modules and the anticipated changes.
 
 % the table should use mref, the requirements should be named, use something
 % like fref
-\begin{table}[H]
-  \centering
-  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-  \toprule
-  \textbf{Req.} & \textbf{Modules}\\
-  \midrule
-  FR-1 & \mref{mUpload} \\
-  FR-2 & \mref{mScoring} \\
-  FR-3 & \mref{mReport} \\
-  FR-4 & \mref{mThreshold} \\
-  FR-5 & \mref{mNLP} \\
-  FR-6 & \mref{mReport} \\
-  FR-7 & \mref{mAuth} \\
-  FR-8 & \mref{mAuth} \\
-  FR-9 & \mref{mReport} \\
-  FR-10 & \mref{mReport} \\
-  \bottomrule
-  \end{tabular}
-  \caption{Trace Between Requirements and Modules}
-  \label{TblRT}
-\end{table}
+Traceability table between modiles and the requirements can be found at \mref{TblRT}. \\
 
 \begin{table}[H]
   \centering
@@ -488,7 +459,7 @@ requirements and between the modules and the anticipated changes.
   \toprule
   \textbf{AC} & \textbf{Modules}\\
   \midrule
-  \acref{acInput} & \mref{mUpload} \\
+  \acref{acInput} & \mref{mCodeUpload} \\
   \acref{acNLP} & \mref{mNLP} \\
   \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
