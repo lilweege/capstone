@@ -579,7 +579,16 @@ The below are mockups of the user interface for the software and are subject to 
 
 \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+This section outlines the external services that will be used by the software and their respective purposes.
+
+\subsection{External Services Overview}
+The system will integrate with Auth0 to enhance functionality and provide a seamless user experience.
+
+\subsection{Authentication Service: Auth0}
+Auth0 will be used for user authentication and authorization. It provides secure login, single sign-on (SSO), and multi-factor authentication (MFA) capabilities. Auth0 will handle user credentials and ensure that only authorized users can access the system.
+
+\subsection{Integration and Security}
+Auth0 will be integrated using its Javascript SDK. Secure communication channels (e.g., HTTPS) will be used to protect data in transit. Additionally, proper authentication and authorization mechanisms will be implemented to ensure that only authorized components can interact with Auth0.
 
 \section{Timeline}
 
