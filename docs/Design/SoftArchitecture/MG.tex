@@ -32,6 +32,10 @@
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
 
+\newcounter{smnum}[mnum]
+\newcommand{\smthemnum}{\mthemnum.\thesmnum}
+\newcommand{\smref}[2]{M\ref{#1}.\ref{#2}}
+
 \begin{document}
 
 \title{Module Guide for \progname{}} 
@@ -228,6 +232,12 @@ actually be implemented. \\
 \textbf{Backend Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
+  \begin{description}
+    \item [\refstepcounter{smnum} \smthemnum \label{smMLModel}:] Abstract ML Model Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smTokenization}:] Tokenization Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smAST}:] AST Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smEmbedded}:] Embedded Module
+  \end{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
   \item [\refstepcounter{mnum} \mthemnum \label{mEmail}:] Email Sending Module
@@ -242,6 +252,10 @@ actually be implemented. \\
   {Hardware-Hiding Module} & ~ \\
   \midrule
   \multirow{2}{*}{Behaviour-Hiding Module} & Email Sending Module \\
+  & Abstract ML Model Module \\
+  & Tokenization Module \\
+  & AST Module \\
+  & Embedded Module \\
   & Report Generation Module \\
   \midrule
   \multirow{2}{*}{Software Decision Module} & NLP Model Module \\
