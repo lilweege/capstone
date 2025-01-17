@@ -522,7 +522,7 @@ provided. \citet{Parnas1978} said of two programs A and B that A {\em uses} B if
 correct execution of B may be necessary for A to complete the task described in
 its specification. That is, A {\em uses} B if there exist situations in which
 the correct functioning of A depends upon the availability of a correct
-implementation of B.  Figure \ref{FigUH} illustrates the use relation between
+implementation of B.  Figure \ref{FigUHBE} illustrates the use relation between
 the modules. It can be seen that the graph is a directed acyclic graph
 (DAG). Each level of the hierarchy offers a testable and usable subset of the
 system, and modules in the higher level of the hierarchy are essentially simpler
@@ -541,7 +541,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../Assets/BackEndHierarchy.png}
+\includegraphics[width=0.5\textwidth]{../Assets/BackEndHierarchy.png}
 \caption{Use hierarchy among back end modules}
 \label{FigUHBE}
 \end{figure}
