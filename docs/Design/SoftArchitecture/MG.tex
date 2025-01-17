@@ -389,6 +389,42 @@ to user to allow them to inspect and flag code snippets.
 \item[Type of Module:] Library Component
 \end{description}
 
+\subsubsection{Abstract ML Model Module (\smref{mNLP}{smMLModel})}
+
+\begin{description}
+\item[Secrets:] The architecture and configuration of machine learning models.
+\item[Services:] Provides a high-level interface for tuning and evaluating various pre-trained machine learning models, agnostic of the specific model to be used.
+\item[Implemented By:] Hugging Face
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Tokenization Module (\smref{mNLP}{smTokenization})}
+
+\begin{description}
+\item[Secrets:] The tokenization algorithms used to break code into smaller, meaningful components for analysis.
+\item[Services:] Converts raw code snippets into tokens (e.g., keywords, operators) that can be processed by other modules.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{AST Module (\smref{mNLP}{smAST})}
+
+\begin{description}
+\item[Secrets:] The structure and traversal methods of the Abstract Syntax Tree (AST) used to represent code.
+\item[Services:] Transforms source code into an Abstract Syntax Tree for semantic analysis and comparison.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Embedded Module (\smref{mNLP}{smEmbedded})}
+
+\begin{description}
+\item[Secrets:] The embedding methods used to convert tokens or AST nodes into fixed-size vector representations.
+\item[Services:] Converts a source code representation into vector embeddings suitable for similarity scoring.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
 \subsubsection{Report Generation Module (\mref{mReport})}
 
 \begin{description}
