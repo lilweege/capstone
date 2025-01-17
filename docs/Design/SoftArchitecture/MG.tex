@@ -516,6 +516,8 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
+
+
 % \wss{The uses relation is not a data flow diagram.  In the code there will often
 % be an import statement in module A when it directly uses module B.  Module B
 % provides the services that module A needs.  The code for module A needs to be
@@ -527,10 +529,19 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
-\caption{Use hierarchy among modules}
+\includegraphics[width=\textwidth]{../Assets/BackEndHierarchy.png}
+\caption{Use hierarchy among back end modules}
 \label{FigUH}
 \end{figure}
+
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../Assets/FrontEndHierarchy.png}
+  \caption{Use hierarchy among front end modules}
+  \label{FigUH}
+  \end{figure}
 
 %\section*{References}
 \newpage
