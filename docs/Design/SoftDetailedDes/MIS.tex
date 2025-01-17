@@ -249,22 +249,28 @@ graduate attribute of Problem Analysis and Design.
 
 \input{../../Reflection.tex}
 
+\section*{Appendix --- Reflection}
+
 \begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item Which of your design decisions stemmed from speaking to your client(s)
-  or a proxy (e.g. your peers, stakeholders, potential users)? For those that
-  were not, why, and where did they come from?
-  \item While creating the design doc, what parts of your other documents (e.g.
-  requirements, hazard analysis, etc), it any, needed to be changed, and why?
-  \item What are the limitations of your solution?  Put another way, given
-  unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
-  \item Give a brief overview of other design solutions you considered.  What
-  are the benefits and tradeoffs of those other designs compared with the chosen
-  design?  From all the potential options, why did you select the documented design?
-  (LO\_Explores)
+  \item \textbf{What went well while writing this deliverable?}   \\
+  The structured approach provided by the MIS template allowed us to focus on capturing the core details of each module rather than worrying about formatting or organization. Breaking down the system into hardware-hiding, behavior-hiding, and software decision modules helped ensure a logical decomposition aligned with best practices. Additionally, referring to academic sources for notation and specification methods enhanced the technical quality of the document. Collaboration among team members went smoothly, with effective discussions resolving ambiguities in design.
+
+  \item \textbf{What pain points did you experience during this deliverable, and how did you resolve them?}  \\
+  One major challenge was defining the exact responsibilities of each module, especially when dealing with overlapping functionalities, such as input parameter handling and output verification. Resolving this required iterative refinement of the module decomposition table, ensuring clear boundaries between modules. Another difficulty was identifying the appropriate level of detail for exported access programs. This was addressed by testing preliminary drafts with hypothetical use cases to verify their completeness and correctness.
+
+  \item \textbf{Which of your design decisions stemmed from speaking to your client(s) or a proxy (e.g., your peers, stakeholders, potential users)? For those that were not, why, and where did they come from?}  \\
+  Feedback from peers and stakeholders was crucial for decisions on the user-facing modules, such as Input Parameters and Output Format. Stakeholders emphasized the need for a clear and intuitive interface for these modules, leading to decisions about input validation and output clarity. On the other hand, decisions regarding the internal implementation, like the ODE Solver or Sequence Data Structure, were primarily informed by academic references and best practices to ensure computational accuracy and efficiency.
+
+  \item \textbf{While creating the design doc, what parts of your other documents (e.g., requirements, hazard analysis, etc.), if any, needed to be changed, and why?}  \\
+  Creating the MIS revealed inconsistencies in the System Requirements Specification (SRS) document, particularly in the descriptions of input and output expectations. These were updated to provide precise definitions and align with the MIS. Additionally, the hazard analysis required revisions to reflect potential risks arising from module interactions, such as errors in data exchange between the ODE Solver and Plotting modules. This iterative process ensured that all documents were consistent and mutually reinforcing.
+
+  \item \textbf{What are the limitations of your solution? Put another way, given unlimited resources, what could you do to make the project better?}  \\
+  While the solution effectively balances complexity and functionality, it has limitations. For instance, the error handling mechanisms could be more robust, particularly for edge cases like invalid input formats or numerical instability in ODE solving. With unlimited resources, we could enhance these aspects by implementing real-time debugging tools, integrating advanced plotting libraries for better visualization, and using machine learning algorithms to predict and mitigate potential errors in input data. Furthermore, increasing modularity by further subdividing behavior-hiding modules could improve scalability.
+
+  \item \textbf{Give a brief overview of other design solutions you considered. What are the benefits and tradeoffs of those other designs compared with the chosen design? From all the potential options, why did you select the documented design?}  \\
+  We considered alternative designs, such as a flatter module hierarchy with fewer behavior-hiding modules to simplify implementation. However, this would have made the design less modular and harder to maintain. Another option was to use pre-built software libraries for solving ODEs and plotting, but this would limit customization and understanding of the underlying processes. The chosen design offers a balance between modularity, clarity, and adaptability, ensuring that the system is both maintainable and extendable. It also aligns well with the project’s educational objectives, reinforcing core design principles.
 \end{enumerate}
+
 
 
 \end{document}
