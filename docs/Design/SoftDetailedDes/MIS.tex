@@ -548,6 +548,122 @@ No local functions are required for this module.
     \item \texttt{renderReport(data, container)}: UI logic to display \texttt{ResultsDataStruct} in a given front-end container.
 \end{itemize}
 
+\section{MIS of Threshold Adjustment Module} \label{mThreshold}
+
+
+\subsection{Module}
+
+\texttt{ThresholdAdjustmentModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item A back-end or configuration service (to store and retrieve the threshold settings)
+    \item A front-end/UI component (the actual slider element the user interacts with)
+    \item Possibly a validation or range-check module (to ensure threshold inputs are within acceptable bounds)
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{User-Defined Data Types}
+
+\begin{itemize}
+    \item \textbf{\texttt{ThresholdValue}}: A numeric type (e.g., \texttt{float} in $[0,1]$ or \texttt{int} in $[0,100]$) that the slider can represent.
+    \item \textbf{\texttt{ThresholdRange}}: A structure or pair \texttt{(minValue, maxValue)} denoting the allowable slider bounds.
+    \item \textbf{\texttt{Boolean}}: A logical type that can be either \texttt{true} or \texttt{false}.
+    \item \textbf{\texttt{ExceptionType}}: A generic exception category (e.g., \texttt{ThresholdError}).
+\end{itemize}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item \texttt{DEFAULT\_THRESHOLD} : \texttt{ThresholdValue} (e.g., 0.75) used if no custom threshold is set.
+    \item \texttt{THRESHOLD\_RANGE} : \texttt{ThresholdRange} (e.g., \texttt{(0, 1)}) defining the slider’s permissible bounds.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{3.5cm} p{3.8cm} p{3cm} p{2.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{getThreshold} 
+  & - 
+  & \texttt{ThresholdValue} 
+  & \texttt{ThresholdError} \\
+
+\texttt{setThreshold} 
+  & \textit{newVal : ThresholdValue}
+  & \texttt{Boolean}
+  & \texttt{ThresholdError} \\
+
+\texttt{validateThreshold} 
+  & \textit{value : ThresholdValue}
+  & \texttt{Boolean} 
+  & \texttt{ThresholdError} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \texttt{currentThreshold} : \texttt{ThresholdValue} \\
+    Represents the current position of the slider, reflecting the chosen plagiarism detection threshold.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item \texttt{THRESHOLD\_CONFIG\_ENDPOINT} : \texttt{String} \\
+    The network endpoint or file resource where the threshold configuration is stored/persisted.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item \texttt{currentThreshold} is always within \texttt{THRESHOLD\_RANGE}.
+    \item The user moves the slider to pick a threshold within valid bounds.
+    \item Any saved or loaded threshold configurations adhere to the same data format as defined here.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{getThreshold}():
+\begin{itemize}
+    \item \textbf{transition:} None (no change to internal state).
+    \item \textbf{output:} Returns the current threshold (slider position), \texttt{currentThreshold}.
+    \item \textbf{exception:} \texttt{ThresholdError} if the threshold is undefined or fails to load from persistence.
+\end{itemize}
+
+\noindent \texttt{setThreshold}(\textit{newVal}):
+\begin{itemize}
+    \item \textbf{transition:}
+    \begin{itemize}
+        \item Uses \texttt{validateThreshold} to check if \textit{newVal} falls within \texttt{THRESHOLD\_RANGE}.
+        \item Updates \texttt{currentThreshold} to \textit{newVal} if valid.
+        \item Saves the new value to the configuration endpoint or local store.
+    \end{itemize}
+    \item \textbf{output:} \texttt{true} if \textit{newVal} is successfully set; otherwise \texttt{false}.
+    \item \textbf{exception:} \texttt{ThresholdError} if \textit{newVal} is out of range or otherwise invalid.
+\end{itemize}
+
+\noindent \texttt{validateThreshold}(\textit{value}):
+\begin{itemize}
+    \item \textbf{transition:} None (does not change internal state).
+    \item \textbf{output:} \texttt{true} if \textit{value} is in \texttt{THRESHOLD\_RANGE}; otherwise \texttt{false}.
+    \item \textbf{exception:} \texttt{ThresholdError} if \textit{value} is malformed (e.g., not a number).
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\begin{itemize}
+    \item \texttt{readCurrentThreshold()} : Internal function to read the stored threshold from \texttt{THRESHOLD\_CONFIG\_ENDPOINT}.
+    \item \texttt{writeCurrentThreshold(value : ThresholdValue)} : Internal function to persist \textit{value} at \texttt{THRESHOLD\_CONFIG\_ENDPOINT}.
+\end{itemize}
 
 \newpage
 
