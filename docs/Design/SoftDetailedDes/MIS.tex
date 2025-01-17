@@ -53,8 +53,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+January 17 & 1.0 & Initial documentation\\
 \bottomrule
 \end{tabularx}
 
@@ -62,9 +61,9 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at \href{https://github.com/SyntaxSentinels/SyntaxSentinels/blob/main/docs/SRS-Volere/SRS.pdf}{SRS}
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
+% \wss{Also add any additional symbols, abbreviations or acronyms}
 
 \newpage
 
@@ -76,12 +75,27 @@ See SRS Documentation at \wss{give url}
 
 \section{Introduction}
 
-The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+The following document details the Module Interface Specifications for SyntaxSentinals.
+
+This project seeks to create a plagiarism algorithm that relies on NLP
+techniques of present to account for semantics and prevent primitive cir-
+cumvention of plagiarism detection, such as the addition of benign lines or
+variable name changes. The users of our product will primarily be those con-
+cerned with fairness and integrity of code submissions within a competitive
+environment, such as professors or code competition holders.
+
+Users are intended to use the resulting product of our project by giving
+it code snippets and receiving a plagiarism report in return. This report
+will contain a set of similarity scores for inputted code snippets, which when
+assessed against an outputted threshold will indicate likelihood of plagiarsm
+having taken place. This will benefit the users by allowing them to more accurately assess the presence of plagiarized work, 
+creating a fairer environment for competition and rewarding coders correctly. 
+Ultimately, the project aims to help users achieve an environment that cycles merit 
+instead of cheating, which is believed to be a primary interest of users too.
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/SyntaxSentinels/SyntaxSentinels}. 
 
 \section{Notation}
 
