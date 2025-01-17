@@ -257,6 +257,7 @@ actually be implemented. \\
   & AST Module \\
   & Embedded Module \\
   & Report Generation Module \\
+  & Email Sending Module \\
   \midrule
   \multirow{2}{*}{Software Decision Module} & NLP Model Module \\
   & Similarity Scoring Module \\
@@ -423,6 +424,15 @@ report files from an analysis.
 \item[Services:] Takes code snippet inputs from front end, proceeds to dcreates and emails a report from plagarism run.
 \item[Implemented By:] \progname{}
 \item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Email Sending Module (\mref{mEmail})}
+
+\begin{description}
+\item[Secrets:] The logic and credentials for sending emails through an email API.
+\item[Services:] Handles the sending of emails, including composing the email body and attaching files.
+\item[Implemented By:] OS
+\item[Type of Module:] Library
 \end{description}
 
 \subsection{Software Decision Module}
