@@ -223,6 +223,7 @@ actually be implemented. \\
   & Threshold Adjustment Module \\
   \midrule
   \multirow{1}{*}{Software Decision Module} & Report Results Module \\
+  & Flagging Module \\
   \bottomrule
   \end{tabular}
   \caption{UI Module Hierarchy}
@@ -450,8 +451,16 @@ report files from an analysis.
 
 \begin{description}
 \item[Secrets:] The logic for displaying outputs of the model.
-\item[Services:] Displays results of plagiarism upon completion of analysis
-to user to allow them to inspect and flag code snippets.
+\item[Services:] Displays results of plagiarism upon completion of analysis to the user, allowing them to inspect and view the details of the results.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Flagging Module (\smref{mResults}{mFlagging})}
+
+\begin{description}
+\item[Secrets:] The logic for managing and storing user-reported flags, including their context and status.
+\item[Services:] Allows users to flag specific code snippets or results for further review.
 \item[Implemented By:] \progname{}
 \item[Type of Module:] Library Component
 \end{description}
