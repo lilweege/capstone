@@ -500,7 +500,40 @@ requirements and between the modules and the anticipated changes.
 
 % the table should use mref, the requirements should be named, use something
 % like fref
-Traceability table between modiles and the requirements can be found at \mref{TblRT}. \\
+Traceability table between modules and the funcitonal requirements can be found 
+at \mref{TblRT}. \\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  UH-L1 & \mref{mResults} \\
+  PR-SL1 & \mref{mNLP} \mref{mScoring} \\
+  PR-SL2 & \mref{mResults} \\
+  PR-PA1 & \mref{mNLP} \mref{mScoring} \\
+  PR-PA2 & \mref{mNLP} \mref{mScoring} \\
+  PR-RFT1 & \mref{mCodeUpload} \\
+  PR-C1 & \mref{mNLP} \mref{mScoring} \\
+  PR-L2 & \mref{mNLP} \\
+  OE-IAS1 & \mref{mReport} \mref{mNLP} \\
+  OE-IAS3 & \mref{mAuth} \\
+  MS-M1 & \mref{mNLP} \\
+  MS-A2 & \mref{mNLP} \\
+  MS-A3 & \mref{mNLP} \\
+  SR-A1 & \mref{mAuth} \\
+  SR-P1 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  SR-P2 & \mref{mCodeUpload} \mref{mEmail}\\
+  CR-L1 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  CR-L2 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  CR-SC4 & \mref{mNLP} \\
+  CR-SC5 & \mref{mAuth} \mref{mCodeUpload} \mref{mReport} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Relevant Non-Functional Requirements and Modules}
+  \label{TblNFRT}
+\end{table}
 
 \begin{table}[H]
   \centering
@@ -508,9 +541,9 @@ Traceability table between modiles and the requirements can be found at \mref{Tb
   \toprule
   \textbf{AC} & \textbf{Modules}\\
   \midrule
-  \acref{acInput} & \mref{mCodeUpload} \\
+  \acref{acInput} & \mref{mCodeUpload} \mref{mNLP}\\
   \acref{acNLP} & \mref{mNLP} \\
-  \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
+  \acref{acUI} & \mref{mResults} \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
   \bottomrule
   \end{tabular}
