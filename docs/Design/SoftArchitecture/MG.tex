@@ -466,20 +466,52 @@ requirements and between the modules and the anticipated changes.
   \toprule
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
-  FR-1 & \mref{mUpload} \\
-  FR-2 & \mref{mScoring} \\
-  FR-3 & \mref{mReport} \\
-  FR-4 & \mref{mThreshold} \\
-  FR-5 & \mref{mNLP} \\
-  FR-6 & \mref{mReport} \\
+  FR-1 & \mref{mCodeUpload} \\
+  FR-2 & \mref{mNLP} \mref{mScoring} \mref{mThreshold} \\
+  FR-3 & \mref{mResults} \\
+  FR-4 & \mref{mResults} \\
+  FR-5 & \mref{mNLP} \mref{mScoring} 
+  FR-6 & \mref{mReport}\\
   FR-7 & \mref{mAuth} \\
   FR-8 & \mref{mAuth} \\
   FR-9 & \mref{mReport} \\
-  FR-10 & \mref{mReport} \\
+  FR-10 & \mref{mResultsUpload} \\
   \bottomrule
   \end{tabular}
-  \caption{Trace Between Requirements and Modules}
-  \label{TblRT}
+  \caption{Trace Between Functional Requirements and Modules}
+  \label{TblFRT}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  UH-L1 & \mref{mResults} \\
+  PR-SL1 & \mref{mNLP} \mref{mScoring} \\
+  PR-SL2 & \mref{mResults} \\
+  PR-PA1 & \mref{mNLP} \mref{mScoring} \\
+  PR-PA2 & \mref{mNLP} \mref{mScoring} \\
+  PR-RFT1 & \mref{mCodeUpload} \\
+  PR-C1 & \mref{mNLP} \mref{mScoring} \\
+  PR-L2 & \mref{mNLP} \\
+  OE-IAS1 & \mref{mReport} \mref{mNLP} \\
+  OE-IAS3 & \mref{mAuth} \\
+  MS-M1 & \mref{mNLP} \\
+  MS-A2 & \mref{mNLP} \\
+  MS-A3 & \mref{mNLP} \\
+  SR-A1 & \mref{mAuth} \\
+  SR-P1 & \mref{mCodeUpload} \mref{mReport} \\
+  SR-P2 & \mref{mCodeUpload} \mref{mReport} \\
+  CR-L1 & \mref{mCodeUpload} \mref{mReport} \\
+  CR-L2 & \mref{mCodeUpload} \mref{mReport} \\
+  CR-SC4 & \mref{mNLP} \\
+  CR-SC5 & \mref{mAuth} \mref{mCodeUpload} \mref{mReport} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Relevant Non-Functional Requirements and Modules}
+  \label{TblNFRT}
 \end{table}
 
 \begin{table}[H]
@@ -488,7 +520,7 @@ requirements and between the modules and the anticipated changes.
   \toprule
   \textbf{AC} & \textbf{Modules}\\
   \midrule
-  \acref{acInput} & \mref{mUpload} \\
+  \acref{acInput} & \mref{mCodeUpload} \mref{mNLP}\\
   \acref{acNLP} & \mref{mNLP} \\
   \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
