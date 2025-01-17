@@ -194,125 +194,139 @@ This section provides an overview of the module design. Modules are summarized
 in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented. \\
+
 \textbf{User Interface Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] User Authentication Module
   \item [\refstepcounter{mnum} \mthemnum \label{mCodeUpload}:] Code Upload Module
   \item [\refstepcounter{mnum} \mthemnum \label{mResultsUpload}:] Results Upload Module
   \item [\refstepcounter{mnum} \mthemnum \label{mThreshold}:] Threshold Adjustment Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mFlagging}:] Flagging Module
   \item [\refstepcounter{mnum} \mthemnum \label{mResults}:] Report Results Module
 \end{description}
+
 \textbf{Backend Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mEmail}:] Email Sending Module
 \end{description}
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+  \begin{tabular}{p{0.35\textwidth} p{0.55\textwidth}}
   \toprule
-  \textbf{Level 1} & \textbf{Level 2}\\
+  \textbf{Level 1} & \textbf{Level 2} \\
   \midrule
   {Hardware-Hiding Module} & ~ \\
   \midrule
-  \multirow{4}{0.3\textwidth}{Behaviour-Hiding Module}
+  \multirow{2}{*}{Behaviour-Hiding Module} 
   & User Authentication Module \\
   & Code Upload Module \\
   & Results Upload Module \\
   & Threshold Adjustment Module \\
+  & Flagging Module \\
   & Report Results Module \\
-  & Report Generation Module \\
+  & Email Sending Module \\
   \midrule
-  \multirow{3}{0.3\textwidth}{Software Decision Module} 
+  \multirow{2}{*}{Software Decision Module} 
   & NLP Model Module \\
   & Similarity Scoring Module \\
+  & Report Generation Module \\
   \bottomrule
   \end{tabular}
   \caption{Module Hierarchy}
   \label{TblMH}
 \end{table}
-% \begin{table}[h!]
-% \centering
-% \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-% \toprule
-% \textbf{Level 1} & \textbf{Level 2}\\
-% \midrule
-
-% {Hardware-Hiding Module} & ~ \\
-% \midrule
-
-% \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\
-% & ?\\ 
-% & ?\\
-% \midrule
-
-% \multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-% & ?\\
-% & ?\\
-% \bottomrule
-
-% \end{tabular}
-% \caption{Module Hierarchy}
-% \label{TblMH}
-% \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
 The design of the system is intended to satisfy the requirements developed in
-the SRS. In this stage, the system is decomposed into modules. This section 
-details the connection between functional requirements and modules to establish
-functionality of the design and essentiallity of the modules. Later sections will 
-propose coverage of non- functional requirements by the modules. Functional 
-requirements and corresponding modules that provide coverage for them are listed 
-in Table~\ref{TblFRT} in the traceability section below.
+the SRS \citep{SRS}. In this stage, the system is decomposed into modules. This 
+section details the connection between functional requirements and modules to 
+establish functionality of the design and essentiallity of the modules. The
+traceability section below will propose coverage of non-functional requirements 
+by the modules. A mapping between functional requirements in the FR section of 
+the SRS \citep{SRS} and corresponding modules that provide coverage for them are
+also listed in Table~\ref{TblFRT}. 
+Note: mathematical notation used in the FRs ignores table of abbreviations and acronyms and derives from the SRS section cited above.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  FR-1 & \mref{mCodeUpload} \\
+  FR-2 & \mref{mNLP} \mref{mScoring} \mref{mThreshold} \\
+  FR-3 & \mref{mResults}\\
+  FR-4 & \mref{mFlagging}\\
+  FR-5 & \mref{mNLP} \mref{mScoring} \\
+  FR-6 & \mref{mReport} \\
+  FR-7 & \mref{mAuth} \\
+  FR-8 & \mref{mAuth} \\
+  FR-9 & \mref{mEmail} \\
+  FR-10 & \mref{mResultsUpload} \mref{mResults}\\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Requirements and Modules}
+  \label{TblRT}
+\end{table}
 
-FR-1 requires all code file inputs given, s, by users, u, to be taken be uploaded
-into the system. The code upload module would provide a spot for users to insert 
-code files within the UI and get them into circulation of the system.
+FR-1 requires all code file inputs given by a user, $u \in U$, to be uploaded
+into the system, forming $S$. This necessitates a spot in the UI for users to 
+insert code files and get them into circulation of the system for eventual
+processing by the model in the back end. These responsibilities will all 
+be delegated to the code upload module (\mref{mCodeUpload}).\\
 
 FR-2 requires all snippets to have a pairwise similarity score, Sim($s_i, s_j$), 
-and for these scores to be sent against a threshold, t, to establish plagiarism 
-status. To calculate these similarities, the scoring module will receive snippets,
-pass them to the NLP module where the model exists to vectorize each snippet, and
-proceed to calculate similarity based on these vectors. These similarities will then
-be filtered by the thresholds obtained from the threshold module, which user u will
-have given some input t, to gain a plagarism status for each snippet.
+and for these scores to be sent against a threshold, $t \in T$, to establish 
+plagiarism status. To calculate these similarities, there must be a module to 
+receive snippets from the front end, pass them to the NLP model to receive back 
+a semantic representation of the relation between pairs (such as a vector), and 
+proceed to calculate similarity based on these representations. This module will 
+be the scoring module (\mref{mScoring}). The NLP model has a scope which should 
+also be handled by a single module, the NLP module (\mref{mNLP}). These similarities 
+will then be filtered by the thresholds obtained from the user to gain a plagarism 
+status for each snippet. These thresholds will be obtained from users and passed 
+onto the appropriate spots by the threshold module ({\mref{mThreshold}}).\\
 
-FR-3 requires a guide document. This will be provided by the results module in the front
-end which will encompass both displaying analysis results to the user as well as info
-on how to interpret them.
+FR-3 requires a guide document. This will be provided by the results module (\mref{mResults})
+in the frontend which will encompass both displaying analysis results to the user as well as 
+info on how to interpret them.\\
 
-FR-4 requires allowing the user to flag code snippets for their own tracking purposes.
-The results module will provide the ability to mark snippets after analysis for the user
-to keep special track of.
+FR-4 requires allowing the user to flag code snippets for their own tracking purposes
+to create $P \subset S$ as well as flagging pairs that are suspected for plagarism. 
+This gives scope for a flagging module (\mref{mFlagging}) which will provide the ability 
+to mark snippets after analysis for the user to keep special track of and potentially 
+filter with.\\
 
-FR-5 desires output of similarity scores collectively to be analyzed and exist without
-having been transferred through a threshold filtering.. This should arise as an output 
-of the scoring module which will interpret results from the NLP module.
+FR-5 requires the collective output of similarity scores, Sim($s_i, s_j$), to exist 
+regardless of threshold filtering. This should arise as an output of the scoring module 
+(\mref{mScoring}) which will interpret results from the NLP module (\mref{mNLP}).\\
 
-FR-6 requires report generation once similarity scores and a threshold exists. The report 
-module will be made to take a set of scores and threshold, which will have already been
-made from other modules, and make a summary report.
+FR-6 requires generation of reports, $R$, using similarity scores, Sim($s_i, s_j$), 
+and thresholds that already exists. This necessitates a module which can take a set 
+of scores and thresholds that have been obtained from other modules, and make a 
+summary report. This will be covered by the Report Generation module (\mref{mReport}).\\
 
-FR-7 requires account creation which will necessitate the creation of the  user authentication 
-module.
+FR-7 requires account creation to add a member, $u$, to the set of users, $U$, necessitating 
+the existence of the user authentication module (\mref{mAuth}).\\
 
-FR-8 requires authenticating an account adds further purpose for the user authentication module.
+FR-8 requires authenticating an account of a user, $u$. This falls into the scope of 
+the user authentication module (\mref{mAuth}).\\
 
-FR-9 requires emailing a generated report to clients, which adds scope and additional reason 
-for the existence of the report module in the backend.
+FR-9 requires emailing a set of generated reports, $R$, as a zip file, $z$, to clients.
+This necessitates a module separate from the report module (\mref{mReport}) to handle the 
+business logic of passing around and zipping reports which will be the emailing module
+(\mref{mEmail}). \\
 
-FR-10 requires the user to take a generated report they have received via email and upload it 
-back to the UI where they can observe the report once again. This will require a module 
-separate from the results module since it will have to re-interprate uploaded reports which
-will not necessarily have the same detail as the initial result screen.
+FR-10 requires the user to take a generated report they have received via email as a zip file,
+$z$, and upload it back to the UI where they can observe the report. This will require a module 
+separate from the results module since it will have to re-interprate uploaded reports in a 
+zipped state, which will not necessarily have the same detail as the initial result screen
+from the result module (\mref{mResults}). Therefore, there will be a Results Upload module
+(\mref{mResultsUpload}). \\
   
 
 % \wss{The intention of this section is to document decisions that are made
@@ -486,27 +500,7 @@ requirements and between the modules and the anticipated changes.
 
 % the table should use mref, the requirements should be named, use something
 % like fref
-\begin{table}[H]
-  \centering
-  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-  \toprule
-  \textbf{Req.} & \textbf{Modules}\\
-  \midrule
-  FR-1 & \mref{mUpload} \\
-  FR-2 & \mref{mScoring} \\
-  FR-3 & \mref{mReport} \\
-  FR-4 & \mref{mThreshold} \\
-  FR-5 & \mref{mNLP} \\
-  FR-6 & \mref{mReport} \\
-  FR-7 & \mref{mAuth} \\
-  FR-8 & \mref{mAuth} \\
-  FR-9 & \mref{mReport} \\
-  FR-10 & \mref{mReport} \\
-  \bottomrule
-  \end{tabular}
-  \caption{Trace Between Requirements and Modules}
-  \label{TblRT}
-\end{table}
+Traceability table between modiles and the requirements can be found at \mref{TblRT}. \\
 
 \begin{table}[H]
   \centering
@@ -514,7 +508,7 @@ requirements and between the modules and the anticipated changes.
   \toprule
   \textbf{AC} & \textbf{Modules}\\
   \midrule
-  \acref{acInput} & \mref{mUpload} \\
+  \acref{acInput} & \mref{mCodeUpload} \\
   \acref{acNLP} & \mref{mNLP} \\
   \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
@@ -583,6 +577,8 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
+
+
 % \wss{The uses relation is not a data flow diagram.  In the code there will often
 % be an import statement in module A when it directly uses module B.  Module B
 % provides the services that module A needs.  The code for module A needs to be
@@ -594,10 +590,19 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
-\caption{Use hierarchy among modules}
+\includegraphics[width=\textwidth]{../Assets/BackEndHierarchy.png}
+\caption{Use hierarchy among back end modules}
 \label{FigUH}
 \end{figure}
+
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../Assets/FrontEndHierarchy.png}
+  \caption{Use hierarchy among front end modules}
+  \label{FigUH}
+  \end{figure}
 
 %\section*{References}
 \newpage
@@ -634,13 +639,103 @@ The below are mockups of the user interface for the software and are subject to 
 
 \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+This section outlines the external services that will be used by the software and their respective purposes.
+
+\subsection{External Services Overview}
+The system will integrate with Auth0 to enhance functionality and provide a seamless user experience.
+
+\subsection{Authentication Service: Auth0}
+Auth0 will be used for user authentication and authorization. It provides secure login, single sign-on (SSO), and multi-factor authentication (MFA) capabilities. Auth0 will handle user credentials and ensure that only authorized users can access the system.
+
+\subsection{Integration and Security}
+Auth0 will be integrated using its Javascript SDK. Secure communication channels (e.g., HTTPS) will be used to protect data in transit. Additionally, proper authentication and authorization mechanisms will be implemented to ensure that only authorized components can interact with Auth0.
 
 \section{Timeline}
 
-\wss{Schedule of tasks and who is responsible}
+% \wss{Schedule of tasks and who is responsible}
 
-\wss{You can point to GitHub if this information is included there}
+\subsection{Module Implementation Timeline (Starting Jan 17)}
+
+\subsubsection{User Interface (UI) Modules}
+\begin{itemize}
+    \item \textbf{Jan 17 - Jan 20: User Authentication Module (\ref{mAuth})}
+    \begin{itemize}
+        \item Develop UI for user registration and login.
+        \item Integrate with backend authentication services.
+        \item \textbf{Responsibility:} Lucas.
+    \end{itemize}
+    
+    \item \textbf{Jan 21 - Jan 25: Code Upload Module (\ref{mCodeUpload})}
+    \begin{itemize}
+        \item Implement the file upload interface.
+        \item Validate and display upload status to the user.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Jan 26 - Jan 30: Results Upload Module (\ref{mResultsUpload})}
+    \begin{itemize}
+        \item Create UI for uploading processed result files.
+        \item Display confirmation and errors for invalid uploads.
+        \item To finalize this module it requires the completion of \ref{mEmail}
+        \item \textbf{Responsibility:} Lucas.
+    \end{itemize}
+    
+    \item \textbf{Jan 31 - Feb 4: Threshold Adjustment Module (\ref{mThreshold})}
+    \begin{itemize}
+        \item Develop an interface for adjusting similarity thresholds.
+        \item Provide sliders or input boxes for customization.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Feb 5 - Feb 8: Flagging Module (\ref{mFlagging})}
+    \begin{itemize}
+        \item Add functionality for users to flag suspicious results.
+        \item Ensure flagged items are visually distinct in the UI.
+        \item \textbf{Responsibility:} Mohsin.
+    \end{itemize}
+    
+    \item \textbf{Feb 9 - Feb 14: Report Results Module (\ref{mResults})}
+    \begin{itemize}
+        \item Implement a results display interface with options for sorting and filtering.
+        \item Add the ability to download or email reports directly from the UI.
+        \item \textbf{Responsibility:} Lucas and Mohsin.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Backend Modules}
+\begin{itemize}
+    \item \textbf{Jan 17 - Jan 23: NLP Model Module (\ref{mNLP})}
+    \begin{itemize}
+        \item Finalize and integrate the trained plagiarism detection model.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+
+    \item \textbf{Jan 17 - Jan 29: Similarity Scoring Module (\ref{mScoring})}
+    \begin{itemize}
+        \item Process NLP model outputs for similarity scores.
+        \item Optimize backend logic for performance.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+
+    \item \textbf{Jan 30 - Feb 4: Report Generation Module (\ref{mReport})}
+    \begin{itemize}
+        \item Generate reports based on processed similarity data.
+        \item Ensure compatibility with frontend requirements.
+        \item \textbf{Responsibility:} Entire team.
+    \end{itemize}
+
+    \item \textbf{Feb 5 - Feb 8: Email Sending Module (\ref{mEmail})}
+    \begin{itemize}
+        \item Develop functionality for sending results via email.
+        \item Implement error handling for failed deliveries.
+        \item \textbf{Responsibility:} Dennis, Luigi, and Julian.
+    \end{itemize}
+\end{itemize}
+
+\vspace{0.5cm}
+
+
+% \wss{You can point to GitHub if this information is included there}
 
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
