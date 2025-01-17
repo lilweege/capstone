@@ -32,6 +32,10 @@
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
 
+\newcounter{smnum}[mnum]
+\newcommand{\smthemnum}{\mthemnum.\thesmnum}
+\newcommand{\smref}[2]{M\ref{#1}.\ref{#2}}
+
 \begin{document}
 
 \title{Module Guide for \progname{}} 
@@ -208,6 +212,12 @@ actually be implemented. \\
 \textbf{Backend Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
+  \begin{description}
+    \item [\refstepcounter{smnum} \smthemnum \label{smMLModel}:] Abstract ML Model Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smTokenization}:] Tokenization Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smAST}:] AST Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smEmbedded}:] Embedded Module
+  \end{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
   \item [\refstepcounter{mnum} \mthemnum \label{mEmail}:] Email Sending Module
@@ -226,14 +236,18 @@ actually be implemented. \\
   & Code Upload Module \\
   & Results Upload Module \\
   & Threshold Adjustment Module \\
-  & Flagging Module \\
-  & Report Results Module \\
+  & Abstract ML Model Module \\
+  & Tokenization Module \\
+  & AST Module \\
+  & Embedded Module \\
+  & Report Generation Module \\
   & Email Sending Module \\
   \midrule
   \multirow{2}{*}{Software Decision Module} 
   & NLP Model Module \\
   & Similarity Scoring Module \\
-  & Report Generation Module \\
+  & Report Results Module \\
+  & Flagging Module \\
   \bottomrule
   \end{tabular}
   \caption{Module Hierarchy}
@@ -375,32 +389,98 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Code Upload Module (\mref{mUpload})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the input data.
-\item[Services:] Converts the input data into the data structure used by the
-  NLP model module.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Report Generation Module (\mref{mReport})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the output reports.
-\item[Services:] Generates plagiarism reports, including similarity scores and flagged cases.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
 \subsubsection{User Authentication Module (\mref{mAuth})}
 
 \begin{description}
 \item[Secrets:] The authentication and authorization mechanisms.
 \item[Services:] Handles user account creation, login, and access control.
 \item[Implemented By:] Auth0
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Code Upload Module (\mref{mCodeUpload})}
+
+\begin{description}
+\item[Secrets:] The format and transport of the input data for the model.
+\item[Services:] Converts the input data files into the data structure
+used by the NLP model module and passes it to the backend.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Results Upload Module (\mref{mResultsUpload})}
+
+\begin{description}
+\item[Secrets:] The logic to in-take and parse report files as well as display 
+information contained within them.
+\item[Services:] Handles visualizing report files for user in front end.
+\item[Implemented By:] \progname
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
+
+\begin{description}
+\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
+\item[Services:] Allows users to customize the similarity threshold for 
+plagiarism detection according to their needs.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Abstract ML Model Module (\smref{mNLP}{smMLModel})}
+
+\begin{description}
+\item[Secrets:] The architecture and configuration of machine learning models.
+\item[Services:] Provides a high-level interface for tuning and evaluating various pre-trained machine learning models, agnostic of the specific model to be used.
+\item[Implemented By:] Hugging Face
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Tokenization Module (\smref{mNLP}{smTokenization})}
+
+\begin{description}
+\item[Secrets:] The tokenization algorithms used to break code into smaller, meaningful components for analysis.
+\item[Services:] Converts raw code snippets into tokens (e.g., keywords, operators) that can be processed by other modules.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{AST Module (\smref{mNLP}{smAST})}
+
+\begin{description}
+\item[Secrets:] The structure and traversal methods of the Abstract Syntax Tree (AST) used to represent code.
+\item[Services:] Transforms source code into an Abstract Syntax Tree for semantic analysis and comparison.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Embedded Module (\smref{mNLP}{smEmbedded})}
+
+\begin{description}
+\item[Secrets:] The embedding methods used to convert tokens or AST nodes into fixed-size vector representations.
+\item[Services:] Converts a source code representation into vector embeddings suitable for similarity scoring.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Report Generation Module (\mref{mReport})}
+
+\begin{description}
+\item[Secrets:] The logic for analyzing outputs from the NLP model and emailing 
+report files from an analysis.
+\item[Services:] Takes code snippet inputs from front end, proceeds to dcreates and emails a report from plagarism run.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Email Sending Module (\mref{mEmail})}
+
+\begin{description}
+\item[Secrets:] The logic and credentials for sending emails through an email API.
+\item[Services:] Handles the sending of emails, including composing the email body and attaching files.
+\item[Implemented By:] OS
+\item[Type of Module:] Library
 \end{description}
 
 \subsection{Software Decision Module}
@@ -414,13 +494,32 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
+\subsubsection{Report Results Module (\mref{mResults})}
+
+\begin{description}
+\item[Secrets:] The logic for displaying outputs of the model.
+\item[Services:] Displays results of plagiarism upon completion of analysis to the user, allowing them to inspect and view the details of the results.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Flagging Module (\smref{mResults}{mFlagging})}
+
+\begin{description}
+\item[Secrets:] The logic for managing and storing user-reported flags, including their context and status.
+\item[Services:] Allows users to flag specific code snippets or results for further review.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
 \subsubsection{NLP Model Module (\mref{mNLP})}
 
 \begin{description}
-\item[Secrets:] The NLP-based plagiarism detection logic.
-\item[Services:] Processes code snippets and generates semantic representations for similarity scoring.
+\item[Secrets:] The NLP-based plagiarism detection algorithms and functions.
+\item[Services:] Processes code snippets and generates semantic representations (such as a vector) 
+for similarity scoring.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
 \end{description}
 
 \subsubsection{Similarity Scoring Module (\mref{mScoring})}
@@ -429,16 +528,7 @@ to be implemented.
 \item[Secrets:] The algorithm for calculating similarity scores.
 \item[Services:] Compares semantic representations of code snippets and generates similarity scores.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
-
-\begin{description}
-\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
-\item[Services:] Allows users to customize the similarity threshold for plagiarism detection.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Algorithm
 \end{description}
 
 
