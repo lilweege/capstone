@@ -266,10 +266,10 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
   FR-1 & \mref{mCodeUpload} \\
-  FR-2 & \mref{mNLP} \smref{mNLP}{smMLModel} \smref{mNLP}{smTokenization} \smref{mNLP}{smAST} \smref{mNLP}{smEmbedded} \mref{mScoring} \\
+  FR-2 & \mref{mNLP} \mref{mScoring} \\
   FR-3 & \mref{mReport}\\
   FR-4 & \mref{mThreshold} \mref{mFlagging}\\
-  FR-5 & \mref{mNLP} \smref{mNLP}{smMLModel} \smref{mNLP}{smTokenization} \smref{mNLP}{smAST} \smref{mNLP}{smEmbedded} \mref{mScoring} \\
+  FR-5 & \mref{mNLP} \mref{mScoring} \\
   FR-6 & \mref{mReport} \\
   FR-7 & \mref{mAuth} \\
   FR-8 & \mref{mAuth} \\
@@ -538,7 +538,7 @@ Traceability table between modiles and the requirements can be found at \mref{Tb
   \textbf{AC} & \textbf{Modules}\\
   \midrule
   \acref{acInput} & \mref{mCodeUpload} \\
-  \acref{acNLP} & \smref{mNLP}{smMLModel} \\
+  \acref{acNLP} & \mref{mNLP} \\
   \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
   \bottomrule
