@@ -32,6 +32,10 @@
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
 
+\newcounter{smnum}[mnum]
+\newcommand{\smthemnum}{\mthemnum.\thesmnum}
+\newcommand{\smref}[2]{M\ref{#1}.\ref{#2}}
+
 \begin{document}
 
 \title{Module Guide for \progname{}} 
@@ -191,7 +195,7 @@ decisions will be changed.
 \section{Module Hierarchy} \label{SecMH}
 
 This section provides an overview of the module design. Modules are summarized
-in a hierarchy decomposed by secrets in Table \ref{TblUIMH} and \ref{TblBMH}. The modules listed
+in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented. \\
 
@@ -205,29 +209,15 @@ actually be implemented. \\
   \item [\refstepcounter{mnum} \mthemnum \label{mResults}:] Report Results Module
 \end{description}
 
-\begin{table}[h!]
-  \centering
-  \begin{tabular}{p{0.35\textwidth} p{0.55\textwidth}}
-  \toprule
-  \textbf{Level 1} & \textbf{Level 2} \\
-  \midrule
-  {Hardware-Hiding Module} & ~ \\
-  \midrule
-  \multirow{4}{*}{Behaviour-Hiding Module} & User Authentication Module \\
-  & Code Upload Module \\
-  & Results Upload Module \\
-  & Threshold Adjustment Module \\
-  \midrule
-  \multirow{1}{*}{Software Decision Module} & Report Results Module \\
-  \bottomrule
-  \end{tabular}
-  \caption{UI Module Hierarchy}
-  \label{TblUIMH}
-\end{table}
-
 \textbf{Backend Modules}
 \begin{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mNLP}:] NLP Model Module
+  \begin{description}
+    \item [\refstepcounter{smnum} \smthemnum \label{smMLModel}:] Abstract ML Model Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smTokenization}:] Tokenization Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smAST}:] AST Module
+    \item [\refstepcounter{smnum} \smthemnum \label{smEmbedded}:] Embedded Module
+  \end{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
   \item [\refstepcounter{mnum} \mthemnum \label{mEmail}:] Email Sending Module
@@ -241,22 +231,40 @@ actually be implemented. \\
   \midrule
   {Hardware-Hiding Module} & ~ \\
   \midrule
-  \multirow{2}{*}{Behaviour-Hiding Module} & Email Sending Module \\
+  \multirow{2}{*}{Behaviour-Hiding Module} 
+  & User Authentication Module \\
+  & Code Upload Module \\
+  & Results Upload Module \\
+  & Threshold Adjustment Module \\
+  & Abstract ML Model Module \\
+  & Tokenization Module \\
+  & AST Module \\
+  & Embedded Module \\
   & Report Generation Module \\
+  & Email Sending Module \\
   \midrule
-  \multirow{2}{*}{Software Decision Module} & NLP Model Module \\
+  \multirow{2}{*}{Software Decision Module} 
+  & NLP Model Module \\
   & Similarity Scoring Module \\
+  & Report Results Module \\
+  & Flagging Module \\
   \bottomrule
   \end{tabular}
-  \caption{Backend Module Hierarchy}
-  \label{TblBMH}
+  \caption{Module Hierarchy}
+  \label{TblMH}
 \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
 The design of the system is intended to satisfy the requirements developed in
-the SRS. In this stage, the system is decomposed into modules. The connection
-between requirements and modules is listed in Table~\ref{TblRT}.
+the SRS \citep{SRS}. In this stage, the system is decomposed into modules. This 
+section details the connection between functional requirements and modules to 
+establish functionality of the design and essentiallity of the modules. The
+traceability section below will propose coverage of non-functional requirements 
+by the modules. A mapping between functional requirements in the FR section of 
+the SRS \citep{SRS} and corresponding modules that provide coverage for them are
+also listed in Table~\ref{TblFRT}. 
+Note: mathematical notation used in the FRs ignores table of abbreviations and acronyms and derives from the SRS section cited above.
 \begin{table}[H]
   \centering
   \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
@@ -264,9 +272,9 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
   FR-1 & \mref{mCodeUpload} \\
-  FR-2 & \mref{mNLP} \mref{mScoring} \\
-  FR-3 & \mref{mReport}\\
-  FR-4 & \mref{mThreshold} \mref{mFlagging}\\
+  FR-2 & \mref{mNLP} \mref{mScoring} \mref{mThreshold} \\
+  FR-3 & \mref{mResults}\\
+  FR-4 & \mref{mFlagging}\\
   FR-5 & \mref{mNLP} \mref{mScoring} \\
   FR-6 & \mref{mReport} \\
   FR-7 & \mref{mAuth} \\
@@ -278,6 +286,61 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \caption{Trace Between Requirements and Modules}
   \label{TblRT}
 \end{table}
+
+FR-1 requires all code file inputs given by a user, $u \in U$, to be uploaded
+into the system, forming $S$. This necessitates a spot in the UI for users to 
+insert code files and get them into circulation of the system for eventual
+processing by the model in the back end. These responsibilities will all 
+be delegated to the code upload module (\mref{mCodeUpload}).\\
+
+FR-2 requires all snippets to have a pairwise similarity score, Sim($s_i, s_j$), 
+and for these scores to be sent against a threshold, $t \in T$, to establish 
+plagiarism status. To calculate these similarities, there must be a module to 
+receive snippets from the front end, pass them to the NLP model to receive back 
+a semantic representation of the relation between pairs (such as a vector), and 
+proceed to calculate similarity based on these representations. This module will 
+be the scoring module (\mref{mScoring}). The NLP model has a scope which should 
+also be handled by a single module, the NLP module (\mref{mNLP}). These similarities 
+will then be filtered by the thresholds obtained from the user to gain a plagarism 
+status for each snippet. These thresholds will be obtained from users and passed 
+onto the appropriate spots by the threshold module ({\mref{mThreshold}}).\\
+
+FR-3 requires a guide document. This will be provided by the results module (\mref{mResults})
+in the frontend which will encompass both displaying analysis results to the user as well as 
+info on how to interpret them.\\
+
+FR-4 requires allowing the user to flag code snippets for their own tracking purposes
+to create $P \subset S$ as well as flagging pairs that are suspected for plagarism. 
+This gives scope for a flagging module (\mref{mFlagging}) which will provide the ability 
+to mark snippets after analysis for the user to keep special track of and potentially 
+filter with.\\
+
+FR-5 requires the collective output of similarity scores, Sim($s_i, s_j$), to exist 
+regardless of threshold filtering. This should arise as an output of the scoring module 
+(\mref{mScoring}) which will interpret results from the NLP module (\mref{mNLP}).\\
+
+FR-6 requires generation of reports, $R$, using similarity scores, Sim($s_i, s_j$), 
+and thresholds that already exists. This necessitates a module which can take a set 
+of scores and thresholds that have been obtained from other modules, and make a 
+summary report. This will be covered by the Report Generation module (\mref{mReport}).\\
+
+FR-7 requires account creation to add a member, $u$, to the set of users, $U$, necessitating 
+the existence of the user authentication module (\mref{mAuth}).\\
+
+FR-8 requires authenticating an account of a user, $u$. This falls into the scope of 
+the user authentication module (\mref{mAuth}).\\
+
+FR-9 requires emailing a set of generated reports, $R$, as a zip file, $z$, to clients.
+This necessitates a module separate from the report module (\mref{mReport}) to handle the 
+business logic of passing around and zipping reports which will be the emailing module
+(\mref{mEmail}). \\
+
+FR-10 requires the user to take a generated report they have received via email as a zip file,
+$z$, and upload it back to the UI where they can observe the report. This will require a module 
+separate from the results module since it will have to re-interprate uploaded reports in a 
+zipped state, which will not necessarily have the same detail as the initial result screen
+from the result module (\mref{mResults}). Therefore, there will be a Results Upload module
+(\mref{mResultsUpload}). \\
   
 
 % \wss{The intention of this section is to document decisions that are made
@@ -311,7 +374,7 @@ to be implemented.
 \item[Services:] Serves as a virtual hardware used by the rest of the
   system. This module provides the interface between the hardware and the
   software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
+\item[Implemented By:] OS  
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
@@ -326,32 +389,98 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Code Upload Module (\mref{mUpload})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the input data.
-\item[Services:] Converts the input data into the data structure used by the
-  NLP model module.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Report Generation Module (\mref{mReport})}
-
-\begin{description}
-\item[Secrets:] The format and structure of the output reports.
-\item[Services:] Generates plagiarism reports, including similarity scores and flagged cases.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
 \subsubsection{User Authentication Module (\mref{mAuth})}
 
 \begin{description}
 \item[Secrets:] The authentication and authorization mechanisms.
 \item[Services:] Handles user account creation, login, and access control.
 \item[Implemented By:] Auth0
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Code Upload Module (\mref{mCodeUpload})}
+
+\begin{description}
+\item[Secrets:] The format and transport of the input data for the model.
+\item[Services:] Converts the input data files into the data structure
+used by the NLP model module and passes it to the backend.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Results Upload Module (\mref{mResultsUpload})}
+
+\begin{description}
+\item[Secrets:] The logic to in-take and parse report files as well as display 
+information contained within them.
+\item[Services:] Handles visualizing report files for user in front end.
+\item[Implemented By:] \progname
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
+
+\begin{description}
+\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
+\item[Services:] Allows users to customize the similarity threshold for 
+plagiarism detection according to their needs.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Abstract ML Model Module (\smref{mNLP}{smMLModel})}
+
+\begin{description}
+\item[Secrets:] The architecture and configuration of machine learning models.
+\item[Services:] Provides a high-level interface for tuning and evaluating various pre-trained machine learning models, agnostic of the specific model to be used.
+\item[Implemented By:] Hugging Face
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Tokenization Module (\smref{mNLP}{smTokenization})}
+
+\begin{description}
+\item[Secrets:] The tokenization algorithms used to break code into smaller, meaningful components for analysis.
+\item[Services:] Converts raw code snippets into tokens (e.g., keywords, operators) that can be processed by other modules.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{AST Module (\smref{mNLP}{smAST})}
+
+\begin{description}
+\item[Secrets:] The structure and traversal methods of the Abstract Syntax Tree (AST) used to represent code.
+\item[Services:] Transforms source code into an Abstract Syntax Tree for semantic analysis and comparison.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Embedded Module (\smref{mNLP}{smEmbedded})}
+
+\begin{description}
+\item[Secrets:] The embedding methods used to convert tokens or AST nodes into fixed-size vector representations.
+\item[Services:] Converts a source code representation into vector embeddings suitable for similarity scoring.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Report Generation Module (\mref{mReport})}
+
+\begin{description}
+\item[Secrets:] The logic for analyzing outputs from the NLP model and emailing 
+report files from an analysis.
+\item[Services:] Takes code snippet inputs from front end, proceeds to dcreates and emails a report from plagarism run.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Email Sending Module (\mref{mEmail})}
+
+\begin{description}
+\item[Secrets:] The logic and credentials for sending emails through an email API.
+\item[Services:] Handles the sending of emails, including composing the email body and attaching files.
+\item[Implemented By:] OS
+\item[Type of Module:] Library
 \end{description}
 
 \subsection{Software Decision Module}
@@ -365,13 +494,32 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
+\subsubsection{Report Results Module (\mref{mResults})}
+
+\begin{description}
+\item[Secrets:] The logic for displaying outputs of the model.
+\item[Services:] Displays results of plagiarism upon completion of analysis to the user, allowing them to inspect and view the details of the results.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{Flagging Module (\smref{mResults}{mFlagging})}
+
+\begin{description}
+\item[Secrets:] The logic for managing and storing user-reported flags, including their context and status.
+\item[Services:] Allows users to flag specific code snippets or results for further review.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
 \subsubsection{NLP Model Module (\mref{mNLP})}
 
 \begin{description}
-\item[Secrets:] The NLP-based plagiarism detection logic.
-\item[Services:] Processes code snippets and generates semantic representations for similarity scoring.
+\item[Secrets:] The NLP-based plagiarism detection algorithms and functions.
+\item[Services:] Processes code snippets and generates semantic representations (such as a vector) 
+for similarity scoring.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Library
 \end{description}
 
 \subsubsection{Similarity Scoring Module (\mref{mScoring})}
@@ -380,16 +528,7 @@ to be implemented.
 \item[Secrets:] The algorithm for calculating similarity scores.
 \item[Services:] Compares semantic representations of code snippets and generates similarity scores.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
-\end{description}
-
-\subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
-
-\begin{description}
-\item[Secrets:] The logic for adjusting plagiarism detection thresholds.
-\item[Services:] Allows users to customize the similarity threshold for plagiarism detection.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Algorithm
 \end{description}
 
 
@@ -451,7 +590,40 @@ requirements and between the modules and the anticipated changes.
 
 % the table should use mref, the requirements should be named, use something
 % like fref
-Traceability table between modiles and the requirements can be found at \mref{TblRT}. \\
+Traceability table between modules and the funcitonal requirements can be found 
+at \mref{TblRT}. \\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  UH-L1 & \mref{mResults} \\
+  PR-SL1 & \mref{mNLP} \mref{mScoring} \\
+  PR-SL2 & \mref{mResults} \\
+  PR-PA1 & \mref{mNLP} \mref{mScoring} \\
+  PR-PA2 & \mref{mNLP} \mref{mScoring} \\
+  PR-RFT1 & \mref{mCodeUpload} \\
+  PR-C1 & \mref{mNLP} \mref{mScoring} \\
+  PR-L2 & \mref{mNLP} \\
+  OE-IAS1 & \mref{mReport} \mref{mNLP} \\
+  OE-IAS3 & \mref{mAuth} \\
+  MS-M1 & \mref{mNLP} \\
+  MS-A2 & \mref{mNLP} \\
+  MS-A3 & \mref{mNLP} \\
+  SR-A1 & \mref{mAuth} \\
+  SR-P1 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  SR-P2 & \mref{mCodeUpload} \mref{mEmail}\\
+  CR-L1 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  CR-L2 & \mref{mCodeUpload} \mref{mReport} \mref{mEmail}\\
+  CR-SC4 & \mref{mNLP} \\
+  CR-SC5 & \mref{mAuth} \mref{mCodeUpload} \mref{mReport} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Relevant Non-Functional Requirements and Modules}
+  \label{TblNFRT}
+\end{table}
 
 \begin{table}[H]
   \centering
@@ -459,9 +631,9 @@ Traceability table between modiles and the requirements can be found at \mref{Tb
   \toprule
   \textbf{AC} & \textbf{Modules}\\
   \midrule
-  \acref{acInput} & \mref{mCodeUpload} \\
+  \acref{acInput} & \mref{mCodeUpload} \mref{mNLP}\\
   \acref{acNLP} & \mref{mNLP} \\
-  \acref{acUI} & \mref{mReport}, \mref{mAuth} \\
+  \acref{acUI} & \mref{mResults} \mref{mAuth} \\
   \acref{acThreshold} & \mref{mThreshold} \\
   \bottomrule
   \end{tabular}
@@ -527,6 +699,8 @@ the modules. It can be seen that the graph is a directed acyclic graph
 (DAG). Each level of the hierarchy offers a testable and usable subset of the
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
+
+
 
 
 
