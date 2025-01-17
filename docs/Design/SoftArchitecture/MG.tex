@@ -243,8 +243,14 @@ actually be implemented. \\
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
 The design of the system is intended to satisfy the requirements developed in
-the SRS. In this stage, the system is decomposed into modules. The connection
-between requirements and modules is listed in Table~\ref{TblRT}.
+the SRS \citep{SRS}. In this stage, the system is decomposed into modules. This 
+section details the connection between functional requirements and modules to 
+establish functionality of the design and essentiallity of the modules. The
+traceability section below will propose coverage of non-functional requirements 
+by the modules. A mapping between functional requirements in the FR section of 
+the SRS \citep{SRS} and corresponding modules that provide coverage for them are
+also listed in Table~\ref{TblFRT}. 
+Note: mathematical notation used in the FRs ignores table of abbreviations and acronyms and derives from the SRS section cited above.
 \begin{table}[H]
   \centering
   \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
@@ -252,9 +258,9 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \textbf{Req.} & \textbf{Modules}\\
   \midrule
   FR-1 & \mref{mCodeUpload} \\
-  FR-2 & \mref{mNLP} \mref{mScoring} \\
-  FR-3 & \mref{mReport}\\
-  FR-4 & \mref{mThreshold} \mref{mFlagging}\\
+  FR-2 & \mref{mNLP} \mref{mScoring} \mref{mThreshold} \\
+  FR-3 & \mref{mResults}\\
+  FR-4 & \mref{mFlagging}\\
   FR-5 & \mref{mNLP} \mref{mScoring} \\
   FR-6 & \mref{mReport} \\
   FR-7 & \mref{mAuth} \\
@@ -266,6 +272,61 @@ between requirements and modules is listed in Table~\ref{TblRT}.
   \caption{Trace Between Requirements and Modules}
   \label{TblRT}
 \end{table}
+
+FR-1 requires all code file inputs given by a user, $u \in U$, to be uploaded
+into the system, forming $S$. This necessitates a spot in the UI for users to 
+insert code files and get them into circulation of the system for eventual
+processing by the model in the back end. These responsibilities will all 
+be delegated to the code upload module (\mref{mCodeUpload}).\\
+
+FR-2 requires all snippets to have a pairwise similarity score, Sim($s_i, s_j$), 
+and for these scores to be sent against a threshold, $t \in T$, to establish 
+plagiarism status. To calculate these similarities, there must be a module to 
+receive snippets from the front end, pass them to the NLP model to receive back 
+a semantic representation of the relation between pairs (such as a vector), and 
+proceed to calculate similarity based on these representations. This module will 
+be the scoring module (\mref{mScoring}). The NLP model has a scope which should 
+also be handled by a single module, the NLP module (\mref{mNLP}). These similarities 
+will then be filtered by the thresholds obtained from the user to gain a plagarism 
+status for each snippet. These thresholds will be obtained from users and passed 
+onto the appropriate spots by the threshold module ({\mref{mThreshold}}).\\
+
+FR-3 requires a guide document. This will be provided by the results module (\mref{mResults})
+in the frontend which will encompass both displaying analysis results to the user as well as 
+info on how to interpret them.\\
+
+FR-4 requires allowing the user to flag code snippets for their own tracking purposes
+to create $P \subset S$ as well as flagging pairs that are suspected for plagarism. 
+This gives scope for a flagging module (\mref{mFlagging}) which will provide the ability 
+to mark snippets after analysis for the user to keep special track of and potentially 
+filter with.\\
+
+FR-5 requires the collective output of similarity scores, Sim($s_i, s_j$), to exist 
+regardless of threshold filtering. This should arise as an output of the scoring module 
+(\mref{mScoring}) which will interpret results from the NLP module (\mref{mNLP}).\\
+
+FR-6 requires generation of reports, $R$, using similarity scores, Sim($s_i, s_j$), 
+and thresholds that already exists. This necessitates a module which can take a set 
+of scores and thresholds that have been obtained from other modules, and make a 
+summary report. This will be covered by the Report Generation module (\mref{mReport}).\\
+
+FR-7 requires account creation to add a member, $u$, to the set of users, $U$, necessitating 
+the existence of the user authentication module (\mref{mAuth}).\\
+
+FR-8 requires authenticating an account of a user, $u$. This falls into the scope of 
+the user authentication module (\mref{mAuth}).\\
+
+FR-9 requires emailing a set of generated reports, $R$, as a zip file, $z$, to clients.
+This necessitates a module separate from the report module (\mref{mReport}) to handle the 
+business logic of passing around and zipping reports which will be the emailing module
+(\mref{mEmail}). \\
+
+FR-10 requires the user to take a generated report they have received via email as a zip file,
+$z$, and upload it back to the UI where they can observe the report. This will require a module 
+separate from the results module since it will have to re-interprate uploaded reports in a 
+zipped state, which will not necessarily have the same detail as the initial result screen
+from the result module (\mref{mResults}). Therefore, there will be a Results Upload module
+(\mref{mResultsUpload}). \\
   
 
 % \wss{The intention of this section is to document decisions that are made
@@ -299,7 +360,7 @@ to be implemented.
 \item[Services:] Serves as a virtual hardware used by the rest of the
   system. This module provides the interface between the hardware and the
   software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
+\item[Implemented By:] OS  
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
