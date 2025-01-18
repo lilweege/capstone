@@ -99,40 +99,33 @@ found at \url{https://github.com/SyntaxSentinels/SyntaxSentinels}.
 
 \section{Notation}
 
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
-
-The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
-with the addition that template modules have been adapted from
-\cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
-\citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a
-multiple assignment statement and conditional rules follow the form $(c_1
-\Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
-
-The following table summarizes the primitive data types used by \progname. 
+Below is a summary of the notations used in this document:
 
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
-\noindent 
-\begin{tabular}{l l p{7.5cm}} 
+\noindent
+\begin{tabular}{l l p{8cm}} 
 \toprule 
-\textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
+\textbf{Data Type} & \textbf{Notation} & \textbf{Description} \\ 
 \midrule
-character & char & a single symbol or digit\\
-integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
-real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
-\bottomrule
+character & char & A single symbol or digit. \\ 
+integer & $\mathbb{Z}$ & A whole number in the range $(-\infty, \infty)$. \\ 
+natural number & $\mathbb{N}$ & A whole number in the range $[1, \infty)$. \\ 
+real & $\mathbb{R}$ & Any number in the range $(-\infty, \infty)$. \\ 
+boolean & bool & A logical value that can either be \texttt{true} or \texttt{false}. \\
+string & str & A sequence of characters. \\ 
+tuple & tuple & An ordered collection of elements, potentially of different types. \\ 
+\bottomrule 
 \end{tabular} 
 \end{center}
 
 \noindent
-The specification of \progname \ uses some derived data types: sequences, strings, and
-tuples. Sequences are lists filled with elements of the same data type. Strings
-are sequences of characters. Tuples contain a list of values, potentially of
-different types. In addition, \progname \ uses functions, which
-are defined by the data types of their inputs and outputs. Local functions are
-described by giving their type signature followed by their specification.
+The following conventions are also used:
+\begin{itemize}
+    \item \textbf{Assignment}: The operator \texttt{:=} denotes assignment.
+    \item \textbf{Conditional Rules}: Conditional statements follow the structure $(c_1 \Rightarrow r_1 \mid c_2 \Rightarrow r_2 \mid \ldots \mid c_n \Rightarrow r_n)$, where $c_i$ are conditions and $r_i$ are corresponding results.
+    \item \textbf{Access Programs}: Functions and methods are defined with their inputs, outputs, and exceptions as described in the syntax sections of each module.
+\end{itemize}
 
 \section{Module Decomposition}
 
@@ -1167,8 +1160,6 @@ No local functions are required for this module.
 
 \section{Appendix} \label{Appendix}
 
-\wss{Extra information if required}
-
 \newpage{}
 
 \section*{Appendix --- Reflection}
@@ -1180,22 +1171,22 @@ graduate attribute of Problem Analysis and Design.
 
 \begin{enumerate}
   \item \textbf{What went well while writing this deliverable?}   \\
-  The structured approach provided by the MIS template allowed us to focus on capturing the core details of each module rather than worrying about formatting or organization. Breaking down the system into hardware-hiding, behavior-hiding, and software decision modules helped ensure a logical decomposition aligned with best practices. Additionally, referring to academic sources for notation and specification methods enhanced the technical quality of the document. Collaboration among team members went smoothly, with effective discussions resolving ambiguities in design.
+  The process of writing this deliverable was smooth due to the clear structure and guidelines provided. The team collaborated effectively, leveraging each member's strengths. Additionally, the availability of comprehensive documentation and resources facilitated the writing process.
 
   \item \textbf{What pain points did you experience during this deliverable, and how did you resolve them?}  \\
-  One major challenge was defining the exact responsibilities of each module, especially when dealing with overlapping functionalities, such as input parameter handling and output verification. Resolving this required iterative refinement of the module decomposition table, ensuring clear boundaries between modules. Another difficulty was identifying the appropriate level of detail for exported access programs. This was addressed by testing preliminary drafts with hypothetical use cases to verify their completeness and correctness.
+  One of the main pain points was ensuring consistency across different sections of the document. To resolve this, we conducted regular team meetings to review progress and align on the content. Another challenge was integrating feedback from various team members, which sometimes led to conflicting requirements. We addressed this by prioritizing feedback based on its impact on the project and seeking clarification when necessary.
 
   \item \textbf{Which of your design decisions stemmed from speaking to your client(s) or a proxy (e.g., your peers, stakeholders, potential users)? For those that were not, why, and where did they come from?}  \\
-  Feedback from peers and stakeholders was crucial for decisions on the user-facing modules, such as Input Parameters and Output Format. Stakeholders emphasized the need for a clear and intuitive interface for these modules, leading to decisions about input validation and output clarity. On the other hand, decisions regarding the internal implementation, like the ODE Solver or Sequence Data Structure, were primarily informed by academic references and best practices to ensure computational accuracy and efficiency.
+  None of our existing documents needed to be changed as they were correct upon review.
 
   \item \textbf{While creating the design doc, what parts of your other documents (e.g., requirements, hazard analysis, etc.), if any, needed to be changed, and why?}  \\
-  Creating the MIS revealed inconsistencies in the System Requirements Specification (SRS) document, particularly in the descriptions of input and output expectations. These were updated to provide precise definitions and align with the MIS. Additionally, the hazard analysis required revisions to reflect potential risks arising from module interactions, such as errors in data exchange between the ODE Solver and Plotting modules. This iterative process ensured that all documents were consistent and mutually reinforcing.
+  During the creation of the design document, we identified the need to update the requirements document to reflect changes in the authentication mechanism. Additionally, the hazard analysis document was revised to include potential security risks associated with external service integrations. These changes were necessary to ensure all documents were aligned and accurately represented the current state of the project.
 
   \item \textbf{What are the limitations of your solution? Put another way, given unlimited resources, what could you do to make the project better?}  \\
-  While the solution effectively balances complexity and functionality, it has limitations. For instance, the error handling mechanisms could be more robust, particularly for edge cases like invalid input formats or numerical instability in ODE solving. With unlimited resources, we could enhance these aspects by implementing real-time debugging tools, integrating advanced plotting libraries for better visualization, and using machine learning algorithms to predict and mitigate potential errors in input data. Furthermore, increasing modularity by further subdividing behavior-hiding modules could improve scalability.
+  One limitation of our solution is the reliance on external services, which introduces dependencies and potential points of failure. Given unlimited resources, we could develop in-house solutions for critical services to reduce dependency risks. Additionally, we could invest in more robust testing and monitoring tools to enhance the system's reliability and performance. Expanding the team to include specialists in security and performance optimization would also contribute to a more resilient solution.
 
   \item \textbf{Give a brief overview of other design solutions you considered. What are the benefits and tradeoffs of those other designs compared with the chosen design? From all the potential options, why did you select the documented design?}  \\
-  We considered alternative designs, such as a flatter module hierarchy with fewer behavior-hiding modules to simplify implementation. However, this would have made the design less modular and harder to maintain. Another option was to use pre-built software libraries for solving ODEs and plotting, but this would limit customization and understanding of the underlying processes. The chosen design offers a balance between modularity, clarity, and adaptability, ensuring that the system is both maintainable and extendable. It also aligns well with the project’s educational objectives, reinforcing core design principles.
+  We considered several design alternatives, including using different authentication providers and data storage solutions. For example, we evaluated Firebase Authentication as an alternative to Auth0. While Firebase offers seamless integration with other Firebase services, Auth0 was chosen for its advanced security features and flexibility.
 \end{enumerate}
 
 
