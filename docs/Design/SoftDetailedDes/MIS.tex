@@ -805,6 +805,78 @@ No local functions are required for this module.
 \subsubsection{Local Functions}
 No local functions are required for this module.
 
+%END OF REPORT RESULTS MODULE
+
+\subsection{NLP Module}  \label{NLPModule}
+
+\texttt{NLPModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Abstract ML Model Module
+    \item Tokenization Module
+    \item AST Module
+    \item Embedded Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{combinedPredict} & data: DataStruct & relations: combinedPrediction & -\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent \texttt{combinedPredict}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output: relations: combinedPrediction} an assembly of results 
+    from each of the used modules is combined to get a more balanced perspective 
+    \item \textbf{exception: None}
+\end{itemize}
+
+\subsubsection{Local Functions}
+ None
+
+
+\end{itemize}
+
+%END OF NLP Module
+
 \section{MIS of Abstract Model Module} \label{AbModelModule}
 
 \subsection{Module}
@@ -822,7 +894,7 @@ No local functions are required for this module.
 \subsubsection{Exported Constants}
 
 \begin{itemize}
-    \item \texttt{Module}: Export of Model Object.
+    \item None.
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -855,7 +927,7 @@ No local functions are required for this module.
 \subsubsection{Assumptions}
 
 \begin{itemize}
-    \item The input source code is in one programming language.
+    \item The input code within DataStruct is in one programming language.
 \end{itemize}
 \subsubsection{Access Routine Semantics}
 
@@ -870,7 +942,7 @@ No local functions are required for this module.
 \begin{itemize}
     \item \textbf{transition:} None
     \item \textbf{output:} Prediction object containing semantic relations between code snippets contained within the DataStruct data.
-    \item \textbf{exception:} \texttt{TokenizeError} if the source code is syntactically invalid.
+    \item \textbf{exception:} None
 \end{itemize}
 % END OF ABSTRACT MODEL MODULE
 
@@ -902,7 +974,7 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{tokenize} & string & list[Token] & TokenizeError \\
+\texttt{tokenize} & DataStruct & list[Token] & TokenizeError \\
 \hline
 \end{tabular}
 \end{center}
@@ -924,7 +996,7 @@ No local functions are required for this module.
 \subsubsection{Assumptions}
 
 \begin{itemize}
-    \item The input source code is in one programming language.
+    \item The input code within DataStruct is in one programming language.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
@@ -947,7 +1019,7 @@ No local functions are required for this module.
     \begin{itemize}
         \item None
     \end{itemize}
-    \item \textbf{output:} Returns a single token read the given index in the source string, or None if invalid.
+    \item \textbf{output:} Returns a single token read from the given index in the source string, or None if invalid.
     % \item \textbf
 \end{itemize}
 % END OF TOKENIZATION MODULE
@@ -1005,16 +1077,14 @@ No local functions are required for this module.
 No local functions are required for this module.
 % END OF AST MODULE
 
-\section{MIS of Similarity Scoring Module} \label{SimScoreModule}
-
-\subsection{Module}
+\subsection{Similarity Scoring Module}
 
 \texttt{SimScoreModule}
 
 \subsection{Uses}
 
 \begin{itemize}
-    \item \texttt{transformers} library
+    \item NLP module
 \end{itemize}
 
 \subsection{Syntax}
@@ -1022,7 +1092,7 @@ No local functions are required for this module.
 \subsubsection{Exported Constants}
 
 \begin{itemize}
-    \item \texttt{Module}: Export of Model Object.
+    \item None
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -1032,9 +1102,7 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{train} & data: DataStruct, timeout: integer & None & TimeOutException \\
-\hline
-\texttt{predict} & data: DataStruct & result: Prediction & - \\
+\texttt{score} & data: DataStruct & scores: Map[2-tuple[str]: list[Real]] & -\\ %mathematical notation here, specify n choose 2 scores
 \hline
 \end{tabular}
 \end{center}
@@ -1044,7 +1112,7 @@ No local functions are required for this module.
 \subsubsection{State Variables}
 
 \begin{itemize}
-    \item weightings
+    \item None
 \end{itemize}
 
 \subsubsection{Environment Variables}
@@ -1056,27 +1124,95 @@ No local functions are required for this module.
 \subsubsection{Assumptions}
 
 \begin{itemize}
-    \item The input source code is in one programming language.
+    \item The input code within DataStruct is in one programming language.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
-\noindent \texttt{train(data: DataStruct, timeout: integer)}:
+\noindent \texttt{score}(data: DataStruct):
 \begin{itemize}
-    \item \textbf{transition:} weightings := updated\_weightings -- assign new weightings from batch training to weightings
-    \item \textbf{output:} None
-    \item \textbf{exception:} \texttt{TimeOutException} if training time exceeds time limit allotted. 
-\end{itemize}
-
-\noindent \texttt{predict(data: DataStruct)}:
-\begin{itemize}
-    \item \textbf{transition:} None
-    \item \textbf{output:} Prediction object containing semantic relations between code snippets contained within the DataStruct data.
-    \item \textbf{exception:} None 
+    \item \textbf{transition: None} 
+    \item \textbf{output: Map[2-tuple[str]: list[Real]]} # denote this more mathematically?
+    \item \textbf{exception: None}
 \end{itemize}
 
 \subsubsection{Local Functions}
-% END OF SIMILARITY SCORING MODULE
+ None
 
+\end{itemize}
+
+%END OF SIMILARITY SCORING MODULE
+
+\subsection{Report Generation Module}
+
+\texttt{RepGenModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Similarity Scoring Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{generate} & data: DataStruct & report: ReportDataStruct & -\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent \texttt{generate}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output: ReportDataStruct} object wrapping visuals associated with report and 
+    similarity scorings to be received by the front end
+    \item \textbf{exception: None}
+\end{itemize}
+
+\subsubsection{Local Functions}
+ \noindent \texttt{assembleVisuals}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output:JSON} 
+    \item \textbf{exception: None}
+\end{itemize}
+
+
+\end{itemize}
+
+%END OF REPORT GENERATION MODULE
 
 \section{MIS of Email Sending Module} \label{EmailModule}
 
