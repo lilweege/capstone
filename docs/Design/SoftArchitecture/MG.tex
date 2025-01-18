@@ -228,7 +228,6 @@ actually be implemented. \\
     \item [\refstepcounter{smnum} \smthemnum \label{smMLModel}:] Abstract ML Model Module
     \item [\refstepcounter{smnum} \smthemnum \label{smTokenization}:] Tokenization Module
     \item [\refstepcounter{smnum} \smthemnum \label{smAST}:] AST Module
-    \item [\refstepcounter{smnum} \smthemnum \label{smEmbedded}:] Embedded Module
   \end{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
@@ -259,7 +258,6 @@ actually be implemented. \\
   & Abstract ML Model Module \\
   & Tokenization Module \\
   & AST Module \\
-  & Embedded Module \\
  
   \bottomrule
   \end{tabular}
@@ -468,14 +466,6 @@ plagiarism detection according to their needs.
 \item[Type of Module:] Library Component
 \end{description}
 
-\subsubsection{Embedded Module (\smref{mNLP}{smEmbedded})}
-
-\begin{description}
-\item[Secrets:] The embedding methods used to convert tokens or AST nodes into fixed-size vector representations.
-\item[Services:] Converts a source code representation into vector embeddings suitable for similarity scoring.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
-\end{description}
 
 \subsubsection{Report Generation Module (\mref{mReport})}
 
