@@ -155,7 +155,6 @@ The following table is taken directly from the Module Guide document for this pr
     & Abstract ML Model Module \\
     & Tokenization Module \\
     & AST Module \\
-    & Embedded Module \\
    
     \bottomrule
     \end{tabular}
@@ -236,12 +235,14 @@ The following table is taken directly from the Module Guide document for this pr
 %   They are not necessarily something that is going to be implemented
 %   explicitly.  Even if they are implemented, they are not exported; they only
 %   have local scope.}
-\section{MIS of User Authorization Module} \label{AuthModule}
+
+\section{MIS of User Authentication Module} \label{AuthModule}
 
 This module provides functionality for user account creation, user login, and
 access control, relying on \textbf{Auth0} as the implementation mechanism. It
 safeguards the application's \textbf{secrets} (credentials, tokens, etc.) and
 handles authentication and authorization \textbf{services}.
+
 
 \subsection{Module}
 
@@ -435,7 +436,7 @@ No local functions are required for this module.
         \item Reads raw file content from the \texttt{uploadedFile}.
         \item Parses and converts the content into \texttt{parsedData}.
     \end{itemize}
-    \item \textbf{output:} A \texttt{DataStruct} representing the file’s contents.
+    \item \textbf{output:} A \texttt{DataStruct} representing the file's contents.
     \item \textbf{exception:} \texttt{ConversionError} if file parsing fails or content is malformed.
 \end{itemize}
 
@@ -483,9 +484,8 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{uploadResultsFile} & filePath : String & boolean & FileError \\
-\texttt{parseResultsFile} & filePath : String & ResultsDataStruct & ParseError \\
-\texttt{displayResults} & data : ResultsDataStruct, uiTarget : UIContainer & boolean & DisplayError \\
+\texttt{uploadResultsFile} & filePath: String & boolean & FileError \\
+\texttt{parseResultsFile} & filePath: String & ReportDataStruct & ParseError \\
 \hline
 \end{tabular}
 \end{center}
@@ -502,7 +502,7 @@ No local functions are required for this module.
 \subsubsection{Environment Variables}
 
 \begin{itemize}
-    \item \texttt{TEMP\_REPORT\_PATH}: Directory path for temporarily storing uploaded report files.
+    \item None
 \end{itemize}
 
 \subsubsection{Assumptions}
@@ -531,25 +531,17 @@ No local functions are required for this module.
     \item \textbf{transition:}
     \begin{itemize}
         \item Opens and reads the specified report file.
-        \item Creates an in-memory \texttt{ResultsDataStruct} (\texttt{parsedReportData}) from the file content.
+        \item Creates an in-memory \texttt{ReportDataStruct} (\texttt{parsedReportData}) from the file content.
     \end{itemize}
-    \item \textbf{output:} A \texttt{ResultsDataStruct} representing the parsed report data.
+    \item \textbf{output:} A \texttt{ReportDataStruct} representing the parsed report data.
     \item \textbf{exception:} \texttt{ParseError} if the file format is invalid or parsing fails.
-\end{itemize}
-
-\noindent \texttt{displayResults}(\textit{data, uiTarget}):
-\begin{itemize}
-    \item \textbf{transition:} None (no change to internal state).
-    \item \textbf{output:} Returns \texttt{true} if the report data is successfully rendered in the specified UI container.
-    \item \textbf{exception:} \texttt{DisplayError} if rendering or updating the UI fails.
 \end{itemize}
 
 \subsubsection{Local Functions}
 
 \begin{itemize}
     \item \texttt{readLocalReportFile(filePath)}: Handles raw file I/O for reading report files.
-    \item \texttt{parseReportContent(rawContent)}: Transforms the raw file content into a \texttt{ResultsDataStruct}.
-    \item \texttt{renderReport(data, container)}: UI logic to display \texttt{ResultsDataStruct} in a given front-end container.
+    \item \texttt{parseReportContent(rawContent)}: Transforms the raw file content into a \texttt{ReportDataStruct}.
 \end{itemize}
 
 \section{MIS of Threshold Adjustment Module} \label{mThreshold}
@@ -668,6 +660,628 @@ No local functions are required for this module.
     \item \texttt{readCurrentThreshold()} : Internal function to read the stored threshold from \texttt{THRESHOLD\_CONFIG\_ENDPOINT}.
     \item \texttt{writeCurrentThreshold(value : ThresholdValue)} : Internal function to persist \textit{value} at \texttt{THRESHOLD\_CONFIG\_ENDPOINT}.
 \end{itemize}
+
+
+\section{MIS of Flagging Module} \label{FlagModule}
+
+\subsection{Module}
+
+\texttt{FlagModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Front-end/UI framework for displaying flagged items.
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{getFlaggedStatus} & submissionID: string & boolean & - \\
+\texttt{setFlaggedStatus} & submissionID: string, flag: boolean & - & - \\
+\texttt{getAllFlagged} & - & list[string] & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \texttt{flaggedSubmissions}: A list of flagged submissions.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{getFlaggedStatus(submissionID: string)}:
+\begin{itemize}
+    \item \textbf{transition:} None
+    \item \textbf{input:} The unique \texttt{submissionID} for which the flagged status is queried
+    \item \textbf{output:} Returns the flagged status (\texttt{true} or \texttt{false}) for the given \texttt{submissionID}
+\end{itemize}
+
+\noindent \texttt{setFlaggedStatus(submissionID: string, flag: boolean)}:
+\begin{itemize}
+    \item \textbf{transition:} Updates the flagged status of the specified \texttt{submissionID} to the provided \texttt{flag} value
+    \item \textbf{input:} 
+    \begin{itemize}
+        \item \texttt{submissionID}: The unique identifier of the submission to update
+        \item \texttt{flag}: A boolean value indicating the new flagged status (\texttt{true} or \texttt{false})
+    \end{itemize}
+    \item \textbf{output:} None.
+\end{itemize}
+
+\noindent \texttt{getAllFlagged()}:
+\begin{itemize}
+    \item \textbf{transition:} None
+    \item \textbf{input:} None
+    \item \textbf{output:} Returns a list of all \texttt{submissionID}s that are currently flagged
+\end{itemize}
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+% END OF FLAGGING
+
+
+\section{MIS of Report Results Module} \label{ResultsModule}
+
+\subsection{Module}
+
+\texttt{ResultsModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Frontend for rendering reports visually for users
+    \item \texttt{ReportDataStruct} from Results Upload Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Program}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{4cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{renderReport} & report: ReportDataStruct & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \texttt{reports}: A list of reports to be displayed
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{renderReport(reports: ReportDataStruct)}:
+\begin{itemize}
+    \item \textbf{input:} The report data (\texttt{ReportDataStruct}) of the report to be rendered
+    \item \textbf{transition:} None
+    \item \textbf{output:} Renders a visual representation of the report in the browser
+\end{itemize}
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+
+%END OF REPORT RESULTS MODULE
+
+\subsection{NLP Module}  \label{NLPModule}
+
+\texttt{NLPModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Abstract ML Model Module
+    \item Tokenization Module
+    \item AST Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{combinedPredict} & data: DataStruct & relations: combinedPrediction & -\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent \texttt{combinedPredict}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output: relations: combinedPrediction} an assembly of results 
+    from each of the used modules is combined to get a more balanced perspective 
+    \item \textbf{exception: None}
+\end{itemize}
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+
+
+%END OF NLP Module
+
+\section{MIS of Abstract Model Module} \label{AbModelModule}
+
+\subsection{Module}
+
+\texttt{AbModelModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item \texttt{transformers} library
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{train} & data: DataStruct, timeout: integer & None & TimeOutException \\
+\texttt{predict} & data: DataStruct & result: Prediction & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item weightings
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{train(data: DataStruct, timeout: integer)}:
+\begin{itemize}
+    \item \textbf{transition:} weightings := updated\_weightings -- assign new weightings from batch training to weightings
+    \item \textbf{output:} None
+    \item \textbf{exception:} \texttt{TimeOutException} if training time exceeds time limit allotted. 
+\end{itemize}
+
+\noindent \texttt{predict(data: DataStruct)}:
+\begin{itemize}
+    \item \textbf{transition:} None
+    \item \textbf{output:} Prediction object containing semantic relations between code snippets contained within the DataStruct data.
+    \item \textbf{exception:} None
+\end{itemize}
+% END OF ABSTRACT MODEL MODULE
+
+
+\section{MIS of Tokenization Modlue} \label{TokModule}
+
+\subsection{Module}
+
+\texttt{TokModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{tokenize} & DataStruct & list[Token] & TokenizeError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{tokenize(source: string)}:
+\begin{itemize}
+    \item \textbf{transition:}
+    \begin{itemize}
+        \item None
+    \end{itemize}
+    \item \textbf{output:} Returns a list of tokens corresponding to the input source text.
+    \item \textbf{exception:} \texttt{TokenizeError} if the source code is syntactically invalid.
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\noindent \texttt{pollOneToken()}:
+\begin{itemize}
+    \item \textbf{transition:}
+    \begin{itemize}
+        \item None
+    \end{itemize}
+    \item \textbf{output:} Returns a single token read from the given index in the source string, or None if invalid.
+    % \item \textbf
+\end{itemize}
+% END OF TOKENIZATION MODULE
+
+\section{MIS of AST Module} \label{ASTModule}
+
+\subsection{Module}
+
+\texttt{ASTModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Built in (for python) or external tokenizer and tree parsers
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{parse} & rawSource: string & ASTNode & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The expression provided to \texttt{parse} is syntactically correct or can be parsed with the given rules.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{parse(rawSource)}:
+\begin{itemize}
+    \item \textbf{input:} A string representing the input source code
+    \item \textbf{transition:} None
+    \item \textbf{output:} Returns the root node of the AST, or None if the input was invalid
+\end{itemize}
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+% END OF AST MODULE
+
+\subsection{Similarity Scoring Module}
+
+\texttt{SimScoreModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item NLP module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{score} & data: DataStruct & scores: Map[2-tuple[str]: list[Real]] & - \\ %mathematical notation here, specify n choose 2 scores
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent \texttt{score}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output: Map[2-tuple[str]: list[Real]]} \# denote this more mathematically?
+    \item \textbf{exception: None}
+\end{itemize}
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+
+
+%END OF SIMILARITY SCORING MODULE
+
+\subsection{Report Generation Module}
+
+\texttt{RepGenModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Similarity Scoring Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{generate} & data: DataStruct & report: ReportDataStruct & -\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item The input code within DataStruct is in one programming language.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent \texttt{generate}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output: ReportDataStruct} object wrapping visuals associated with report and 
+    similarity scorings to be received by the front end
+    \item \textbf{exception: None}
+\end{itemize}
+
+\subsubsection{Local Functions}
+ \noindent \texttt{assembleVisuals}(data: DataStruct):
+\begin{itemize}
+    \item \textbf{transition: None} 
+    \item \textbf{output:JSON} 
+    \item \textbf{exception: None}
+\end{itemize}
+
+
+%END OF REPORT GENERATION MODULE
+
+\section{MIS of Email Sending Module} \label{EmailModule}
+
+\subsection{Module}
+
+\texttt{EmailModule}
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item SMTP server or email-sending service (such as SendGrid or Amazon SES)
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{sendEmail} & recipient: string, subject: string, body: string, attachments: list[file] & boolean & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item \texttt{SMTP\_CONFIG}: Configuration details for connecting to the SMTP server (e.g., host, port, authentication).
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item A SMTP server or email-sending service is available and configured correctly
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{sendEmail(recipient: string, subject: string, \\
+    body: string, attachments: list[file])}:
+\begin{itemize}
+    \item \textbf{input:} 
+    \begin{itemize}
+        \item \texttt{recipient}: Email address of the primary recipient
+        \item \texttt{subject}: Subject of the email
+        \item \texttt{body}: The main body content of the email (plain text or HTML)
+        \item \texttt{attachments}: A list of file objects to be attached to the email
+    \end{itemize}
+    \item \textbf{transition:} None
+    \item \textbf{output:} Returns \texttt{true} if the email is sent successfully; otherwise, throws \texttt{EmailSendException}.
+\end{itemize}
+
+
+\subsubsection{Local Functions}
+No local functions are required for this module.
+% END OF EMAIL SENDING MODULE
 
 \newpage
 
