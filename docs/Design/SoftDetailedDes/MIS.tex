@@ -271,9 +271,9 @@ handles authentication and authorization \textbf{services}.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{loginWithRedirect} & - & AuthToken & LoginError \\
-\texttt{logout} & - & - & LogoutError \\
-\texttt{signup} & - & AuthToken & SignupError \\
+\texttt{loginWithRedirect} & - & session: AuthToken & LoginError \\
+\texttt{logout} & currentSession: AuthToken & - & LogoutError \\
+\texttt{signup} & - & session: AuthToken & SignupError \\
 \hline
 \end{tabular}
 \end{center}
@@ -315,7 +315,7 @@ handles authentication and authorization \textbf{services}.
     \item \textbf{exception:} \texttt{LoginError} if credentials are invalid or Auth0 is unreachable.
 \end{itemize}
 
-\noindent \texttt{logout}(AuthToken):
+\noindent \texttt{logout}(currentSession: AuthToken):
 \begin{itemize}
     \item \textbf{transition:} Invalidates \texttt{currentSession} (or the provided token) by revoking the Auth0 session or clearing local storage.
     \item \textbf{output:} None.
@@ -374,10 +374,10 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{uploadFile} & filePath : String & boolean & FileError \\
-\texttt{validateFileFormat} & filePath : String & boolean & FormatError \\
-\texttt{convertFileToData} & filePath : String & DataStruct & ConversionError \\
-\texttt{sendDataToBackend} & data : DataStruct & boolean & BackendError \\
+\texttt{uploadFile} & filePath : String & success: bool & FileError \\
+\texttt{validateFileFormat} & filePath : String & valid: bool & FormatError \\
+\texttt{convertFileToData} & filePath : String & snippets: DataStruct & ConversionError \\
+\texttt{sendDataToBackend} & data : DataStruct & success: bool & BackendError \\
 \hline
 \end{tabular}
 \end{center}
@@ -410,7 +410,7 @@ No local functions are required for this module.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \texttt{uploadFile}(\textit{filePath}):
+\noindent \texttt{uploadFile}(\textit{filePath: String}):
 \begin{itemize}
     \item \textbf{transition:} 
     \begin{itemize}
@@ -421,7 +421,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{FileError} if file I/O fails or \textit{filePath} is invalid.
 \end{itemize}
 
-\noindent \texttt{validateFileFormat}(\textit{filePath}):
+\noindent \texttt{validateFileFormat}(\textit{filePath: String}):
 \begin{itemize}
     \item \textbf{transition:} None (no internal state change).
     \item \textbf{output:} Returns \texttt{true} if the file meets \texttt{MAX\_FILE\_SIZE} and 
@@ -429,7 +429,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{FormatError} if the file type or size is invalid.
 \end{itemize}
 
-\noindent \texttt{convertFileToData}(\textit{filePath}):
+\noindent \texttt{convertFileToData}(\textit{filePath: String}):
 \begin{itemize}
     \item \textbf{transition:}
     \begin{itemize}
@@ -440,7 +440,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{ConversionError} if file parsing fails or content is malformed.
 \end{itemize}
 
-\noindent \texttt{sendDataToBackend}(\textit{data}):
+\noindent \texttt{sendDataToBackend}(\textit{data: ReportDataStruct}):
 \begin{itemize}
     \item \textbf{transition:} None (communicates externally, no internal state change).
     \item \textbf{output:} \texttt{true} if the backend confirms successful data receipt.
@@ -450,8 +450,8 @@ No local functions are required for this module.
 \subsubsection{Local Functions}
 
 \begin{itemize}
-    \item \texttt{readLocalFile(path)}: Internal function for raw file I/O.
-    \item \texttt{parseCodeData(rawContent)}: Transforms raw file content into a \texttt{DataStruct}.
+    \item \texttt{readLocalFile(path: String)}: Internal function for raw file I/O.
+    \item \texttt{parseCodeData(rawContent: String)}: Transforms raw file content into a \texttt{DataStruct}.
 \end{itemize}
 
 \section{MIS of Results Upload Module} \label{mResultsUpload}
@@ -484,8 +484,8 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{uploadResultsFile} & filePath: String & boolean & FileError \\
-\texttt{parseResultsFile} & filePath: String & ReportDataStruct & ParseError \\
+\texttt{uploadResultsFile} & filePath: String & success: bool & FileError \\
+\texttt{parseResultsFile} & filePath: String & report: ReportDataStruct & ParseError \\
 \hline
 \end{tabular}
 \end{center}
@@ -515,7 +515,7 @@ No local functions are required for this module.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \texttt{uploadResultsFile}(\textit{filePath}):
+\noindent \texttt{uploadResultsFile}(\textit{filePath: String}):
 \begin{itemize}
     \item \textbf{transition:}
     \begin{itemize}
@@ -526,7 +526,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{FileError} if reading or copying the file fails.
 \end{itemize}
 
-\noindent \texttt{parseResultsFile}(\textit{filePath}):
+\noindent \texttt{parseResultsFile}(\textit{filePath: String}):
 \begin{itemize}
     \item \textbf{transition:}
     \begin{itemize}
@@ -586,17 +586,17 @@ No local functions are required for this module.
 \hline
 \texttt{getThreshold} 
   & - 
-  & \texttt{ThresholdValue} 
+  & \texttt{value: ThresholdValue} 
   & \texttt{ThresholdError} \\
 
 \texttt{setThreshold} 
-  & \textit{newVal : ThresholdValue}
-  & \texttt{Boolean}
+  & \textit{newVal: ThresholdValue}
+  & \texttt{success: bool}
   & \texttt{ThresholdError} \\
 
 \texttt{validateThreshold} 
-  & \textit{value : ThresholdValue}
-  & \texttt{Boolean} 
+  & \textit{value: ThresholdValue}
+  & \texttt{success: bool} 
   & \texttt{ThresholdError} \\
 \hline
 \end{tabular}
@@ -635,7 +635,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{ThresholdError} if the threshold is undefined or fails to load from persistence.
 \end{itemize}
 
-\noindent \texttt{setThreshold}(\textit{newVal}):
+\noindent \texttt{setThreshold}(\textit{newVal: ThresholdValue}):
 \begin{itemize}
     \item \textbf{transition:}
     \begin{itemize}
@@ -647,7 +647,7 @@ No local functions are required for this module.
     \item \textbf{exception:} \texttt{ThresholdError} if \textit{newVal} is out of range or otherwise invalid.
 \end{itemize}
 
-\noindent \texttt{validateThreshold}(\textit{value}):
+\noindent \texttt{validateThreshold}(\textit{value: ThresholdValue}):
 \begin{itemize}
     \item \textbf{transition:} None (does not change internal state).
     \item \textbf{output:} \texttt{true} if \textit{value} is in \texttt{THRESHOLD\_RANGE}; otherwise \texttt{false}.
@@ -689,9 +689,9 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{getFlaggedStatus} & submissionID: string & boolean & - \\
-\texttt{setFlaggedStatus} & submissionID: string, flag: boolean & - & - \\
-\texttt{getAllFlagged} & - & list[string] & - \\
+\texttt{getFlaggedStatus} & submissionID: string & status: bool & - \\
+\texttt{setFlaggedStatus} & submissionID: string,flag: bool & - & - \\
+\texttt{getAllFlagged} & - & flagged: list[string] & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -866,7 +866,7 @@ No local functions are required for this module.
 \begin{itemize}
     \item \textbf{transition: None} 
     \item \textbf{output: relations: combinedPrediction} an assembly of results 
-    from each of the used modules is combined to get a more balanced perspective 
+    from each of the used modules is combined to get a more balanced perspective of relations between code snippets.
     \item \textbf{exception: None}
 \end{itemize}
 
@@ -903,7 +903,7 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{train} & data: DataStruct, timeout: integer & None & TimeOutException \\
+\texttt{train} & data: DataStruct, timeout: $\mathbb{Z}$  & None & TimeOutException \\
 \texttt{predict} & data: DataStruct & result: Prediction & - \\
 \hline
 \end{tabular}
@@ -1101,7 +1101,7 @@ No local functions are required for this module.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{score} & data: DataStruct & scores: Map[2-tuple[str]: list[Real]] & - \\ %mathematical notation here, specify n choose 2 scores
+\texttt{score} & data: DataStruct & scores: Map[2-tuple[str]: list[$\mathbb{R}$]] & - \\ %mathematical notation here, specify n choose 2 scores
 \hline
 \end{tabular}
 \end{center}
@@ -1130,7 +1130,7 @@ No local functions are required for this module.
 \noindent \texttt{score}(data: DataStruct):
 \begin{itemize}
     \item \textbf{transition: None} 
-    \item \textbf{output: Map[2-tuple[str]: list[Real]]} \# denote this more mathematically?
+    \item \textbf{output: Map[2-tuple[str]: list[$\mathbb{R}$]]} \# denote this more mathematically?
     \item \textbf{exception: None}
 \end{itemize}
 
