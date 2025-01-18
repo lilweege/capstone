@@ -37,48 +37,64 @@ November 1 & 1.0 & Initial documentation\\
 \bottomrule
 \end{tabularx}
 
-~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
+% ~\\
+% \wss{The intention of the VnV plan is to increase confidence in the software.
+% However, this does not mean listing every verification and validation technique
+% that has ever been devised.  The VnV plan should also be a \textbf{feasible}
+% plan. Execution of the plan should be possible with the time and team available.
+% If the full plan cannot be completed during the time available, it can either be
+% modified to ``fake it'', or a better solution is to add a section describing
+% what work has been completed and what work is still planned for the future.}
 
-\wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
+% \wss{The VnV plan is typically started after the requirements stage, but before
+% the design stage.  This means that the sections related to unit testing cannot
+% initially be completed.  The sections will be filled in after the design stage
+% is complete.  the final version of the VnV plan should have all sections filled
+% in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
-\listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
 \section{Symbols, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
-  \bottomrule
-\end{tabular}\\
+\begin{center}
+  \begin{longtable}{| p{0.475\linewidth} | p{0.475\linewidth} |}
+  \hline
+  \textbf{Symbol/Abbreviation/Acronym} & \textbf{Description} \\
+  \hline
+  V\&V & Verification and Validation \\
+  \hline
+  NLP & Natural Language Processing \\
+  \hline
+  AWS & Amazon Web Services \\
+  \hline
+  CI/CD & Continuous Integration/Continuous Deployment \\
+  \hline
+  API & Application Programming Interface \\
+  \hline
+  SRS & Software Requirements Specification \\
+  \hline
+  UI & User Interface \\
+  \hline
+  MG & Module Guide \\
+  \hline
+  MIS & Module Interface Specification \\
+  \hline
+  PIPEDA & Personal Information Protection and Electronic Documents Act \\
+  \hline
+  FIPPA & Freedom of Information and Protection of Privacy Act \\
+  \hline
 
-\wss{symbols, abbreviations, or acronyms --- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
-
-\wss{Remove this section if it isn't needed}
+  \caption{Symbols, Abbreviations, and Acronyms}
+  \end{longtable}
+  \end{center}
 
 \newpage
 
@@ -263,7 +279,7 @@ The checklist for SRS review will cover:
   \hline
   \textbf{4. Verifiability} & \\
   \hline
-  4.1 Testable Requirements & Each requirement is testable and verifiable (e.g., accuracy metrics, response times). \\
+  4.1 Testable Requirements & Each `requirement' is testable and verifiable (e.g., accuracy metrics, response times). \\
   \hline
   4.2 Acceptance Criteria & Clear acceptance criteria for each requirement. \\
   \hline
@@ -370,7 +386,7 @@ The checklist for design review will cover:
   \hline
   6.3 Version Control & Design documentation is version-controlled to track changes and updates. \\
   \hline
-  
+  \caption{Checklist for Design Verification}
   \end{longtable}
   \end{center}
 
@@ -422,7 +438,7 @@ The verification and validation plan itself will also undergo verification to en
   \hline
   13. Schedule and Milestones & Verify that there is a realistic schedule and milestones for completing verification and validation activities. \\
   \hline
-  
+  \caption{Checklist for V\&V Plan Verification}
   \end{longtable}
   \end{center}
 
@@ -466,121 +482,750 @@ This comprehensive plan for verification and validation addresses each phase of 
 
 \section{System Tests}
 
-\wss{There should be text between all headings, even if it is just a roadmap of
-the contents of the subsections.}
+% \wss{There should be text between all headings, even if it is just a roadmap of
+% the contents of the subsections.}
+
+This section outlines the system tests to be performed for both functional and non-functional requirements. 
+The tests are categorized based on the area of testing, such as look and feel requirements, usability, and versioning. 
+Each test includes a title, test ID, control, initial state, input, output, test case derivation, and how the test will be performed.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
+Each test section addresses a particular initial condition and input set. 
+Therefore, each test has a particular set of outputs that the system should 
+produce for it. A functional requirement of section 9 in the SRS \citep{SRS}
+is only associated with a test if the output set of the test corresponds to 
+the fit criterion of that functional requirement, and the fit criterion should 
+be an observable component of a system state, such as a display of a return 
+item or notification presented. Through this association, every functional 
+requirement is provided a test that is capable of verifying it, thereby ensuring 
+the test areas fully cover the functional requirements.
 
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
+\subsubsection{Plagiarism Analysis Input Upload Tests}
 
-\subsubsection{Area of Testing1}
-
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
-		
-\paragraph{Title for Test}
+Applies to all FRs involving uploading code snippets to the system. This currently 
+covers FR-1 in subsection 9.1 of the SRS \citep{SRS}.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{test-FR-1\\}
 
-Control: Manual versus Automatic
+Control: Automatic.
 					
-Initial State: 
+Initial State: system is active and set up in spot to receive code snippet 
+uploads, zero or more existing snippets are currently uploaded.
 					
-Input: 
+Input: code snippet file(s).
 					
-Output: \wss{The expected result for the given inputs.  Output is not how you
-are going to return the results of the test.  The output is the expected
-result.}
+Output: System signifies input was received and continues activity without 
+error, awaiting further action directives (such as uploading more files or 
+initiating analysis).
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: The system will look to continually receive code 
+snippets from user as part of a necessary step to initiate plagiarism analysis.
 					
-How test will be performed: 
+How test will be performed: A script will open the system in the appropriate spot for 
+receiving code and will upload files in varying amounts, one batch at a time, all the 
+while inspecting for failure during the process. Script will be integrated into CI/CD
+pipeline to ensure continued system functionality (types: dynamic, functional).
 					
-\item{test-id2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Plagiarism Analysis Result Tests}
 
-...
+Applies to all FRs involving immediate output of plagiarism analysis. This 
+currently covers FR-2, FR-4, and FR-5 in subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-2\\}
+
+Control: Automatic.
+					
+Initial State: system is active and set up in spot for initiating analysis, 
+2 or more code snippets have been uploaded.
+					
+Input: command to initiate analysis (button, enter, etc.).
+					
+Output: System presents list of similarity scores for all code snippet pairings 
+along with corresponding threshold scores and any code snippet pairing that 
+has exceeded its threshold has been flagged. System remains active, 
+awaiting for action directives on what to do.
+
+Test Case Derivation: The system should possess an algorithm that analyzes code 
+snippets and produces similarity scores and threshold scores in return. These 
+scores should be produced between every pairing of code snippets as the 
+plagiarism is a relative assessment between one code piece and another. The 
+system must able to pass this algorithm received code snippets and use its
+results to flag any pairing that exceeded its threshold before returning from
+its analysis state to the user for further interaction.
+
+How test will be performed: A script will open the system's spot to initiate analysis 
+with 2 or more code snippets already inserted into the system, and command for 
+starting analysis will be entered. Errors will be inspected for 
+up until similarity scores and thresholds have been presented. By this point,
+code flaggings should also be available to ascertain. (type: dynamic, functional).
+					
+
+\end{enumerate}
+
+\subsubsection{Guide Documentation Generation Tests}
+
+Applies to all FRs involving guide documentation generation for user. This 
+currently covers FR-3 in subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-3\\}
+
+Control: Automatic.
+					
+Initial State: System is active and set up in spot for generating guide 
+documentation.
+					
+Input: command for documentation presentation (button, enter, etc.).
+					
+Output: System generates documentation in a viewable medium, such as text or a 
+PDF file, and remains active while awaiting for further action directives.
+
+Test Case Derivation: system possesses guide documentation which it should be 
+capable of transferring to user to provide guidance on use cases of system 
+when prompted.
+
+How test will be performed: A script will open the system's spot for generating 
+guide documentation and command for guide generating documentation will be 
+entered, all the while inspecting for error. It will check for missing 
+documentation at the end. (type: dynamic, functional).				
+
+\end{enumerate}
+
+\subsubsection{Report Documentation Generation Tests}
+
+Applies to all FRs involving analysis report documentation generation for 
+user. This currently covers FR-6 of subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-4\\}
+
+Control: Automatic.
+					
+Initial State: System is active and set up in spot for report generation, 
+most recent plagiarism analysis has been completed since after system activation 
+and its results are available.
+					
+Input: command for report documentation generation (button, enter, etc.).
+					
+Output: System provides report documentation in a viewable medium, such
+as text or a PDF file, and remains active awaiting for further action 
+directives.
+
+Test Case Derivation: The system should possess the ability to aggregate
+the results of the plagiarism analysis which has most recently occurred 
+and insert them into a template that can summarize all findings to a user,
+which will become the report document given.
+
+How test will be performed: A script will have the system conduct a 
+plagiarism analysis to provide inputs for the report generation as this
+simulates what must happen before a user can unlock report generation. 
+If successful, it will proceed to open the spot for generating a report 
+where the command for generating a report will be entered, all the while 
+inspecting for errors during the process. It will check for missing 
+documentation at the end (type: dynamic, functional).			
+
+\end{enumerate}
+
+\subsubsection{Account Creation Tests}
+
+Applies to all FRs involving creating an account within the system. This currently
+covers FR-7 of subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-5\\}
+
+Control: Automatic.
+					
+Initial State: system is active and set up in spot for account creation.
+					
+Input: command for account creation (button, enter, etc.) alongside account 
+user email and password, and the email is not associated with any existing 
+account.
+					
+Output: System indicates account creation was successfully created for 
+logging in with (evidenced by existence of email within created account list)
+and remains active, awaiting further action directives.
+
+Test Case Derivation: The system should be able to assess a set of account 
+credentials is not yet within the system and proceed to add this set to the 
+set of accounts that can be logged in with.
+
+How test will be performed: A script will open the system's spot for account creation, 
+email and password not associated with any existing account will be given in the 
+appropriate area, and command for account creation will be entered; all the while inspecting 
+for any failure mode within the process. Created account will be inspected for at the end.
+(type: dynamic, functional).
+
+\item{test-FR-6\\}
+
+Control: Automatic.
+					
+Initial State: system is active and set up in spot for account creation.
+					
+Input: command for account creation (button, enter, etc.) alongside account 
+user email and password, and the email is associated with an existing 
+account.
+					
+Output: System notifies account was not possible to create for logging 
+in with and remains active, awaiting further action directives.
+
+Test Case Derivation: A set of pre-existing account credentials should not be 
+possible to create an account with. Otherwise, account creation is arbitrary 
+and not truly provided by the system as any set of account credentials are not 
+tied to any particular account.
+
+How test will be performed: A script will open the system's spot for account 
+creation, email and password asssociated with an existing account will be 
+given in the appropriate area, and command for account creation will be 
+entered; all the while inspecting for any failure mode within the process 
+(type: dynamic, functional).
+					
+
+\end{enumerate}
+
+\subsubsection{Account Login Tests}
+
+Applies to all FRs involving logging into account within the system. This 
+currently covers FR-8 of subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-7\\}
+
+Control: Automatic.
+					
+Initial State: system is active and set up in spot for account 
+login.
+					
+Input: command for account login (button, enter, etc.) alongside account 
+user email and password, and the email is associated with an existing 
+account.
+					
+Output: System notifies account login was successful and and remains 
+active, awaiting further action directives.
+
+Test Case Derivation: The system should be able to validate a set of 
+pre-existing account credentials to facilitate login.
+
+How test will be performed: A script will open the system's spot for account 
+login, email and  password asssociated with existing account will be given 
+in the appropriate area, and command for account login will be passed; all 
+the while inspecting for any failure mode within the process (type: dynamic, 
+functional).
+
+\item{test-FR-8\\}
+
+Control: Automatic.
+					
+Initial State: system is active and set up in spot for account login.
+					
+Input: command for account login (button, enter, etc.) alongside account 
+user email and password, and the email is not associated with any existing 
+account.
+					
+Output: System notifies account login was not successful and remains 
+active, awaiting further action directives.
+
+Test Case Derivation: A set of account credentials not associated an existing 
+account will fail to allow login as the system should determine there is no 
+account to validate against.
+
+How test will be performed: A script will open system's spot for account login, 
+email and password not asssociated with existing account with will be given in 
+the appropriate area, and command for account login will be passed; all the 
+while inspecting for any failure mode within the process (type: dynamic, functional).
+					
+\end{enumerate}
+
+\subsubsection{Result Email Tests}
+
+Applies to all FRs involving emailing results of plagiarism analysis to users. 
+This currently covers FR-9 of subsection 9.1 of the SRS \citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-9\\}
+
+Control: Automatic.
+					
+Initial State: System is active and set up in spot for emailing results,
+most recent plagiarism analysis has been completed since after system activation 
+and its results are available.
+					
+Input: command for emailing result (button, enter, etc.) and email to 
+receive results.
+					
+Output: System notifies email has been sent and remains active, awaiting 
+further action directives. External to system, the specified email shall
+contain a .zip file possessing results of the recent analysis.
+
+Test Case Derivation: The system should possess the ability to condense results
+into a .zip file upon demand, and it should proceed to carry out emailing this 
+file after creating it.
+
+How test will be performed: A script will have the system conduct a 
+plagiarism analysis to provide inputs for emailing as this
+simulates what must happen for a user before they are able to initiate
+the email function. If successful, the script will continue to the system's spot 
+for emailing results and the command for sending email will be entered alongside 
+an email for receiving the results; all the while inspecting for errors in the 
+process. The reception of the .zip file will be assessed at the end once 
+the system is awaiting action directives (type: dynamic, functional).
+					
+
+\end{enumerate}
+
+\subsubsection{Result Visualization Tests}
+
+Applies to all FRs involving visualizing plagiarism analysis results provided 
+by user in a .zip file. This currently covers FR-10 of subsection 9.1 of the SRS 
+\citep{SRS}.
+
+\begin{enumerate}
+
+\item{test-FR-10\\}
+
+Control: Automatic
+					
+Initial State: System is active and set up in the spot for inserting .zip 
+files containing results to produce visualization.
+					
+Input: command for visualization (button, enter, etc.) and .zip file containing 
+results.
+					
+Output: System provides visualization in viewable medium, such as image or file,
+that corresponds to the results in the given .zip file.
+
+Test Case Derivation: System should possess ability to parse .zip file for 
+relevant contents and pass it into an internal visualization template that 
+can be filled out with what was found before proceeding to transfer it to
+the user.
+
+How test will be performed: A script will open the system's spot for 
+visualization creation and insert a .zip file containing plagiarism results 
+before entering the command for creating a visualization. It will inspect for 
+any errors during this process. At the end, the script will inspect for 
+missing parts of the visualization.
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.  Not all projects will
-  necessarily have nonfunctional requirements related to accuracy.}
+% \wss{The nonfunctional requirements for accuracy will likely just reference the
+%   appropriate functional tests from above.  The test cases should mention
+%   reporting the relative error for these tests.  Not all projects will
+%   necessarily have nonfunctional requirements related to accuracy.}
 
-\wss{For some nonfunctional tests, you won't be setting a target threshold for
-passing the test, but rather describing the experiment you will do to measure
-the quality for different inputs.  For instance, you could measure speed versus
-the problem size.  The output of the test isn't pass/fail, but rather a summary
-table or graph.}
+% \wss{For some nonfunctional tests, you won't be setting a target threshold for
+% passing the test, but rather describing the experiment you will do to measure
+% the quality for different inputs.  For instance, you could measure speed versus
+% the problem size.  The output of the test isn't pass/fail, but rather a summary
+% table or graph.}
 
-\wss{Tests related to usability could include conducting a usability test and
-  survey.  The survey will be in the Appendix.}
+% \wss{Tests related to usability could include conducting a usability test and
+%   survey.  The survey will be in the Appendix.}
 
-\wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
+% \wss{Static tests, review, inspections, and walkthroughs, will not follow the
+% format for the tests given below.}
 
-\wss{If you introduce static tests in your plan, you need to provide details.
-How will they be done?  In cases like code (or document) walkthroughs, who will
-be involved? Be specific.}
+% \wss{If you introduce static tests in your plan, you need to provide details.
+% How will they be done?  In cases like code (or document) walkthroughs, who will
+% be involved? Be specific.}
 
-\subsubsection{Look and Feel Requirements}
+This section outlines the system tests to be performed for non-functional requirements, including accuracy, performance, and usability.
 
-\subsubsection{Usability and Humanity Requirements}
+\subsubsection{Look and Feel}
+These tests are to ensure that the way the front end is designed adheres to the
+defined requirements with respect to layout, typography, component alignment,
+etc. 
 
-\subsubsection{Performance Requirements}
+\begin{description}
+  \item[Front End Component Review:] We will engage a developer to look through
+  the code and interface and ensure components are implemented as they are
+  defined in the SRS.
+  \item[Accessibility Check:] A developer will review if accessibility tools
+  exist or not within the application. Important tools are screen readers and
+  alt text for images. Furthermore, the developer must check for sufficient
+  colour contrast between components.
+\end{description}
 
-\paragraph{Batch processing time is less than 10 minutes}
-
+\paragraph{Validate Look and Feel User Interface Tests}
 \begin{enumerate}
-  \item{Capacity-Test-1}
+
+\item{test-LF-1}
+
+NFR: LF-AR1, LF-AR2, LF-AR3, LF-SR1, LF-SR2, LF-SR3, LF-SR4
+
+Type: Manual, Front End Review
+					
+Initial State: Application on home page, ready for use
+					
+Input/Condition: Tester engagement
+					
+Output/Result: List of all identified inconsistencies that are found that do not adhere to SRS defined requirements.
+					
+How test will be performed: 
+\begin{enumerate}
+  \item A developer will review the code to make sure the look and feels requirements were implemented:
+  \begin{enumerate}
+    \item They will check that the application has a a uniform colour palette.
+    \item They will check that the application has tooltips on buttons with informative text.
+    \item They will check that the application is responsive and scales well for different screen sizes and resolutions.
+    \item They will check that the application uses the Roboto font family.
+    \item They will check that the application has uniform spacing between elements.
+    \item They will check that the application has buttons with rounded corners and change colour upon hover.
+  \end{enumerate}
+  \item They will then check that the application to ensure that it adheres to all look and feel requirements.
+\end{enumerate}
+
+\item{test-LF-2}
+
+NFR: CR-SC3
+
+Type: Manual, Accessibility Check
+					
+Initial State: Application on home page, ready for use
+					
+Input: Tester engagement
+					
+Output: List of missing accessibility considerations that have been overlooked
+					
+How test will be performed: 
+\begin{enumerate}
+  \item The developer will review the code and application to ensure that accessibility considerations have been implemented.
+  \item They will verify that all images have alt text.
+  \item They will verify that all text has sufficient contrast and sizing using Google Chrome devtools.
+  \item The developer will note down any missing implementations of accessibility requirements.
+\end{enumerate}
+
+\end{enumerate}
+
+\subsubsection{Usability and Humanity}
+These test cases are intended to build a foundation for the user's experience
+on the application. Thus, the only real way to get feedback the user experience
+is to have someone use the application and provide feedback.
+
+\begin{description}
+  \item[User Test Demo:] We will engage a user to test the application, bringing
+  them through a new user process, and ask for feedback on specific areas
+  relevant to the requirements that were set. The feedback will be a result of a
+  survey, with questions structured as "On a scale of 1 to 10, how would you
+  rate X?" with X being some aspect of usability. 
   
-  NFR: PR-C1
+\end{description}
+
+\paragraph{Validate Usability and Humanity tests}
+\begin{enumerate}
+
+  \item{test-UH-1}
+  
+  NFR: UH-E1, UH-E3, UH-L1, UH-UP1, UH-UP2, OE-P1
+  
+  Type: Manual, User Test Demo
+            
+  Initial State: Application on home page, ready for use
+            
+  Input/Condition: User engagement
+            
+  Output/Result: Subjective feedback for how well application scores on different requirements relating to user experience
+            
+  How test will be performed: 
+  \begin{enumerate}
+    \item A user will use the application, going through the onboarding process
+    and doing a demo of the application.
+    \item After a full demo, the user will be asked to provide feedback on
+    different aspects of usability, such as ease of use, app clarity, and prompt
+    politeness.
+  \end{enumerate}
+            
+  \item{test-UH-2}
+  
+  NFR: UH-E2
+  
+  Type: Manual
+            
+  Initial State: Application on home page, ready for use
+            
+  Input: Tester engagement
+            
+  Output: A count for the number of clicks required to navigate to different functionality
+            
+  How test will be performed: 
+  \begin{enumerate}
+    \item The user will navigate to each of the following functions in the user interface from the home page:
+    \begin{enumerate}
+      \item The user will make a code submission to be analyzed.
+      \item The user will upload a generated report file to be viewed.
+    \end{enumerate}
+    \item The user will note how many clicks were required to accomplish each function.
+  \end{enumerate}
+
+  \item{test-UH-3}
+  
+  NFR: UH-PI2
+
+  Type: Manual
+            
+  Initial State: Application on home page, ready for use
+            
+  Input: Tester engagement
+            
+  Output: All identified instances of foreign languages used
+            
+  How test will be performed: 
+  \begin{enumerate}
+    \item The tester will navigate to each page and submenu in the application.
+    \item They will verify that all pages and prompts are in the correct language (English (US)).
+  \end{enumerate}
+  
+  \end{enumerate}
+
+\subsubsection{Versioning}
+These testcases are for versioning requirements that are key in order 
+to roll back to old iterations of the code or old iterations of the model 
+when needed. These will mainly be tested by checking if old versions are saved. 
+Note that this check will be done after each iteration of the model.
+
+\paragraph{Validate old versions of project}
+\begin{enumerate}
+  \item{test-V-1}
+
+  NFR: MS-M1, OR-R2
+  
+  Type: Document Review
+            
+  Initial State: N/A
+            
+  Input/Condition: Tester engagement
+            
+  Output/Result: Historical versions of machine learning models with a changelog 
+  should be stored and accessible on GitHub
+            
+  How test will be performed: 
+  \begin{enumerate}
+    \item A developer will navigate to the project GitHub repository and find the 
+    folder containing all past and current versions of models, each with an 
+    associated performance report, as well as a changelog including dates of revisions
+    \item This will be done with each iteration of the model code.
+  \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Privacy/Security}
+These testcases ensure that the system is secure, and does not violate any
+privacy rights. The tests for these requirements will revolve around doing
+audits to ensure system integrity.
+
+\begin{description}
+  \item[Data Retention Audit:] We will manually check the file system and any
+  logs to look for any user-generated data, or personally identifiable data.
+  This audit may also be done in a test environment to check live logs of the
+  system.
+  \item[Endpoint Security Check:] A tester will invoke backend endpoints and
+  ensure that they are secure. They must also check that the website uses https
+  encryption (padlock symbol in address bar)
+  \item[Legal Audit:] We will manually check the system to ensure that it
+  adheres to legal policies defined in the SRS, such as PIPEDA and FIPPA. This
+  audit will be done regularly, and with each new version release, to the best
+  of our abilities.
+\end{description}
+
+
+\paragraph{Validate Zero Data Retention and data encryption}
+\begin{enumerate}
+  \item{test-PS-1}
+  
+  NFR: SR-P1
+
+  Type: Manual, Data Retention Audit
+
+  Initial State: Application ready for use
+
+  Input/Condition: Tester engagement
+
+  Output/Result: A list of all identified user-generated or personally identifiable data
+
+  How test will be performed:
+  \begin{enumerate}
+    \item A tester will enable logging in the components of the application.
+    \item They will do a run through of the different functionalities, including 
+    making a submission and analyzing a generated report file.
+    \item With each function, the tester will check logs and filesystem, and then
+    search for any user-generated or personally identifiable data.
+  \end{enumerate}
+
+
+  \item{test-PS-2}
+  
+  NFR: SR-P2 
 
   Type: Dynamic
 
-  Initial State: The system is idle and ready to process a batch of code submissions
+  Initial State: Application ready for use
 
-  Input:Submit a batch of inputs (code submissions) to the system for processing.
+  Input/Condition: Backend endpoint invocation
 
-  Output: The system completes processing the batch within 600 seconds (10 minutes).
+  Output/Result: A list of exposed endpoints that do not support in-transit encryption
 
   How test will be performed:
-
   \begin{enumerate}
-    \item Submit a batch of code submissions to the system.
-    \item Measure the time taken for the system to process the batch.
-    \item Verify that the processing time is less than 600 seconds.
+    \item Script will invoke backend end points using HTTPS protocol.
+    \item They will ensure that the response provides relevant security headers.
   \end{enumerate}
+
+
+  \item{test-PS-3}
+  
+  NFR: CR-L1, CR-L2, CR-L3, CR-S2, CR-S5
+
+  Type: Manual, Legal Audit
+
+  Initial State: Application ready for use
+
+  Input/Condition: Tester engagement
+  
+  Output/Result: List of components of the system that breach any regulations, 
+  with an accompanying explanation of the how the breach could manifest itself
+
+  How test will be performed:
+  \begin{enumerate}
+    \item A third party tester will inspect the code repository and system 
+    application against laws and regulations, noting any component of the system 
+    that may potentially infringe upon any data or privacy laws, intellectual 
+    property, or academic integrity.
+  \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Development Standards}
+These requirements ensure that the system is built in a way that adheres to
+standard software development principles. This ensures that the code is
+maintainble, scalable, and reliable.
+
+\begin{description}
+  \item[Code Inspection:] The code will be inspected to make sure the system is
+  built adhering to software development standards.
+  \item[Respository Inspection:] The Github repository for this project will be
+  checked to make sure bugs are listed as issues to keep track of what needs to
+  be done in the system.
+\end{description}
+
+\paragraph{Validate Development Standards}
+\begin{enumerate}
+  \item{test-DS-1}
+  
+  NFR: MS-M3
+
+  Type: Manual, Repository Inspection
+
+  Initial State: Development temporarily paused
+
+  Output/Result: Indication of bugs being tracked on Github
+
+  How test will be performed:
+  \begin{enumerate}
+    \item A tester will look at the 'issues' section of the github repository.
+    \item They will check that there are bugs that exist as issues.
+    \item If there aren't, they will consult the team and ask if developers are
+    issuing bugs or if there are simply no bugs.
+  \end{enumerate}
+
+
+  \item{test-DS-2}
+  
+  NFR: MS-S1, CR-SC1
+
+  Type: Manual, Code Inspection
+
+  Initial State: Development temporarily paused
+
+  Output/Result: Indication of components not adhering to software development standards
+
+  How test will be performed:
+  \begin{enumerate}
+    \item Team members will regularly inspect the code and ensure all components 
+    follow software development standards, including SOLID principles and the 
+    existence of documentation and tests.
+    \item If there are components that don't they will consult the other team 
+    members to discuss issues with that component.
+  \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Documentation}
+This section is to ensure that documentation exists to guide users and help them 
+troubleshoot issues they are having.
+
+\begin{description}
+  \item[Documentation Review:] A tester will look through the webpage, and
+  ensure that documentation exists. Then, they must check to make sure the
+  documentation is accurate, and not misleading. 
+\end{description}
+
+\paragraph{Validate Program, help, and training documentation exists and is accurate}
+\begin{enumerate}
+  \item{test-D-1}
+  
+  NFR: UH-L2, OE-P2
+
+  Type: Manual, Documentation Review
+
+  Initial State: Application ready for use
+
+  Output/Result: Certification that documentation is valid
+
+  How test will be performed:
+  \begin{enumerate}
+    \item A developer will navigate to the user documentation and help pages within the 
+    application. They must first ensure that documentation exists, and is easy to find.
+    \item They must then verify that the documentation is correct, complete, uses clear
+     non-technical language, and is helpful for users.
+  \end{enumerate}
+\end{enumerate}
+
+
+\subsubsection{Performance}
+These testcases ensure that the system is able to handle a certain amount of load, and that it is able to process data in a timely manner.
+
+\paragraph{Batch processing time is less than 4 hours for assumed upper bound of classroom size}
+
+\begin{enumerate}
+  \item{test-PR-1}
+  
+  NFR: PR-SL1, PR-C1
+
+  Type: Performance, Dynamic
+
+  Initial State: The system is idle and ready to process a batch of code submissions
+
+  Input: 500 code snippets of 200 lines or less 
+
+  Output: The system completes processing the batch within 4 hours.
+
+  How test will be performed: Script will open system's spot for plagiarism analysis 
+  and pass system 500 code snippets of 200 lines or less alongside command to initiate analysis. 
+  It will use a computer timer through a library, such as pyperf, to time the interval between 
+  the analysis start and the analysis return. If the interval is under 4 hours, the test will 
+  return a pass. Will be integrated into a CI/CD pipeline and be run periodically to affirm 
+  system health and performance over time.
+
+  % \begin{enumerate}
+  %   \item Submit a batch of code submissions to the system.
+  %   \item Measure the time taken for the system to process the batch.
+  %   \item Verify that the processing time is less than 600 seconds.
+  % \end{enumerate}
 \end{enumerate}
 
 \paragraph{Notification is sent when Processing Time Exceeds Ten Minutes}
 \begin{enumerate}
-  \item{Speed-Latency-Test-1}
+  \item{test-PR-2}
 
   NFR: PR-SL2
 
@@ -600,10 +1245,11 @@ be involved? Be specific.}
     \item Check that the notification for correctness and that it is clear and understandable for the user.
   \end{enumerate}
 
-  \item{Speed-Latency-Test-2}
+  \item{test-PR-3}
+
   NFR: PR-SL2
 
-  Type: Performance, Automated
+  Type: Performance, Dynamic
             
   Initial State: System is idle; no processes are currently running.
             
@@ -621,7 +1267,7 @@ be involved? Be specific.}
 
 \paragraph{System remains operational after malformed input}
 \begin{enumerate}
-  \item{Robustness-Test-1}
+  \item{test-PR-4}
 
   NFR: PR-RFT1
 
@@ -635,7 +1281,7 @@ be involved? Be specific.}
             
   How test will be performed: 
   \begin{enumerate}
-    \item navigate to the home page
+    \item navigate to the home page.
     \item Submit a file that is known to be corrupted or invalid.
     \item Verify that an error message is displayed to the user by checking if the function call was made.
     \item Submit a file that is known to be valid.
@@ -643,9 +1289,57 @@ be involved? Be specific.}
   \end{enumerate}
 \end{enumerate}
 
+\paragraph{System meets accuracy expectations}
+\begin{enumerate}
+  \item{test-PR-5}
+
+  NFR: PR-PA1, PR-PA2
+
+  Type: Performance, Dynamic
+            
+  Initial State: System is operational and awaiting user input for code submission
+            
+  Input: Code snippet test set (on the scale of 500 snippets) and command to initiate analysis
+            
+  Output: All system analysis results have greater than 90\% accuracy and less than 5\%
+  false positives compared against the ground truths when using default threshold
+            
+  How test will be performed: 
+  Script will pass current test set of code snippets and give command-line argument to 
+  initiate analysis from detector. Upon return of analysis, it will compare results against 
+  ground truths of test set using default threshold. If accuracy rate is 90\% and false positives 
+  are lower than 5\%, the test will return a pass. This will be integrated into a CI/CD pipeline and 
+  be run periodically to affirm system health and performance over time. Also, the test set will potentially
+  change over time to keep any possible bias in check.
+\end{enumerate}
+
+\paragraph{Feature Updates Do Not Degrade Performance}
+\begin{enumerate}
+  \item{test-PR-6}
+
+  NFR: PR-SE1
+
+  Type: Functional, Dynamic, Regression
+            
+  Initial State: N/A
+            
+  Input: Code for new feature is added 
+            
+  Output: All base features still function as expected with new feature code in place
+            
+  How test will be performed: When a new feature is added to the system (as denoted in a 
+  pull request or otherwise), all system tests for functional requirements
+  are re-ran to ensure no previous functionality has been lost. This will be facilitated
+  by a CI/CD pipeline (using GitHub actions) for all functional requirement tests.
+\end{enumerate}
+
+\subsubsection{Operational and Environmental}
+These testcases ensure that the system is able to operate in different environments and 
+under different conditions.
+
 \paragraph{System is able to interface with cloud computing services}
 \begin{enumerate}
-  \item{Adjacent-Systems-Test-1}
+  \item{test-OE-1}
 
   NFR: OE-IAS1
 
@@ -667,7 +1361,7 @@ be involved? Be specific.}
 
 \paragraph{System is deployable on Free Hosting Service}
 \begin{enumerate}
-  \item{Adjacent-Systems-Test-2}
+  \item{test-OE-2}
 
   NFR: OE-IAS2
 
@@ -689,7 +1383,7 @@ be involved? Be specific.}
 
 \paragraph{System is able to authenticate the user via external services}
 \begin{enumerate}
-  \item{Adjacent-Systems-Test-3}
+  \item{test-OE-3}
 
   NFR: OE-IAS3
 
@@ -709,19 +1403,18 @@ be involved? Be specific.}
   \end{enumerate}
 \end{enumerate}
 
-\subsubsection{Operational and Environmental Requirements}
-
-\subsubsection{Maintainability and Support Requirements}
+\subsubsection{Maintainability and Support}
+These testcases ensure that the system is maintainable and supportable. This includes ensuring that the system is easy to maintain and that support is available to users.
 
 \paragraph{Model release is accompanied by a report of metrics}
 
 \begin{enumerate}
 
-  \item{Maintaince-Test-2}
+  \item{test-M-1}
 
   NFR: MS-M2
 
-  Type: Manual
+  Type: Inspection
 
   Initial State: The model has been trained and is ready for release
 
@@ -730,19 +1423,20 @@ be involved? Be specific.}
   Output: A report is generated with metrics such as accuracy, precision, etc.
 
   How test will be performed:
-  Release the model and verify that a report is generated with relevant metrics. A verifiable metric is that the report exists.
-  This test will be done manually by the team members of SyntaxSentinels.
+  Release the model and verify that a report is generated with relevant metrics. 
+  A verifiable metric is that the report exists.This test will be done manually 
+  by the team members of SyntaxSentinels.
 
 \end{enumerate}
 
 \paragraph{A pathway for users to post or vote for requests/issues}
 
 \begin{enumerate}
-  \item{Maintaince-Test-3}
+  \item{test-M-2}
 
   NFR: MS-S3
 
-  Type: Manual
+  Type: Inspection
 
   Initial State: The user has a GitHub account and is logged in
 
@@ -751,16 +1445,97 @@ be involved? Be specific.}
   Output: The request or issue is posted and visible to other users
 
   How test will be performed:
-  The user will post a request or issue and verify that it is visible to other users. A verifiable metric is that the request or issue is visible to other users.
+  The user will post a request or issue and verify that it is visible to other users. 
+  A verifiable metric is that the request or issue is visible to other users.
   This test will be done manually by the team members of SyntaxSentinels.
 \end{enumerate}
-\subsubsection{Security Requirements}
+
+\paragraph{Model Code follows Template }
+
+\begin{enumerate}
+  \item{test-M-3}
+
+  NFR: MS-A2
+
+  Type: Inspection, Static
+
+  Initial State: N/A
+
+  Input: Source code pertaining to machine learning model is passed to a parsing script
+
+  Output: The output of the parsing script states model components all follow templates
+
+  How test will be performed:
+  Source code pertaining to machine learning model will be statically checked
+(through a parsing script looking for reserved class words or ordering potentially) 
+to see if model contains components/layers that inherit an interface/class. If all 
+components/layers are found to inherit an interface/class, it is assumed it will be simple 
+to create or exchange components/layers of the model in code to keep it up with research 
+without major overhaul to the model code in its entirety (although there may be significant
+changes within individual components/layers). This will be integrated into a CI/CD pipeline and run
+periodically to ensure model code remains in adherence to templates.
+\end{enumerate}
+
+\paragraph{Model Code follows Template }
+
+\begin{enumerate}
+  \item{test-M-4}
+
+  NFR: MS-A1
+
+  Type: Dynamic 
+
+  Initial State: System is inactive
+  (cannot modify model during activity)
+
+  Input: None into system directly, training script receives two formats of training sets
+
+  Output: Training script successfully completes epoch 
+
+  How test will be performed:
+  Training script for model provided will receive two different formats of 
+  training set data from a test script, and test script will verify training 
+  occurred either through inspecting a generated checkpoint file or a return 
+  value from the training script. This will be integrated into a CI/CD pipeline 
+  and run periodically to ensure compatibility for model training remains.
+\end{enumerate}
+
+\paragraph{Model Code follows Template }
+\begin{enumerate}
+  \item{test-M-5}
+
+  NFR: MS-A3
+
+  Type: Manual, Unit
+
+  Initial State: N/A
+
+  Input: A set of appropriately dimensioned vectors into model component/layer
+
+  Output: Expected modification of vector according to component/layer architecture
+
+  How test will be performed:
+  Every unique model layer/component will attempt to be separated from any preceding and 
+  proceeding layer/components, and will be copied into a test function where it 
+  will be given an input vector of appropriate size. The output function should 
+  apply transformations strictly associated with that layer and no other, which 
+  should be evident through output vector size and contents of the vector. Must 
+  be manually done as assessing how to separate layers may not be possible to be 
+  done in a consistent manner, even if layers/components are ultimately modular. 
+  The difference of having embedded layers that are not modular versus separable 
+  layers is akin to having z=f(g(x)) versus y=g(x) and z=g(y). Test must only be done 
+  every time a new type of model component or layer is added.
+\end{enumerate}
+
+\subsubsection{Security}
+These testcases ensure that the system is secure and that user data is protected.
 
 \paragraph{User can access UI with valid login credentials}
 \begin{enumerate}
-  \item{Security-Test-1\\}
+  \item{test-S-1}
 
   NFR: SR-A1
+
   Type: Dynamic
             
   Initial State: The user is not authenticated and does not have a valid auth token.
@@ -770,12 +1545,13 @@ be involved? Be specific.}
   Output/Result: The user is authenticated and gains access to the UI.
             
   How test will be performed: 
-  This test will be done via UI automated test suite using Playwright. The test will simulate a user entering valid login 
-  credentials and verify that the user is authenticated and gains access to the UI.
+  This test will be done via UI automated test suite using Playwright. The test 
+  will simulate a user entering valid login credentials and verify that the user 
+  is authenticated and gains access to the UI.
 \end{enumerate}
 \paragraph{User can access API with valid auth token}
 \begin{enumerate}
-  \item{Security-Test-2\\}
+  \item{test-S-2}
 
   NFR: SR-A1
 
@@ -788,9 +1564,10 @@ be involved? Be specific.}
   Output: The API allows the user to upload code for comparison
             
   How test will be performed: 
-  Pass a valid auth token to the API and verify that the system allows code upload and returns a success response.
+  Pass a valid auth token to the API and verify that the system allows code upload 
+  and returns a success response.
 
-  \item{Security-Test-3}
+  \item{test-S-3}
 
   NFR: SR-A1
 
@@ -803,21 +1580,110 @@ be involved? Be specific.}
   Output: The API denies access and returns an unauthorized response
 
   How test will be performed:
-  Pass an invalid or missing auth token to the API and verify that the system denies access and returns an unauthorized response.
+  Pass an invalid or missing auth token to the API and verify that the system denies 
+  access and returns an unauthorized response.
 
 \end{enumerate}
 
-\subsubsection{Cultural Requirements}
-
-\subsubsection{Compliance Requirements}
-
-\subsubsection{Area of Testing2}
-...
-
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{center}
+  \begin{longtable}{|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{10cm}|}
+  \hline
+  \textbf{Test ID} & \textbf{Requirements} \\
+  \hline
+  \endfirsthead
+  
+  \hline
+  \textbf{Test ID} & \textbf{Requirements} \\
+  \hline
+  \endhead
+  
+  test-FR-1 & FR-1 \\
+  \hline
+  test-FR-2 & FR-2, FR-4, FR-5 \\
+  \hline
+  test-FR-3 & FR-3 \\
+  \hline
+  test-FR-4 & FR-6 \\
+  \hline
+  test-FR-5 & FR-7 \\
+  \hline
+  test-FR-6 & FR-7 \\
+  \hline
+  test-FR-7 & FR-8 \\
+  \hline
+  test-FR-8 & FR-8 \\
+  \hline
+  test-FR-9 & FR-9 \\
+  \hline
+  test-FR-10 & FR-10 \\
+  \hline
+  test-LF-1 & LF-AR1, LF-AR2, LF-AR3, LF-SR1, LF-SR2, LF-SR3, LF-SR4 \\
+  \hline
+  test-LF-2 & CR-SC3 \\
+  \hline
+  test-UH-1 & UH-E1, UH-E3, UH-L1, UH-UP1, UH-UP2, OE-P1 \\
+  \hline
+  test-UH-2 & UH-E2 \\
+  \hline
+  test-UH-3 & UH-PI2 \\
+  \hline
+  test-V-1 & MS-M1, OR-R2 \\
+  \hline
+  test-PS-1 & SR-P1 \\
+  \hline
+  test-PS-2 & SR-P2 \\
+  \hline
+  test-PS-3 & CR-L1, CR-L2, CR-L3, CR-S2, CR-S5 \\
+  \hline
+  test-DS-1 & MS-M3 \\
+  \hline
+  test-DS-2 & MS-S1, CR-SC1 \\
+  \hline
+  test-D-1 & UH-L2, OE-P2 \\
+  \hline
+  test-PR-1 & PR-SL1, PR-C1 \\
+  \hline
+  test-PR-2 & PR-SL2 \\
+  \hline
+  test-PR-3 & PR-SL2 \\
+  \hline
+  test-PR-4 & PR-RFT1 \\
+  \hline
+  test-PR-5 & PR-PA1, PR-PA2 \\
+  \hline
+  test-PR-6 & PR-SE1 \\
+  \hline
+  test-OE-1 & OE-IAS1 \\
+  \hline
+  test-OE-2 & OE-IAS2 \\
+  \hline
+  test-OE-3 & OE-IAS3 \\
+  \hline
+  test-M-1 & MS-M2 \\
+  \hline
+  test-M-2 & MS-S3 \\
+  \hline
+  test-M-3 & MS-A2 \\
+  \hline
+  test-M-4 & MS-A1 \\
+  \hline
+  test-M-5 & MS-A3 \\
+  \hline
+  test-S-1 & SR-A1 \\
+  \hline
+  test-S-2 & SR-A1 \\
+  \hline
+  test-S-3 & SR-A1 \\
+  \hline
+
+  \caption{Traceability Matrix}
+  \end{longtable}
+  \end{center}
+
+% \wss{Provide a table that shows which test cases are supporting which
+%   requirements.}
 
 \section{Unit Test Description}
 This section will not be filled in until after the MIS document has been completed.
@@ -956,12 +1822,13 @@ This section will not be filled in until after the MIS document has been complet
 
 \subsection{Symbolic Parameters}
 
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
+Currently, there are no symbolic parameters in the document. It is possible that some will be added in the future, however, 
+at this point in time, it is too early to determine what they will be.
 
 \subsection{Usability Survey Questions?}
 
-\wss{This is a section that would be appropriate for some projects.}
+Currently, there are no usability survey questions in the document. It is possible that some will be added in the future, however,
+at this point in time, it is too early to determine what they will be.
 
 \newpage{}
 \section*{Appendix --- Reflection}
@@ -999,19 +1866,6 @@ graduate attribute of Lifelong Learning.
   static testing knowledge, specific tool usage, Valgrind etc.  You should look to
   identify at least one item for each team member.
   \begin{itemize}
-    \item \textbf{Dynamic testing knowledge}
-    \item \textbf{Static testing knowledge}
-    \item \textbf{Automated testing tools}
-    \item \textbf{Security testing knowledge}
-    \item \textbf{Performance testing knowledge}
-    \item \textbf{Test Case Management}
-  \end{itemize}
-
-  \item For each of the knowledge areas and skills identified in the previous
-  question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill?  Of the identified approaches, which will each team
-  member pursue, and why did they make this choice?
-  \begin{itemize}
     \item \textbf{Dynamic Testing Knowledge}
     \begin{itemize}
         \item \textbf{Online Courses and Tutorials}: We can learn dynamic testing techniques through structured courses on platforms like Udemy, Coursera, or LinkedIn Learning, which cover both functional and non-functional testing strategies.
@@ -1048,13 +1902,92 @@ graduate attribute of Lifelong Learning.
         \item \textbf{Learning Best Practices in Test Documentation}: By reading resources or taking tutorials on effective test case design and management, we can develop a structured, comprehensive approach to test case documentation.
     \end{itemize}
 
-\end{itemize}
+  \end{itemize}
+
+  \begin{itemize}
+    \item \textbf{Lucas Chen:} Security Testing Knowledge, Performance Testing Knowledge
+    \item \textbf{Dennis Fong:} Automated Testing Tools, Security Testing Knowledge
+    \item \textbf{Julian Cecchini:} Automated Testing Tools, Static Testing Knowledge
+    \item \textbf{Mohammad Mohsin Khan:} Dynamic Testing Knowledge, Performance Testing Knowledge
+    \item \textbf{Luigi Quattrociocchi:} Static Testing Knowledge, Test Case Management
+  \end{itemize}
+
+
+  \item For each of the knowledge areas and skills identified in the previous
+  question, what are at least two approaches to acquiring the knowledge or
+  mastering the skill?  Of the identified approaches, which will each team
+  member pursue, and why did they make this choice?
+
+  Approaches for acquiring knowledge or mastering the skill has been identified
+  above.
+  
   \begin{itemize}
     \item \textbf{Lucas Chen:} 
+    \begin{itemize}
+        \item \textbf{Security Testing Knowledge}  
+        \begin{itemize}
+            \item \textbf{Chosen Approach}: YouTube Tutorials and online courses
+            \item \textbf{Reason for Choice}: YouTube tutorials and online courses provide a flexible and 
+            accessible way to learn security testing concepts and tools. By watching tutorials and taking courses, 
+            I can gain a solid understanding of security testing practices and apply them effectively in our project.
+        \end{itemize}
+    
+        \item \textbf{Performance Testing Knowledge}  
+        \begin{itemize}
+            \item \textbf{Chosen Approach}: Tool-Specific Training (e.g., JMeter, PostMan)
+            \item \textbf{Reason for Choice}: Tool-specific training allows me to focus on the performance testing 
+            tools that are most relevant to our project. By learning tools like JMeter or PostMan, I can gain practical 
+            skills that directly apply to our performance testing requirements.
+        \end{itemize}
+    \end{itemize}
     \item \textbf{Dennis Fong:}
+    \begin{itemize}
+      \item \textbf{Automated Testing Tools}
+      \begin{itemize}
+        \item \textbf{Chosen Approach}: Online courses and textbooks
+        \item \textbf{Reason for Choice}: This approach was chosen because of
+        the flexibility and convenience where I can learn at my own pace.
+        Furthermore, online resources are usually more up to date than textbooks
+        that may be old
+      \end{itemize}
+
+      \item \textbf{Security Testing Knowledge}  
+        \begin{itemize}
+            \item \textbf{Chosen Approach}: Youtube videos (theory) and online
+            courses
+            \item \textbf{Reason for Choice}: For security testing, the theory
+            behind the foundations of security are very important. Furthermore,
+            online courses also provide the knowledge, and application of these
+            concepts to learn more about security testing.
+        \end{itemize}
+    \end{itemize}
     \item \textbf{Julian Cecchini:} 
+    \begin{itemize}
+      \item \textbf{Automated Testing Tools}  
+      \begin{itemize}
+          \item \textbf{Chosen Approach}: Hands-on practice with sample projects
+          \item \textbf{Reason for Choice}: I previously examined online tutorials 
+          and articles which taught the use of jenkins and github actions. I feel the material
+          gave me more comfort with the area but not everything completely snapped in place within
+          my mind. Therefore, I think it would be very beneficial to make some arbitrary 
+          source code which I can make a minor CI/CD pipeline for to gain a sense for
+          all the nitty-gritty details involved within the setup of automated testing.
+      \end{itemize}
+  
+      \item \textbf{Static Testing Knowledge}
+      \begin{itemize}
+          \item \textbf{Chosen Approach}: Tool-Specific Documentation and Tutorials
+          \item \textbf{Reason for Choice}: I have used linters and the like before, but 
+          have not explored them in-depth. I would enjoy to not just learn superficial/basic
+          stuff that can be found in webinars or youtube videos but to really sink my teeth 
+          into niche capabilities of linters which could possibly benefit my capstone or 
+          personal projects. Therefore, I feel documentation would be the best route seeing
+          that it should contain all the functionality of static analysis tools, including experimental or less commonly known/discussed aspects.
+      \end{itemize}
+  
+    \end{itemize}
     \item \textbf{Mohammad Mohsin Khan:}
-    \item \begin{itemize}
+    \begin{itemize}
       \item \textbf{Dynamic Testing Knowledge}  
       \begin{itemize}
           \item \textbf{Chosen Approach}: Hands-on practice with sample projects
@@ -1067,8 +2000,22 @@ graduate attribute of Lifelong Learning.
           \item \textbf{Reason for Choice}: Tool-specific training allows me to gain direct experience with the performance testing tools that I will use in the project. This approach is ideal because it provides both a solid understanding of tool features and the technical skills needed to set up and execute performance tests effectively.
       \end{itemize}
   
-  \end{itemize}
+    \end{itemize}
     \item \textbf{Luigi Quattrociocchi:}
+    \begin{itemize}
+        \item \textbf{Static Testing Knowledge}
+        \begin{itemize}
+            \item \textbf{Chosen Approach}: Tool-Specific Documentation and Tutorials
+            \item \textbf{Reason for Choice}: Reading and following documentation and tutorials specific to static testing tools, such as ESLint, should allow me to gain a more detailed understanding of how these tools work. This approach will also make it easier for me to learn best practices for effective code analysis within the actual tool environment we'll be using.
+        \end{itemize}
+        
+        \item \textbf{Test Case Management}
+        \begin{itemize}
+            \item \textbf{Chosen Approach}: Exploring Test Management Tools
+            \item \textbf{Reason for Choice}: Familiarizing myself with test management tools should provide me with direct experience in organizing, creating, and tracking test cases. This is especially useful for our project because having a structured approach to documentation should streamline collaboration with other team members as we conduct testing.
+        \end{itemize}
+    \end{itemize}
+
 \end{itemize}
 \end{enumerate}
 
