@@ -132,40 +132,37 @@ The following conventions are also used:
 The following table is taken directly from the Module Guide document for this project.
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
-
-{Hardware-Hiding} & ~ \\
-\midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& User Authentication Module \\
-& Code Upload Module \\
-& Results Upload Module \\
-& Threshold Adjustment Module \\
-& Abstract ML Model Module \\
-& Tokenization Module \\
-& AST Module \\
-& Embedded Module \\
-& Report Generation Module \\
-& Email Sending Module \\
-\midrule
-
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& NLP Model Module \\
-& Similarity Scoring Module \\
-& Report Results Module \\
-& Flagging Module \\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
-\end{table}
-
+    \centering
+    \begin{tabular}{p{0.35\textwidth} p{0.55\textwidth}}
+    \toprule
+    \textbf{Level 1} & \textbf{Level 2} \\
+    \midrule
+    {Hardware-Hiding Module} & ~ \\
+    \midrule
+    \multirow{2}{*}{Behaviour-Hiding Module} 
+    & User Authentication Module \\
+    & Code Upload Module \\
+    & Results Upload Module \\
+    & Report Results Module \\
+    & Email Sending Module \\
+    & Flagging Module \\
+    & Threshold Adjustment Module \\
+    \midrule
+    \multirow{2}{*}{Software Decision Module} 
+    & Report Generation Module \\
+    & Similarity Scoring Module \\
+    & NLP Model Module \\
+    & Abstract ML Model Module \\
+    & Tokenization Module \\
+    & AST Module \\
+    & Embedded Module \\
+   
+    \bottomrule
+    \end{tabular}
+    \caption{Module Hierarchy}
+    \label{TblMH}
+  \end{table}
+%new breakdown
 \newpage
 ~\newpage
 
@@ -243,7 +240,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 This module provides functionality for user account creation, user login, and
 access control, relying on \textbf{Auth0} as the implementation mechanism. It
-safeguards the application’s \textbf{secrets} (credentials, tokens, etc.) and
+safeguards the application's \textbf{secrets} (credentials, tokens, etc.) and
 handles authentication and authorization \textbf{services}.
 
 \subsection{Module}
