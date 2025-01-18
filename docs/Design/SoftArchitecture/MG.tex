@@ -228,7 +228,6 @@ actually be implemented. \\
     \item [\refstepcounter{smnum} \smthemnum \label{smMLModel}:] Abstract ML Model Module
     \item [\refstepcounter{smnum} \smthemnum \label{smTokenization}:] Tokenization Module
     \item [\refstepcounter{smnum} \smthemnum \label{smAST}:] AST Module
-    \item [\refstepcounter{smnum} \smthemnum \label{smEmbedded}:] Embedded Module
   \end{description}
   \item [\refstepcounter{mnum} \mthemnum \label{mScoring}:] Similarity Scoring Module
   \item [\refstepcounter{mnum} \mthemnum \label{mReport}:] Report Generation Module
@@ -247,19 +246,19 @@ actually be implemented. \\
   & User Authentication Module \\
   & Code Upload Module \\
   & Results Upload Module \\
+  & Report Results Module \\
+  & Email Sending Module \\
+  & Flagging Module \\
   & Threshold Adjustment Module \\
+  \midrule
+  \multirow{2}{*}{Software Decision Module} 
+  & Report Generation Module \\
+  & Similarity Scoring Module \\
+  & NLP Model Module \\
   & Abstract ML Model Module \\
   & Tokenization Module \\
   & AST Module \\
-  & Embedded Module \\
-  & Report Generation Module \\
-  & Email Sending Module \\
-  \midrule
-  \multirow{2}{*}{Software Decision Module} 
-  & NLP Model Module \\
-  & Similarity Scoring Module \\
-  & Report Results Module \\
-  & Flagging Module \\
+ 
   \bottomrule
   \end{tabular}
   \caption{Module Hierarchy}
@@ -444,7 +443,7 @@ plagiarism detection according to their needs.
 
 \begin{description}
 \item[Secrets:] The architecture and configuration of machine learning models.
-\item[Services:] Provides a high-level interface for tuning and evaluating various pre-trained machine learning models, agnostic of the specific model to be used.
+\item[Services:] Provides a high-level interface for tuning and predicting using various pre-trained machine learning models, agnostic of the specific model to be used.
 \item[Implemented By:] Hugging Face
 \item[Type of Module:] Library
 \end{description}
@@ -467,14 +466,6 @@ plagiarism detection according to their needs.
 \item[Type of Module:] Library Component
 \end{description}
 
-\subsubsection{Embedded Module (\smref{mNLP}{smEmbedded})}
-
-\begin{description}
-\item[Secrets:] The embedding methods used to convert tokens or AST nodes into fixed-size vector representations.
-\item[Services:] Converts a source code representation into vector embeddings suitable for similarity scoring.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
-\end{description}
 
 \subsubsection{Report Generation Module (\mref{mReport})}
 
@@ -518,7 +509,7 @@ report files from an analysis.
 \subsubsection{Flagging Module (\smref{mResults}{mFlagging})}
 
 \begin{description}
-\item[Secrets:] The logic for managing and storing user-reported flags, including their context and status.
+\item[Secrets:] The logic for managing and storing the state of user-flagged submissions.
 \item[Services:] Allows users to flag specific code snippets or results for further review.
 \item[Implemented By:] \progname{}
 \item[Type of Module:] Library Component
