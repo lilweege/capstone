@@ -1291,8 +1291,20 @@ No local functions are required for this module.
 \newpage
 
 \section{Appendix} \label{Appendix}
+This section highlights components of the systems that are not modules themselves, but support the other modules in the document.
 
-\newpage{}
+\section*{Appendix --- Networking Considerations}
+\begin{itemize}
+    \item Rate limiting is planned to support the Code Upload Module
+    \begin{itemize}
+        \item This ensures code uploads cannot be sent in excessive amounts, and also prevents DoS attacks.
+        \item Rate limiting will also ensure fair processing time for all users.
+    \end{itemize}
+    \item The report generation module will be hidden behind an API layer in the back end.
+    \begin{itemize}
+        \item The API will be implemented using a framework such as Django or Flask.
+    \end{itemize}
+\end{itemize}
 
 \section*{Appendix --- Reflection}
 
