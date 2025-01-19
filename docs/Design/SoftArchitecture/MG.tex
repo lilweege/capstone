@@ -111,8 +111,8 @@ This section records information for easy reference.
 
 Decomposing a system into modules is a commonly accepted approach to developing
 software.  A module is a work assignment for a programmer or programming
-team~\citep{ParnasEtAl1984}.  We advocate a decomposition
-based on the principle of information hiding~\citep{Parnas1972a}.  This
+team~ \citep{ParnasEtAl1984}.  We advocate a decomposition
+based on the principle of information hiding~ \citep{Parnas1972a}.  This
 principle supports design for change, because the ``secrets'' that each module
 hides represent likely future changes.  Design for change is valuable in SC,
 where modifications are frequent, especially during initial development as the
@@ -274,7 +274,7 @@ establish functionality of the design and essentiallity of the modules. The
 traceability section below will propose coverage of non-functional requirements 
 by the modules. A mapping between functional requirements in the FR section of 
 the SRS \citep{SRS} and corresponding modules that provide coverage for them are
-also listed in Table~\ref{TblFRT}. 
+also listed in Table~\ref{TblRT}. 
 Note: mathematical notation used in the FRs ignores table of abbreviations and acronyms and derives from the SRS section cited above.
 \begin{table}[H]
   \centering
@@ -306,15 +306,13 @@ be delegated to the code upload module (\mref{mCodeUpload}).\\
 
 FR-2 requires all snippets to have a pairwise similarity score, Sim($s_i, s_j$), 
 and for these scores to be sent against a threshold, $t \in T$, to establish 
-plagiarism status. To calculate these similarities, there must be a module to 
-receive snippets from the front end, pass them to the NLP model to receive back 
-a semantic representation of the relation between pairs (such as a vector), and 
-proceed to calculate similarity based on these representations. This module will 
-be the scoring module (\mref{mScoring}). The NLP model has a scope which should 
-also be handled by a single module, the NLP module (\mref{mNLP}). These similarities 
-will then be filtered by the thresholds obtained from the user to gain a plagarism 
-status for each snippet. These thresholds will be obtained from users and passed 
-onto the appropriate spots by the threshold module ({\mref{mThreshold}}).\\
+plagiarism status. To gain these similarity scores, there must be semantic relation
+established between pairs (such as a vector) to calculate scores from. The NLP module 
+\mref{mNLP} will be tasked with building the semantic relationship and the Similarity
+Scoring module \mref{mScoring} will handle the proceeding score calculation. To translate
+similarity scores into plagiarism status, thresholds will need to be obtained from user
+preferences and subsequently compared with scores. The Threshold module ({\mref{mThreshold}}) 
+will take over these responsibilities necessary for obtaining plagarism status.\\
 
 FR-3 requires a guide document. This will be provided by the results module (\mref{mResults})
 in the frontend which will encompass both displaying analysis results to the user as well as 
@@ -377,7 +375,7 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Hardware Hiding Modules}
 
 \begin{description}
 \item[Secrets:] The data structure and algorithm used to implement the virtual
@@ -413,20 +411,19 @@ to be implemented.
 
 \begin{description}
 \item[Secrets:] The format and transport of the input data for the model.
-\item[Services:] Converts the input data files into the data structure
-used by the NLP model module and passes it to the backend.
+\item[Services:] Sets up pathway to receive the input data files and 
+tranforms it into the data structure suitable for backend.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Results Upload Module (\mref{mResultsUpload})}
 
 \begin{description}
-\item[Secrets:] The logic to in-take and parse report files as well as display 
-information contained within them.
+\item[Secrets:] The logic to in-take and parse report files as well as display information contained within them.
 \item[Services:] Handles visualizing report files for user in front end.
 \item[Implemented By:] \progname
-\item[Type of Module:] Library Component
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Threshold Adjustment Module (\mref{mThreshold})}
@@ -436,45 +433,28 @@ information contained within them.
 \item[Services:] Allows users to customize the similarity threshold for 
 plagiarism detection according to their needs.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
+\item[Type of Module:] Abstract Object
 \end{description}
 
-\subsubsection{Abstract ML Model Module (\smref{mNLP}{smMLModel})}
+\subsubsection{Flagging Module (\mref{mFlagging})}
 
 \begin{description}
-\item[Secrets:] The architecture and configuration of machine learning models.
-\item[Services:] Provides a high-level interface for tuning and predicting using various pre-trained machine learning models, agnostic of the specific model to be used.
-\item[Implemented By:] Hugging Face
-\item[Type of Module:] Library
-\end{description}
-
-\subsubsection{Tokenization Module (\smref{mNLP}{smTokenization})}
-
-\begin{description}
-\item[Secrets:] The tokenization algorithms used to break code into smaller, meaningful components for analysis.
-\item[Services:] Converts raw code snippets into tokens (e.g., keywords, operators) that can be processed by other modules.
+\item[Secrets:] The logic for managing and storing the state of user-flagged submissions.
+\item[Services:] Allows users to flag specific code snippets or results for further review.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
+\item[Type of Module:] Abstract Object
 \end{description}
 
-\subsubsection{AST Module (\smref{mNLP}{smAST})}
+\subsubsection{Report Results Module (\mref{mResults})}
 
 \begin{description}
-\item[Secrets:] The structure and traversal methods of the Abstract Syntax Tree (AST) used to represent code.
-\item[Services:] Transforms source code into an Abstract Syntax Tree for semantic analysis and comparison.
+\item[Secrets:] The logic for requesting and displaying plagiarism
+report from the backend.
+\item[Services:] Gives spot to initiate plagarism analysis and, upon 
+completion, visualizes results to allow user to inspect the findings
+of the analysis.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
-\end{description}
-
-
-\subsubsection{Report Generation Module (\mref{mReport})}
-
-\begin{description}
-\item[Secrets:] The logic for analyzing outputs from the NLP model and emailing 
-report files from an analysis.
-\item[Services:] Takes code snippet inputs from front end, proceeds to dcreates and emails a report from plagarism run.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Email Sending Module (\mref{mEmail})}
@@ -497,24 +477,6 @@ report files from an analysis.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Report Results Module (\mref{mResults})}
-
-\begin{description}
-\item[Secrets:] The logic for displaying outputs of the model.
-\item[Services:] Displays results of plagiarism upon completion of analysis to the user, allowing them to inspect and view the details of the results.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
-\end{description}
-
-\subsubsection{Flagging Module (\smref{mResults}{mFlagging})}
-
-\begin{description}
-\item[Secrets:] The logic for managing and storing the state of user-flagged submissions.
-\item[Services:] Allows users to flag specific code snippets or results for further review.
-\item[Implemented By:] \progname{}
-\item[Type of Module:] Library Component
-\end{description}
-
 \subsubsection{NLP Model Module (\mref{mNLP})}
 
 \begin{description}
@@ -525,13 +487,51 @@ for similarity scoring.
 \item[Type of Module:] Library
 \end{description}
 
+
+\subsubsection{Abstract ML Model Module (\smref{mNLP}{smMLModel})}
+
+\begin{description}
+\item[Secrets:] The architecture and configuration of machine learning models.
+\item[Services:] Provides a high-level interface for tuning and predicting using various pre-trained machine learning models, agnostic of the specific model to be used.
+\item[Implemented By:] Hugging Face
+\item[Type of Module:] Abstract Object
+\end{description}
+
+\subsubsection{Tokenization Module (\smref{mNLP}{smTokenization})}
+
+\begin{description}
+\item[Secrets:] The tokenization algorithms used to break code into smaller, meaningful components for analysis.
+\item[Services:] Converts raw code snippets into tokens (e.g., keywords, operators) that can be processed by other modules.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library Component
+\end{description}
+
+\subsubsection{AST Module (\smref{mNLP}{smAST})}
+
+\begin{description}
+\item[Secrets:] The structure and traversal methods of the Abstract Syntax Tree (AST) used to represent code.
+\item[Services:] Transforms source code into an Abstract Syntax Tree for semantic analysis and comparison.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Library 
+\end{description}
+
 \subsubsection{Similarity Scoring Module (\mref{mScoring})}
 
 \begin{description}
 \item[Secrets:] The algorithm for calculating similarity scores.
 \item[Services:] Compares semantic representations of code snippets and generates similarity scores.
 \item[Implemented By:] \progname{}
-\item[Type of Module:] Algorithm
+\item[Type of Module:] Library
+\end{description}
+
+\subsubsection{Report Generation Module (\mref{mReport})}
+
+\begin{description}
+\item[Secrets:] The logic for aggregating results of the NLP model and similarity scores.
+\item[Services:] Produces a report with both direct and aggregated data from plagarism
+analysis.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
 \end{description}
 
 
