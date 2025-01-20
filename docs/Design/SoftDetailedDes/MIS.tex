@@ -260,23 +260,27 @@ handles authentication and authorization \textbf{services}.
 
 \subsubsection{Exported Constants}
 
-\begin{itemize}
-    \item \texttt{Module}: Export of the AuthModule React component.
-\end{itemize}
+N/A
+
+% \begin{itemize}
+%     \item \texttt{Module}: Export of the AuthModule React component.
+% \end{itemize}
 
 \subsubsection{Exported Access Programs}
 
-\begin{center}
-\begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\texttt{loginWithRedirect} & - & session: AuthToken & LoginError \\
-\texttt{logout} & currentSession: AuthToken & - & LogoutError \\
-\texttt{signup} & - & session: AuthToken & SignupError \\
-\hline
-\end{tabular}
-\end{center}
+% \begin{center}
+% \begin{tabular}{p{5cm} p{3.5cm} p{3.5cm} p{2cm}}
+% \hline
+% \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+% \hline
+% \texttt{loginWithRedirect} & - & session: AuthToken & LoginError \\
+% \texttt{logout} & currentSession: AuthToken & - & LogoutError \\
+% \texttt{signup} & - & session: AuthToken & SignupError \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+No exported access programs as we will important functions from the library.
 
 \subsection{Semantics}
 
@@ -304,34 +308,36 @@ handles authentication and authorization \textbf{services}.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \texttt{loginWithRedirect}():
-\begin{itemize}
-    \item \textbf{transition:}
-    \begin{itemize}
-        \item Validates user credentials with Auth0.
-        \item \texttt{currentSession} is updated with returned AuthToken and user info on success.
-    \end{itemize}
-    \item \textbf{output:} Returns an \texttt{AuthToken} containing user claims.
-    \item \textbf{exception:} \texttt{LoginError} if credentials are invalid or Auth0 is unreachable.
-\end{itemize}
+% \noindent \texttt{loginWithRedirect}():
 
-\noindent \texttt{logout}(currentSession: AuthToken):
-\begin{itemize}
-    \item \textbf{transition:} Invalidates \texttt{currentSession} (or the provided token) by revoking the Auth0 session or clearing local storage.
-    \item \textbf{output:} None.
-    \item \textbf{exception:} \texttt{LogoutError} if the token is invalid or an Auth0 error occurs.
-\end{itemize}
+N/A
+% \begin{itemize}
+%     \item \textbf{transition:}
+%     \begin{itemize}
+%         \item Validates user credentials with Auth0.
+%         \item \texttt{currentSession} is updated with returned AuthToken and user info on success.
+%     \end{itemize}
+%     \item \textbf{output:} Returns an \texttt{AuthToken} containing user claims.
+%     \item \textbf{exception:} \texttt{LoginError} if credentials are invalid or Auth0 is unreachable.
+% \end{itemize}
 
-\noindent \texttt{signup}(userInfo):
-\begin{itemize}
-    \item \textbf{transition:}
-    \begin{itemize}
-        \item Redirect user to Auth0 for account creation.
-        \item On success, \texttt{currentSession} is redirected back to SyntaxSentienals and updated with new user’s AuthToken.
-    \end{itemize}
-    \item \textbf{output:} Returns \texttt{AuthToken} for the newly created user.
-    \item \textbf{exception:} \texttt{SignupError} if account creation fails (e.g., email already in use).
-\end{itemize}
+% \noindent \texttt{logout}(currentSession: AuthToken):
+% \begin{itemize}
+%     \item \textbf{transition:} Invalidates \texttt{currentSession} (or the provided token) by revoking the Auth0 session or clearing local storage.
+%     \item \textbf{output:} None.
+%     \item \textbf{exception:} \texttt{LogoutError} if the token is invalid or an Auth0 error occurs.
+% \end{itemize}
+
+% \noindent \texttt{signup}(userInfo):
+% \begin{itemize}
+%     \item \textbf{transition:}
+%     \begin{itemize}
+%         \item Redirect user to Auth0 for account creation.
+%         \item On success, \texttt{currentSession} is redirected back to SyntaxSentienals and updated with new user’s AuthToken.
+%     \end{itemize}
+%     \item \textbf{output:} Returns \texttt{AuthToken} for the newly created user.
+%     \item \textbf{exception:} \texttt{SignupError} if account creation fails (e.g., email already in use).
+% \end{itemize}
 
 \subsubsection{Local Functions}
 No local functions are required for this module.
