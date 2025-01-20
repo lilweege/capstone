@@ -115,8 +115,8 @@ real & $\mathbb{R}$ & Any number in the range $(-\infty, \infty)$. \\
 boolean & bool & A logical value that can either be \texttt{true} or \texttt{false}. \\
 string & str & A sequence of characters. \\ 
 tuple & tuple & An ordered collection of elements, potentially of different types. \\
-Abstract Syntax Tree & AST & Tree representing code like that described here \url{https://docs.python.org/3/library/ast.html}
-\bottomrule 
+Abstract Syntax Tree & AST & Tree representing code like that described here \url{https://docs.python.org/3/library/ast.html} \\
+\bottomrule
 \end{tabular} 
 \end{center}
 
@@ -345,18 +345,21 @@ The following table is taken directly from the Module Guide document for this pr
     \item \textbf{input:} None
     \item \textbf{output:} JSON representing files uploaded by user.
     \item \textbf{exception:} None
+\end{itemize}
 
 \subsubsection{Local Functions}
 
-\begin{itemize}
 \noindent \texttt{readLocalFile(path: Str)}: 
+\begin{itemize}
     \item \textbf{transition:} None (no internal state change.)
     \item \textbf{input:} Path representing location of snippets on user computer.
     \item \textbf{output:} \textit{list [String]} object holding all info from each
     file.
     \item \textbf{exception:} \texttt{FileError} if file I/O fails or \textit{filePath} is invalid.
+\end{itemize}
 
 \noindent \texttt{parseCodeData(rawContent: list[Str])}: Transforms raw file content into a \texttt{JSON}.
+\begin{itemize}
     \item \textbf{transition:} None (no internal state change).
     \item \textbf{input:}  \textit{list [String]} object holding all info from each
     file.
@@ -455,20 +458,22 @@ The following table is taken directly from the Module Guide document for this pr
 
 \subsubsection{Local Functions}
 
+\noindent \texttt{readLocalReportFile(path: Str)}: 
 \begin{itemize}
-    \noindent \texttt{readLocalReportFile(path: Str)}: 
         \item \textbf{transition:} None (no internal state change.)
         \item \textbf{input:} Path representing location of snippets on user computer.
         \item \textbf{output:} \textit{list [String]} object holding all info from each file.
         \item \textbf{exception:} \texttt{FileError} if file I/O fails or \textit{filePath} is invalid.
-    
-    \noindent \texttt{parseReportContent(rawContent: list[Str])}: Transforms raw file content into a \texttt{JSON}.
+\end{itemize}
+
+\noindent \texttt{parseReportContent(rawContent: list[Str])}: Transforms raw file content into a \texttt{JSON}.
+\begin{itemize}
         \item \textbf{transition:} None (no internal state change).
         \item \textbf{input:}  \textit{list [String]} object holding all info from each
         file.
         \item \textbf{output:} JSON representing code snippet contents.
         \item \textbf{exception:} None
-    \end{itemize}
+\end{itemize}
 
 \section{MIS of Threshold Adjustment Module} \label{mThreshold} %MODULE START ####
 
@@ -501,20 +506,9 @@ The following table is taken directly from the Module Guide document for this pr
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\texttt{getThreshold} 
-  & - 
-  & \texttt{value: $\mathbb{R}$} 
-  & \texttt{ThresholdError} \\
-
-\texttt{setThreshold} 
-  & \textit{newVal: $\mathbb{R}$}
-  & \texttt{success: bool}
-  & \texttt{ThresholdError} \\
-
-\texttt{validateThreshold} 
-  & \textit{value: $\mathbb{R}$}
-  & \texttt{success: bool} 
-  & \texttt{ThresholdError} \\
+\texttt{getThreshold} & - & \texttt{value: $\mathbb{R}$} & \texttt{ThresholdError} \\
+\texttt{setThreshold} & \textit{newVal: $\mathbb{R}$} & \texttt{success: bool} & \texttt{ThresholdError} \\
+\texttt{validateThreshold} & \textit{value: $\mathbb{R}$} & \texttt{success: bool} & \texttt{ThresholdError} \\
 \hline
 \end{tabular}
 \end{center}
@@ -531,8 +525,7 @@ The following table is taken directly from the Module Guide document for this pr
 \subsubsection{Environment Variables}
 
 \begin{itemize}
-    \item \texttt{THRESHOLD\_CONFIG\_ENDPOINT} : \texttt{Str} \\
-    The network endpoint or file resource where the threshold configuration is stored/persisted.
+    \item \texttt{THRESHOLD\_CONFIG\_ENDPOINT} : \texttt{Str} The network endpoint or file resource where the threshold configuration is stored/persisted.
 \end{itemize}
 
 \subsubsection{Assumptions}
@@ -576,7 +569,7 @@ The following table is taken directly from the Module Guide document for this pr
 \subsubsection{Local Functions}
 
 \begin{itemize}
-None
+    \item None
 \end{itemize}
 
 
@@ -608,7 +601,7 @@ None
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 \texttt{getFlaggedStatus} & submissionID: Str & status: bool & - \\
-\texttt{setFlaggedStatus} & submissionID: Str ,flag: bool & - & - \\
+\texttt{setFlaggedStatus} & submissionID: Str, flag: bool & - & - \\
 \texttt{getAllFlagged} & - & flagged: list[Str] & - \\
 \hline
 \end{tabular}
@@ -619,8 +612,7 @@ None
 \subsubsection{State Variables}
 
 \begin{itemize}
-    \item \texttt{flaggedSubmissions}: dict[Str, bool] \\
-    A dictionary of flagged submissions.
+    \item \texttt{flaggedSubmissions}: dict[Str, bool] A dictionary of flagged submissions.
 \end{itemize}
 
 \subsubsection{Environment Variables}
@@ -670,7 +662,7 @@ None
 
 \subsubsection{Local Functions}
 \begin{itemize}
-    None
+    \item None
 \end{itemize}
 % END OF FLAGGING
 
@@ -1170,7 +1162,7 @@ No local functions are required for this module.
 \end{itemize}
 
 \subsubsection{Local Functions}
- \noindent \texttt{assembleVisuals}(data: JSON):
+\noindent \texttt{assembleVisuals}(data: JSON):
 \begin{itemize}
     \item \textbf{transition:} None (no internal state change.)
     \item \textbf{input:} Data containing code snippets inputted from the user in the front end.
