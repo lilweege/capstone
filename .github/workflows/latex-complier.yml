@@ -2,7 +2,7 @@ name: Compile LaTeX Documentation
 
 on:
   push:
-    branches: [main]
+    branches: fix/latex
     paths:
       - "docs/**/*.tex"
   workflow_dispatch:
