@@ -3,13 +3,34 @@ import Features from "@/components/Features";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Index = () => {
-  const { loginWithRedirect } = useAuth0();
-
+  const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
+  const navigate = useNavigate();
+  console.log(isAuthenticated, isLoading, user);
   const handleSignUp = () => {
     loginWithRedirect();
   };
+
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, navigate, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (isAuthenticated && !isLoading) {
+    navigate("/home");
+  }
 
   return (
     <div className="min-h-screen">
