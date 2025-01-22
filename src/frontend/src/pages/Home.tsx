@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Upload } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,9 +30,11 @@ const Home = () => {
     }
     console.log("Viewing results...");
     navigate("/results");
-  }
+  };
 
-  const handleResultsFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleResultsFileUpload = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       setResultsFile(file);
@@ -57,7 +58,10 @@ const Home = () => {
                 <div className="border-2 border-dashed border-input rounded-lg p-6 text-center">
                   <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
                   <Label htmlFor="file-upload" className="cursor-pointer">
-                    <span className="text-muted-foreground"> Upload a file or drag and drop</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      Upload a file or drag and drop
+                    </span>
                     <Input
                       id="file-upload"
                       type="file"
@@ -94,14 +98,18 @@ const Home = () => {
             <div className="bg-card rounded-lg p-6 shadow-sm">
               <h2 className="text-2xl font-semibold mb-4">View Results</h2>
               <p className="text-muted-foreground mb-6">
-                Check the analysis results of your previous submissions by uploading the results zip file emailed to you.
+                Check the analysis results of your previous submissions by
+                uploading the results zip file emailed to you.
               </p>
 
               <div className="space-y-4">
                 <div className="border-2 border-dashed border-input rounded-lg p-6 text-center">
                   <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
                   <Label htmlFor="file-upload" className="cursor-pointer">
-                    <span className="text-muted-foreground"> Upload a file or drag and drop</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      Upload a file or drag and drop
+                    </span>
                     <Input
                       id="file-upload"
                       type="file"
