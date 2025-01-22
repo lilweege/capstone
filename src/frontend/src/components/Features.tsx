@@ -3,15 +3,18 @@ import { Check } from "lucide-react";
 const features = [
   {
     title: "Comprehensive Detection",
-    description: "Advanced algorithms detect similarities across multiple languages and document formats",
+    description:
+      "Advanced algorithms detect similarities across multiple languages and document formats",
   },
   {
     title: "Batch Processing",
-    description: "Analyze multiple submissions simultaneously for efficient grading and evaluation",
+    description:
+      "Analyze multiple submissions simultaneously for efficient grading and evaluation",
   },
   {
     title: "Detailed Reports",
-    description: "Get comprehensive originality reports with source citations and similarity percentages",
+    description:
+      "Get comprehensive originality reports with source citations and similarity percentages",
   },
 ];
 
