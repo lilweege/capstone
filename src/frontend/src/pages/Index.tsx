@@ -2,12 +2,19 @@ import Navbar from "@/components/Navbar";
 import Features from "@/components/Features";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Index = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  const handleSignUp = () => {
+    loginWithRedirect();
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-24 pb-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
@@ -16,10 +23,16 @@ const Index = () => {
               Verify Academic and Contest Submissions
             </h1>
             <p className="text-xl text-gray-600 mb-10">
-              Empower educators and contest administrators with advanced AI-powered plagiarism detection. Ensure the integrity of student work and competition submissions.
+              Empower educators and contest administrators with advanced
+              AI-powered plagiarism detection. Ensure the integrity of student
+              work and competition submissions.
             </p>
             <div className="flex gap-4 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
+              <Button
+                size="lg"
+                className="bg-primary hover:bg-primary/90"
+                onClick={() => handleSignUp()}
+              >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -36,14 +49,15 @@ const Index = () => {
       {/* How It Works Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            How It Works
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
           <div className="max-w-3xl mx-auto">
             <div className="space-y-8">
               {[
                 { step: "1", text: "Upload student or contestant submissions" },
-                { step: "2", text: "Our AI analyzes content against extensive databases" },
+                {
+                  step: "2",
+                  text: "Our AI analyzes content against extensive databases",
+                },
                 { step: "3", text: "Review detailed originality reports" },
               ].map((item) => (
                 <div key={item.step} className="flex items-center gap-4">
