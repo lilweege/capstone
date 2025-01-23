@@ -4,16 +4,23 @@ import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import Navbar from "@/components/Navbar";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [resultsFile, setResultsFile] = useState(null);
+  const [resultsFile, setResultsFile] = useState<File | null>(null);
+  const { isAuthenticated } = useAuth0();
+
+  if (!isAuthenticated) {
+    navigate("/");
+  }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       // Handle file upload logic here
-      console.log("File uploaded:", file);
+      console.log("Analysis dataset uploaded:", file);
     }
   };
 
@@ -21,15 +28,6 @@ const Home = () => {
     // Navigate to the Loading Page
     console.log("Analyzing dataset...");
     navigate("/loading");
-  };
-
-  const handleResultsClick = () => {
-    if (!resultsFile) {
-      window.alert("Please upload a results file first.");
-      return;
-    }
-    console.log("Viewing results...");
-    navigate("/results");
   };
 
   const handleResultsFileUpload = (
@@ -42,11 +40,21 @@ const Home = () => {
     }
   };
 
+  const handleResultsClick = () => {
+    if (!resultsFile) {
+      window.alert("Please upload a results file first.");
+      return;
+    }
+    console.log("Viewing results...");
+    navigate("/results");
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6">
+    <div className="bg-background min-h-screen">
+      <Navbar />
+
+      <div className="pt-16 container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Section - Upload Area */}
           <div className="flex-1 space-y-6">
             <div className="bg-card rounded-lg p-6 shadow-sm">
               <h2 className="text-2xl font-semibold mb-4">Analyze a dataset</h2>
@@ -57,19 +65,18 @@ const Home = () => {
               <div className="space-y-4">
                 <div className="border-2 border-dashed border-input rounded-lg p-6 text-center">
                   <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                  <Label htmlFor="file-upload" className="cursor-pointer">
+                  <Label htmlFor="analysis-upload" className="cursor-pointer">
                     <span className="text-muted-foreground">
-                      {" "}
                       Upload a file or drag and drop
                     </span>
-                    <Input
-                      id="file-upload"
-                      type="file"
-                      accept=".zip"
-                      className=""
-                      onChange={handleResultsFileUpload}
-                    />
                   </Label>
+                  <Input
+                    id="analysis-upload"
+                    type="file"
+                    accept=".zip"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
                   <p className="text-sm text-muted-foreground mt-2">
                     ZIP files only, up to 50MB
                   </p>
@@ -93,31 +100,29 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right Section - Results */}
           <div className="flex-1 space-y-6">
             <div className="bg-card rounded-lg p-6 shadow-sm">
               <h2 className="text-2xl font-semibold mb-4">View Results</h2>
               <p className="text-muted-foreground mb-6">
                 Check the analysis results of your previous submissions by
-                uploading the results zip file emailed to you.
+                uploading the results ZIP file emailed to you.
               </p>
 
               <div className="space-y-4">
                 <div className="border-2 border-dashed border-input rounded-lg p-6 text-center">
                   <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                  <Label htmlFor="file-upload" className="cursor-pointer">
+                  <Label htmlFor="results-upload" className="cursor-pointer">
                     <span className="text-muted-foreground">
-                      {" "}
                       Upload a file or drag and drop
                     </span>
-                    <Input
-                      id="file-upload"
-                      type="file"
-                      accept=".zip"
-                      className=""
-                      onChange={handleResultsFileUpload}
-                    />
                   </Label>
+                  <Input
+                    id="results-upload"
+                    type="file"
+                    accept=".zip"
+                    className="hidden"
+                    onChange={handleResultsFileUpload}
+                  />
                   <p className="text-sm text-muted-foreground mt-2">
                     ZIP files only, up to 50MB
                   </p>
