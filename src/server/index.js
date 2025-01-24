@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 // import { auth } from 'express-oauth2-jwt-bearer';
-import testRouter from './routes/testRoutes.js';
+import router from './routes/testRoutes.js';
 import { loggerMiddleware } from './middleware/loggerMiddleware.js';
 
 const app = express();
@@ -34,7 +34,7 @@ app.use(jwtErrorHandler);
 */
 app.use(loggerMiddleware);
 app.use(express.json());
-app.use('/test', testRouter);
+app.use('/test', router);
 
 app.listen(8080, () => {
     console.log('Server listening on port 8080');
