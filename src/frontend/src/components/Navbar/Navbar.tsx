@@ -1,19 +1,24 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/button";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./Navbar.css"; // CSS file for additional styling
 
 const Navbar = () => {
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+
   return (
-    <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+    <nav className="navbar">
+      <div className="navbar-container">
+        {/* Logo aligned to the left */}
         <Link to="/" className="text-2xl font-bold text-primary">
           SyntaxSentinals
         </Link>
-        <div className="flex gap-4 items-center">
+
+        {/* Buttons aligned to the right */}
+        <div className="navbar-actions">
           {!isAuthenticated && (
             <Button
-              className="bg-primary hover:bg-primary/90"
+              className="navbar-button"
               onClick={() => loginWithRedirect()}
             >
               Log In
@@ -21,7 +26,7 @@ const Navbar = () => {
           )}
           {isAuthenticated && (
             <Button
-              className="bg-primary hover:bg-primary/90"
+              className="navbar-button bg-primary hover:bg-primary/90"
               onClick={() => logout()}
             >
               Log Out

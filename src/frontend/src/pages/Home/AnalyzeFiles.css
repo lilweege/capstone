@@ -1,0 +1,79 @@
+.analyze-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  background-color: #f9f9f9; /* Light neutral background */
+  padding: 3rem;
+}
+
+.analyze-row {
+  width: 100%;
+}
+
+.analyze-card {
+  background: #fff; /* White card */
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  max-width: 800px;
+  width: 100%; /* Full width up to max */
+  transition: transform 0.3s ease;
+}
+
+.analyze-card:hover {
+  transform: translateY(-5px); /* Subtle hover effect */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.analyze-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.analyze-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 16px;
+}
+
+.analyze-upload {
+  margin-bottom: 2rem;
+}
+
+.upload-icon {
+  font-size: 36px;
+  color: #1890ff;
+  margin-bottom: 0.5rem;
+}
+
+.upload-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.upload-hint {
+  font-size: 14px;
+  color: #888;
+}
+
+.analyze-form {
+  margin-top: 2rem;
+}
+
+.analyze-button {
+  margin-top: 1rem;
+  background-color: #1890ff;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  height: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.analyze-button:hover {
+  background-color: #40a9ff; /* Lighter blue on hover */
+}

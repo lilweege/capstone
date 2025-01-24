@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/button";
 import {
   Form,
   FormControl,
@@ -9,11 +9,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/components/ui/use-toast";
+} from "@/components/common/form";
+import { Input } from "@/components/common/input";
+import { Slider } from "@/components/common/slider";
+import { Switch } from "@/components/common/switch";
+import { useToast } from "@/components/common/use-toast";
 
 const formSchema = z.object({
   similarityThreshold: z.number().min(0).max(100),
@@ -78,8 +78,8 @@ const Settings = () => {
                     </div>
                   </FormControl>
                   <FormDescription>
-                    Submissions with similarity above this threshold will be flagged
-                    as potential plagiarism
+                    Submissions with similarity above this threshold will be
+                    flagged as potential plagiarism
                   </FormDescription>
                 </FormItem>
               )}
@@ -99,7 +99,7 @@ const Settings = () => {
                     />
                   </FormControl>
                   <FormDescription>
-                    Minimum number of lines required for comparison
+                    Minimum number of lines reqcommonred for comparison
                   </FormDescription>
                 </FormItem>
               )}
@@ -115,7 +115,8 @@ const Settings = () => {
                       Automatic Detection
                     </FormLabel>
                     <FormDescription>
-                      Automatically scan new submissions for potential plagiarism
+                      Automatically scan new submissions for potential
+                      plagiarism
                     </FormDescription>
                   </div>
                   <FormControl>
