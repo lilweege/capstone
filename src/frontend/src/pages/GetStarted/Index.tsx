@@ -23,7 +23,7 @@ const Index = () => {
       const timeout = setTimeout(() => {
         setShowLoading(false);
         navigate("/home");
-      }, 2000);
+      }, 500);
 
       return () => clearTimeout(timeout);
     }
