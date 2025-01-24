@@ -19,13 +19,8 @@
 .navbar-logo {
   font-size: 24px;
   font-weight: bold;
-  color: var(--primary-color, #1890ff);
   text-decoration: none;
   transition: color 0.3s ease;
-}
-
-.navbar-logo:hover {
-  color: var(--primary-color-hover, #40a9ff);
 }
 
 .navbar-actions {
@@ -34,7 +29,6 @@
 }
 
 .navbar-button {
-  background-color: var(--primary-color, #1890ff);
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;

@@ -10,7 +10,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo aligned to the left */}
-        <Link to="/" className="navbar-logo">
+        <Link to="/" className="text-2xl font-bold text-primary">
           SyntaxSentinals
         </Link>
 
@@ -25,7 +25,10 @@ const Navbar = () => {
             </Button>
           )}
           {isAuthenticated && (
-            <Button className="navbar-button" onClick={() => logout()}>
+            <Button
+              className="navbar-button bg-primary hover:bg-primary/90"
+              onClick={() => logout()}
+            >
               Log Out
             </Button>
           )}
