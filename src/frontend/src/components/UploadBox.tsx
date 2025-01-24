@@ -2,7 +2,7 @@ import { Input, message, List, Button } from 'antd';
 import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 
-const UploadBox = ({ onFileListChange }) => {
+const UploadBox = ({ onFileListChange, mode }) => {
   const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
@@ -56,10 +56,10 @@ const UploadBox = ({ onFileListChange }) => {
     <div style={{ padding: '20px', border: '1px dashed #d9d9d9', borderRadius: '4px', textAlign: 'center' }}>
       <InboxOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
       <p>Click or drag file to this area to upload</p>
-      <p>Support for multiple file uploads. Only accept .zip or .py files.</p>
+      <p>{mode === "analyze" ? "Supports .zip and .py files" : "Supports .zip files"}</p>
       <Input
         type="file"
-        accept=".zip,.py"
+        accept={mode === "analyze" ? ".zip,.py" : ".zip"}
         onChange={handleFileChange}
         multiple
         style={{ display: 'none' }}
