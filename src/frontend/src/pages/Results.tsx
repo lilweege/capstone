@@ -1,7 +1,18 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card } from "@/components/ui/card";
-import { ChartContainer, ChartLegend, ChartTooltip } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/common/table";
+import { Card } from "@/components/common/card";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartTooltip,
+} from "@/components/common/chart";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 // Interfaces for our data structures
 interface SimilarityResult {
@@ -29,9 +40,12 @@ const Results = () => {
 
   // Calculate statistics
   const stats: SimilarityStats = {
-    highestSimilarity: Math.max(...mockResults.map(r => r.similarityPercentage)),
+    highestSimilarity: Math.max(
+      ...mockResults.map((r) => r.similarityPercentage)
+    ),
     averageSimilarity: Math.round(
-      mockResults.reduce((acc, curr) => acc + curr.similarityPercentage, 0) / mockResults.length
+      mockResults.reduce((acc, curr) => acc + curr.similarityPercentage, 0) /
+        mockResults.length
     ),
     medianSimilarity: 79, // In real implementation, calculate this properly
     totalSubmissions: mockResults.length,
@@ -55,30 +69,46 @@ const Results = () => {
     <div className="min-h-screen bg-background p-8">
       <div className="container mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Source Code Plagiarism Detection Report</h1>
-          <p className="text-muted-foreground">Analysis results for submitted code files</p>
+          <h1 className="text-3xl font-bold mb-2">
+            Source Code Plagiarism Detection Report
+          </h1>
+          <p className="text-muted-foreground">
+            Analysis results for submitted code files
+          </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="p-6">
-            <h3 className="text-sm font-medium text-muted-foreground mb-2">Highest Similarity</h3>
-            <p className="text-4xl font-bold text-primary">{stats.highestSimilarity}%</p>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">
+              Highest Similarity
+            </h3>
+            <p className="text-4xl font-bold text-primary">
+              {stats.highestSimilarity}%
+            </p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-sm font-medium text-muted-foreground mb-2">Average Similarity</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">
+              Average Similarity
+            </h3>
             <p className="text-4xl font-bold">{stats.averageSimilarity}%</p>
-            <p className="text-sm text-muted-foreground">Median: {stats.medianSimilarity}%</p>
+            <p className="text-sm text-muted-foreground">
+              Median: {stats.medianSimilarity}%
+            </p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-sm font-medium text-muted-foreground mb-2">Total Submissions</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">
+              Total Submissions
+            </h3>
             <p className="text-4xl font-bold">{stats.totalSubmissions}</p>
           </Card>
         </div>
 
         {/* Similarity Distribution Chart */}
         <Card className="p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Similarity Distribution</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            Similarity Distribution
+          </h2>
           <div className="w-full aspect-[2/1] min-h-[400px]">
             <ChartContainer config={{}}>
               <BarChart
@@ -94,15 +124,9 @@ const Results = () => {
                   interval={0}
                   tick={{ fontSize: 12 }}
                 />
-                <YAxis 
-                  tick={{ fontSize: 12 }}
-                />
+                <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip />
-                <Bar 
-                  dataKey="count" 
-                  fill="#6366F1"
-                  maxBarSize={50}
-                />
+                <Bar dataKey="count" fill="#6366F1" maxBarSize={50} />
               </BarChart>
             </ChartContainer>
           </div>
@@ -113,7 +137,8 @@ const Results = () => {
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Similar Submissions</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              Highlights the most suspicious individual submissions, useful for exams
+              Highlights the most suspicious individual submissions, useful for
+              exams
             </p>
             <Table>
               <TableHeader>
@@ -126,16 +151,18 @@ const Results = () => {
               <TableBody>
                 {mockResults.map((result, index) => (
                   <TableRow key={index}>
-                    <TableCell className="font-medium">{result.file1}</TableCell>
+                    <TableCell className="font-medium">
+                      {result.file1}
+                    </TableCell>
                     <TableCell>{result.file2}</TableCell>
                     <TableCell className="text-right">
-                      <span 
+                      <span
                         className={`inline-flex items-center justify-center px-2 py-1 rounded-full text-xs font-medium ${
-                          result.similarityPercentage > 90 
-                            ? 'bg-red-100 text-red-700' 
-                            : result.similarityPercentage > 70 
-                              ? 'bg-yellow-100 text-yellow-700' 
-                              : 'bg-green-100 text-green-700'
+                          result.similarityPercentage > 90
+                            ? "bg-red-100 text-red-700"
+                            : result.similarityPercentage > 70
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-green-100 text-green-700"
                         }`}
                       >
                         {result.similarityPercentage}%
