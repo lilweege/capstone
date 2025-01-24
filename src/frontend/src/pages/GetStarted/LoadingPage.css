@@ -1,0 +1,32 @@
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #f3f4f6
+  ); /* Light gradient background */
+  text-align: center;
+}
+
+.loading-message {
+  margin-top: 1rem;
+  font-size: 18px;
+  color: #666;
+  font-weight: 500;
+  animation: fade-in 2s ease-in-out infinite;
+}
+
+/* Optional: A simple fade-in animation for the message */
+@keyframes fade-in {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

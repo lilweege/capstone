@@ -1,42 +1,51 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import Features from "@/components/Features";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/button";
 import { ArrowRight } from "lucide-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Spin } from "antd";
+import "./LoadingPage.css"; // Custom CSS for styling the loader
 
 const Index = () => {
-  const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
-  console.log(isAuthenticated, isLoading, user);
+  const [showLoading, setShowLoading] = useState(true);
+
   const handleSignUp = () => {
     loginWithRedirect();
   };
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      navigate("/home");
-    }
-  }, [isAuthenticated, navigate, isLoading]);
+      setShowLoading(true);
+      const timeout = setTimeout(() => {
+        setShowLoading(false);
+        navigate("/home");
+      }, 2000);
 
-  if (isLoading) {
+      return () => clearTimeout(timeout);
+    }
+
+    if (!isAuthenticated && !isLoading) {
+      setShowLoading(false);
+    }
+  }, [isAuthenticated, isLoading, navigate]);
+
+  if (isLoading || showLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+      <div className="loading-container">
+        <Spin size="large" />
+        <p className="loading-message">Preparing your experience...</p>
       </div>
     );
-  }
-
-  if (isAuthenticated && !isLoading) {
-    navigate("/home");
   }
 
   return (
     <div className="min-h-screen">
       <Navbar />
 
-      {/* Hero Section */}
       <section className="pt-24 pb-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
@@ -52,7 +61,7 @@ const Index = () => {
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90"
-                onClick={() => handleSignUp()}
+                onClick={handleSignUp}
               >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -67,7 +76,6 @@ const Index = () => {
 
       <Features />
 
-      {/* How It Works Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
@@ -93,7 +101,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-gray-50 py-12">
         <div className="container mx-auto px-4">
           <div className="text-center text-gray-600">
