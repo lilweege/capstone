@@ -1,8 +1,9 @@
 import { test } from "../controllers/testController.js";
 import express from 'express';
+import multer from 'multer';
 
-const testRouter = express.Router();
+const router = express.Router();
 
-testRouter.get('/', test);
+router.route('/').get(multer().any(), test);
 
-export default testRouter;
+export default router;
