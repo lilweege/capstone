@@ -2,7 +2,7 @@ import { Input, message, List, Button } from 'antd';
 import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 
-const UploadBox = () => {
+const UploadBox = ({ onFileListChange }) => {
   const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
@@ -26,21 +26,30 @@ const UploadBox = () => {
   }, []);
 
   const handleFiles = (files) => {
-    setFileList((prevFileList) => [...prevFileList, ...files]);
-  
+    setFileList((prevFileList) => {
+      const newFileList = [...prevFileList, ...files];
+      if (onFileListChange) {
+        onFileListChange(newFileList);
+      }
+      return newFileList;
+    });
+
     message.success(`${files.length} file(s) uploaded successfully.`);
   };
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setFileList((prevFileList) => [...prevFileList, ...files]);
-
-    message.success(`${files.length} file(s) uploaded successfully.`);
+    handleFiles(files);
   };
 
   const handleRemoveFile = (fileToRemove) => {
-    const newFileList = fileList.filter(file => file !== fileToRemove);
-    setFileList(newFileList);
+    setFileList((prevFileList) => {
+      const newFileList = prevFileList.filter(file => file !== fileToRemove);
+      if (onFileListChange) {
+        onFileListChange(newFileList);
+      }
+      return newFileList;
+    });
   };
 
   return (

@@ -4,6 +4,6 @@ import multer from 'multer';
 
 const router = express.Router();
 
-router.route('/').get(multer().any(), test);
+router.route('/').post(multer().any(), test);
 
 export default router;
