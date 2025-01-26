@@ -1,0 +1,7 @@
+torch
+transformers
+scikit-learn
+numpy
+tqdm
+boto3
+python-dotenv

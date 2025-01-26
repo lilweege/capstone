@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "adm-zip": "^0.5.16",
+    "aws-sdk": "^2.1692.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-oauth2-jwt-bearer": "^1.6.0",
