@@ -139,12 +139,12 @@ percentage of the total commits made by each team member.}
 \toprule
 \textbf{Student} & \textbf{Commits} & \textbf{Percent}\\
 \midrule
-Total & Num & 100\% \\
-Name 1 & Num & \% \\
-Name 2 & Num & \% \\
-Name 3 & Num & \% \\
-Name 4 & Num & \% \\
-Name 5 & Num & \% \\
+Total & 183 & 100\% \\
+Mohammad Mohsin Khan & 31 & 16.9\% \\
+Lucas Chen & 59 & 32.3\% \\
+Dennis Fong & 18 & 10.2\% \\
+Julian Cecchini & 27 & 14.8\% \\
+Luigi Quattrociocchi & 47 & 25.7\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -179,9 +179,18 @@ Name 5 & Num & Num \\
 
 \section{CICD}
 
-\wss{Say how CICD is used in your project}
+In our project, we use CI/CD pipelines to automate various tasks and streamline our workflow. Specifically:
 
-\wss{If your team has additional metrics of productivity, please feel free to
-add them to this report.}
+\begin{itemize}
+    \item \textbf{GitHub Actions for LaTeX Compilation}: We have a GitHub Actions workflow that automatically compiles our LaTeX documents into PDFs whenever changes are pushed, ensuring that our documentation is always up to date.
+    \item \textbf{Frontend Deployment}: We use CI/CD to automatically deploy our frontend application whenever changes are merged into the \texttt{main} branch. This ensures that the latest version is always live without manual intervention.
+    \item \textbf{Branch Deployments}: For feature branches, we have CI/CD workflows that deploy changes to a staging environment, allowing us to test new features before merging them into \texttt{main}.
+\end{itemize}
+
+% \wss{Say how CICD is used in your project}
+
+
+% \wss{If your team has additional metrics of productivity, please feel free to
+% add them to this report.}
 
 \end{document}
