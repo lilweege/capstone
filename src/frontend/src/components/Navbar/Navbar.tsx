@@ -27,7 +27,9 @@ const Navbar = () => {
           {isAuthenticated && (
             <Button
               className="navbar-button bg-primary hover:bg-primary/90"
-              onClick={() => logout()}
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
             >
               Log Out
             </Button>
