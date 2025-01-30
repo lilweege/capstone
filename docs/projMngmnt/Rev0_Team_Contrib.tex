@@ -24,114 +24,136 @@ Demo.  The time period of interest is the time between the POC demo and the Rev
 
 \section{Demo Plans}
 
-\wss{What will you be demonstrating}
+% \wss{What will you be demonstrating}
+
+As stated in the module guide, we are intending to have all modules complete but
+the Flagging Module, Report Results Module, and Email Sending Module. Those modules
+are to be collectively completed by February 14th, after our Rev 0 Demo on February 3rd. 
+Also, the Results Upload Module hinges on the Email Sending Module (to make results available to 
+submit in the first place), so it's functionality will not be fully realized in this
+demo.
+
+Therefore, the following components will be done in their stated order as part of the Rev 0 Demo:
+
+\begin{description}
+    \item[1 User Authentication:] The team will navigate the UI to a screen where they can 
+    register an account and login using it. This account will be non-trivial and this will 
+    be demonstrated by attempting to login with erroneous credentials after registering and 
+    logging in with the first account.
+
+    \item[2 Code Upload:] The team will navigate the UI to a screen where snippets of code 
+    can be uploaded. It will be demonstrated that the UI can take in code snippets in ZIP file 
+    format. These code snippets will be utilized for analysis in a later part of the demonstration.
+
+    \item[3 Results Upload:] The team will show a spot where report files arising from the email 
+    module will be processed. It will be shown to have the ability to visualize basic result 
+    information from a text file by transferring the text onto the screen with a corresponding graph, 
+    demonstrating a fraction of its future functionality.
+
+    \item[4 Threshold Adjustment:] The team will navigate the UI to a screen where thresholds passed
+    for analysis can be adjusted by the user. It will be demonstrated that through user input 
+    of keyboard entries or mouse clicks, the threshold to be passed to the backend will change.
+
+    \item[5 Analysis with Basic Visualization:] This will be the final part of the demonstration where 
+    the team will navigate the UI to the current spot for initiating plagiarism analysis. It will be 
+    demonstrated that the user can initiate the analysis through mouse clicks, provided that code has 
+    been uploaded as it was earlier on in the demonstration. Seeing that the dedicated code visualization 
+    module is not scheduled for completion by the Rev 0 Demo date, the expected output will be the UI providing 
+    a block of text and possibly a basic graph visual indicating what relations the plagiarism detection model
+    backend found between code snippet input pairs. The text should contain results pertaining to the n choose 2 
+    pairings of code snippets as stated in the requirements. It will also be made evident that the generated output 
+    utilized code snippets uploaded within the demonstration as well as the current threshold score selected by the user. 
+    After verification of each of these aspects, the demonstration will conclude.
+
+\end{description}
+
+This leaves our demonstration closer to a minimum viable product (MVP) but not completely thanks to
+the threshold adjustment present and some more refined model processing in the back end. Further adjustments 
+and refinements will be made going forward to arrive at a finalized product before Rev 1 (closer to mid February).
+
 
 \section{Team Meeting Attendance}
 
-\wss{For each team member how many team meetings have they attended over the
-time period of interest.  This number should be determined from the meeting
-issues in the team's repo.  The first entry in the table should be the total
-number of team meetings held by the team.}
-
 \begin{table}[H]
 \centering
 \begin{tabular}{ll}
 \toprule
 \textbf{Student} & \textbf{Meetings}\\
 \midrule
-Total & Num\\
-Name 1 & Num\\
-Name 2 & Num\\
-Name 3 & Num\\
-Name 4 & Num\\
-Name 5 & Num\\
+Total & 1\\
+Mohammad Mohsin Khan & 1\\
+Luigi Quattrociocchi & 1\\
+Julian Cecchini & 1\\
+Dennis Fong & 1\\
+Lucas Chen & 1\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
+Overall, the team has had 1 meeting since the POC demo to discuss the project. This number may seem low, but the team has been in constant communication through other means such as Discord and GitHub.
 
 \section{Supervisor/Stakeholder Meeting Attendance}
 
-\wss{For each team member how many supervisor/stakeholder team meetings have
-they attended over the time period of interest.  This number should be determined
-from the supervisor meeting issues in the team's repo.  The first entry in the
-table should be the total number of supervisor and team meetings held by the
-team.  If there is no supervisor, there will usually be meetings with
-stakeholders (potential users) that can serve a similar purpose.}
-
 \begin{table}[H]
 \centering
 \begin{tabular}{ll}
 \toprule
 \textbf{Student} & \textbf{Meetings}\\
 \midrule
-Total & Num\\
-Name 1 & Num\\
-Name 2 & Num\\
-Name 3 & Num\\
-Name 4 & Num\\
-Name 5 & Num\\
+Total & 0\\
+Mohammad Mohsin Khan & 0\\
+Lucas Chen & 0\\
+Dennis Fong & 0\\
+Julian Cecchini & 0\\
+Luigi Quattrociocchi & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
+We haven't been able to meet with our supervisor since our POC demo since he is on a sabatical for the winter term but he was satisfied with the team's progress during the POC demo.
 
 \section{Lecture Attendance}
 
-\wss{For each team member how many lectures have they attended over the time
-period of interest.  This number should be determined from the lecture issues in
-the team's repo.  The first entry in the table should be the total number of
-lectures since the beginning of the term.}
-
 \begin{table}[H]
 \centering
 \begin{tabular}{ll}
 \toprule
 \textbf{Student} & \textbf{Lectures}\\
 \midrule
-Total & Num\\
-Name 1 & Num\\
-Name 2 & Num\\
-Name 3 & Num\\
-Name 4 & Num\\
-Name 5 & Num\\
+Total & 2\\
+Dennis Fong & 1\\
+Lucas Chen & 1\\
+Luigi Quattrociocchi & 2\\
+Mohammed Mohsin Khan & 2\\
+Julian Cecchini & 1\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\wss{If needed, an explanation for the lecture attendance can be provided here.}
 
 \section{TA Document Discussion Attendance}
 
-\wss{For each team member how many of the informal document discussion meetings
-with the TA were attended over the time period of interest.}
-
 \begin{table}[H]
 \centering
 \begin{tabular}{ll}
 \toprule
 \textbf{Student} & \textbf{Lectures}\\
 \midrule
-Total & Num\\
-Name 1 & Num\\
-Name 2 & Num\\
-Name 3 & Num\\
-Name 4 & Num\\
-Name 5 & Num\\
+Total & 1\\
+Mohammad Mohsin Khan & 1\\
+Lucas Chen & 1\\
+Dennis Fong & 1\\
+Luigi Quattrociocchi & 1\\
+Julian Cecchini & 1\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the attendance can be provided here.}
-
 \section{Commits}
 
-\wss{For each team member how many commits to the main branch have been made
-over the time period of interest.  The total is the total number of commits for
-the entire team since the beginning of the term.  The percentage is the
-percentage of the total commits made by each team member.}
+% \wss{For each team member how many commits to the main branch have been made
+% over the time period of interest.  The total is the total number of commits for
+% the entire team since the beginning of the term.  The percentage is the
+% percentage of the total commits made by each team member.}
 
 \begin{table}[H]
 \centering
@@ -139,26 +161,26 @@ percentage of the total commits made by each team member.}
 \toprule
 \textbf{Student} & \textbf{Commits} & \textbf{Percent}\\
 \midrule
-Total & Num & 100\% \\
-Name 1 & Num & \% \\
-Name 2 & Num & \% \\
-Name 3 & Num & \% \\
-Name 4 & Num & \% \\
-Name 5 & Num & \% \\
+Total & 183 & 100\% \\
+Mohammad Mohsin Khan & 31 & 16.9\% \\
+Lucas Chen & 59 & 32.3\% \\
+Dennis Fong & 18 & 10.2\% \\
+Julian Cecchini & 27 & 14.8\% \\
+Luigi Quattrociocchi & 47 & 25.7\% \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.  For
-instance, if a team member has more commits to unmerged branches, these numbers
-can be provided here.  If multiple people contribute to a commit, git allows for
-multi-author commits.}
+% \wss{If needed, an explanation for the counts can be provided here.  For
+% instance, if a team member has more commits to unmerged branches, these numbers
+% can be provided here.  If multiple people contribute to a commit, git allows for
+% multi-author commits.}
 
 \section{Issue Tracker}
 
-\wss{For each team member how many issues have they authored (including open and
-closed issues (O+C)) and how many have they been assigned (only counting closed
-issues (C only)) over the time period of interest.}
+% \wss{For each team member how many issues have they authored (including open and
+% closed issues (O+C)) and how many have they been assigned (only counting closed
+% issues (C only)) over the time period of interest.}
 
 \begin{table}[H]
 \centering
@@ -166,22 +188,31 @@ issues (C only)) over the time period of interest.}
 \toprule
 \textbf{Student} & \textbf{Authored (O+C)} & \textbf{Assigned (C only)}\\
 \midrule
-Name 1 & Num & Num \\
-Name 2 & Num & Num \\
-Name 3 & Num & Num \\
-Name 4 & Num & Num \\
-Name 5 & Num & Num \\
+Dennis Fong & 0 & 5 \\
+Mohammad Mohsin Khan & 3 & 15 \\
+Luigi Quattrociocchi & 1 & 7 \\
+Lucas Chen & 9 & 14 \\
+Julian Cecchini & 0 & 11 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
+% \wss{If needed, an explanation for the counts can be provided here.}
 
 \section{CICD}
 
-\wss{Say how CICD is used in your project}
+In our project, we use CI/CD pipelines to automate various tasks and streamline our workflow. Specifically:
 
-\wss{If your team has additional metrics of productivity, please feel free to
-add them to this report.}
+\begin{itemize}
+    \item \textbf{GitHub Actions for LaTeX Compilation}: We have a GitHub Actions workflow that automatically compiles our LaTeX documents into PDFs whenever changes are pushed, ensuring that our documentation is always up to date.
+    \item \textbf{Frontend Deployment}: We use CI/CD to automatically deploy our frontend application whenever changes are merged into the \texttt{main} branch. This ensures that the latest version is always live without manual intervention.
+    \item \textbf{Branch Deployments}: For feature branches, we have CI/CD workflows that deploy changes to a staging environment, allowing us to test new features before merging them into \texttt{main}.
+\end{itemize}
+
+% \wss{Say how CICD is used in your project}
+
+
+% \wss{If your team has additional metrics of productivity, please feel free to
+% add them to this report.}
 
 \end{document}
