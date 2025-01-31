@@ -26,11 +26,15 @@ const AnalyzeFiles: React.FC = () => {
     });
 
     try {
-      const response = await axios.post("http://localhost:8080/test", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/test",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       navigate("/home");
     } catch (error) {
       console.error("Error uploading files:", error);
