@@ -43,15 +43,25 @@ const UploadBox = ({ onFileListChange, mode }) => {
       return;
     }
 
-    // Only allow one ZIP file at a time
-    const newFileList = validFiles.slice(0, 1);
-    setFileList(newFileList);
+    // Only allow one ZIP file at a time if not in analyze mode
+    if (mode === "analyze") {
+      setFileList((prevFileList) => {
+        const newFileList = [...prevFileList, ...files];
+        if (onFileListChange) {
+          onFileListChange(newFileList);
+        }
+        return newFileList;
+      });
+    } else {
+      const newFileList = validFiles.slice(0, 1);
+      setFileList(newFileList);
 
-    if (onFileListChange) {
-      onFileListChange(newFileList[0]); // Ensure only one file is passed
+      if (onFileListChange) {
+        onFileListChange(newFileList[0]); // Ensure only one file is passed
+      }
+
+      message.success(`File uploaded successfully: ${newFileList[0].name}`);
     }
-
-    message.success(`File uploaded successfully: ${newFileList[0].name}`);
   };
 
   const handleFileChange = (e) => {
@@ -59,11 +69,14 @@ const UploadBox = ({ onFileListChange, mode }) => {
     handleFiles(files);
   };
 
-  const handleRemoveFile = () => {
-    setFileList([]);
-    if (onFileListChange) {
-      onFileListChange(null);
-    }
+  const handleRemoveFile = (fileToRemove) => {
+    setFileList((prevFileList) => {
+      const newFileList = prevFileList.filter((file) => file !== fileToRemove);
+      if (onFileListChange) {
+        onFileListChange(newFileList);
+      }
+      return newFileList;
+    });
   };
 
   return (
@@ -105,7 +118,7 @@ const UploadBox = ({ onFileListChange, mode }) => {
               <Button
                 type="text"
                 icon={<CloseOutlined />}
-                onClick={handleRemoveFile}
+                onClick={() => handleRemoveFile(item)}
               />,
             ]}
           >
