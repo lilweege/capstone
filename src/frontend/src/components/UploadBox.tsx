@@ -1,6 +1,6 @@
-import { Input, message, List, Button } from 'antd';
-import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
+import { Input, message, List, Button } from "antd";
+import { InboxOutlined, CloseOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
 
 const UploadBox = ({ onFileListChange, mode }) => {
   const [fileList, setFileList] = useState([]);
@@ -16,25 +16,52 @@ const UploadBox = ({ onFileListChange, mode }) => {
       e.preventDefault();
     };
 
-    window.addEventListener('drop', handleWindowDrop);
-    window.addEventListener('dragover', handleWindowDragOver);
+    window.addEventListener("drop", handleWindowDrop);
+    window.addEventListener("dragover", handleWindowDragOver);
 
     return () => {
-      window.removeEventListener('drop', handleWindowDrop);
-      window.removeEventListener('dragover', handleWindowDragOver);
+      window.removeEventListener("drop", handleWindowDrop);
+      window.removeEventListener("dragover", handleWindowDragOver);
     };
   }, []);
 
   const handleFiles = (files) => {
-    setFileList((prevFileList) => {
-      const newFileList = [...prevFileList, ...files];
-      if (onFileListChange) {
-        onFileListChange(newFileList);
-      }
-      return newFileList;
-    });
+    if (files.length === 0) return;
 
-    message.success(`${files.length} file(s) uploaded successfully.`);
+    const validFiles = files.filter((file) =>
+      mode === "analyze"
+        ? file.name.endsWith(".zip") || file.name.endsWith(".py")
+        : file.name.endsWith(".zip")
+    );
+
+    if (validFiles.length === 0) {
+      message.error(
+        `Invalid file type. Only ${
+          mode === "analyze" ? ".zip and .py" : ".zip"
+        } files are allowed.`
+      );
+      return;
+    }
+
+    // Only allow one ZIP file at a time if not in analyze mode
+    if (mode === "analyze") {
+      setFileList((prevFileList) => {
+        const newFileList = [...prevFileList, ...files];
+        if (onFileListChange) {
+          onFileListChange(newFileList);
+        }
+        return newFileList;
+      });
+    } else {
+      const newFileList = validFiles.slice(0, 1);
+      setFileList(newFileList);
+
+      if (onFileListChange) {
+        onFileListChange(newFileList[0]); // Ensure only one file is passed
+      }
+
+      message.success(`File uploaded successfully: ${newFileList[0].name}`);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -44,7 +71,7 @@ const UploadBox = ({ onFileListChange, mode }) => {
 
   const handleRemoveFile = (fileToRemove) => {
     setFileList((prevFileList) => {
-      const newFileList = prevFileList.filter(file => file !== fileToRemove);
+      const newFileList = prevFileList.filter((file) => file !== fileToRemove);
       if (onFileListChange) {
         onFileListChange(newFileList);
       }
@@ -53,33 +80,46 @@ const UploadBox = ({ onFileListChange, mode }) => {
   };
 
   return (
-    <div style={{ padding: '20px', border: '1px dashed #d9d9d9', borderRadius: '4px', textAlign: 'center' }}>
-      <InboxOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
+    <div
+      style={{
+        padding: "20px",
+        border: "1px dashed #d9d9d9",
+        borderRadius: "4px",
+        textAlign: "center",
+      }}
+    >
+      <InboxOutlined style={{ fontSize: "32px", color: "#1890ff" }} />
       <p>Click or drag file to this area to upload</p>
-      <p>{mode === "analyze" ? "Supports .zip and .py files" : "Supports .zip files"}</p>
+      <p>
+        {mode === "analyze"
+          ? "Supports .zip and .py files"
+          : "Supports .zip files"}
+      </p>
       <Input
         type="file"
         accept={mode === "analyze" ? ".zip,.py" : ".zip"}
         onChange={handleFileChange}
-        multiple
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         id="file-upload"
       />
-      <label htmlFor="file-upload" style={{ cursor: 'pointer', color: '#1890ff' }}>
+      <label
+        htmlFor="file-upload"
+        style={{ cursor: "pointer", color: "#1890ff" }}
+      >
         Browse Files
       </label>
       <List
-        style={{ marginTop: '20px', maxHeight: '200px', overflowY: 'auto' }}
+        style={{ marginTop: "20px", maxHeight: "200px", overflowY: "auto" }}
         bordered
         dataSource={fileList}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item
             actions={[
               <Button
                 type="text"
                 icon={<CloseOutlined />}
                 onClick={() => handleRemoveFile(item)}
-              />
+              />,
             ]}
           >
             {item.name}
