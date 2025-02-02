@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
 import nodemailer from 'nodemailer';
 import archiver from 'archiver';
+import { arch } from 'os';
 
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -12,8 +13,6 @@ const __dirname = path.dirname(__filename);
 const transporter = nodemailer.createTransport({
   service: 'gmail', // You can use other services like Outlook, SMTP, etc.
   auth: {
-    user: 'syntaxsentinals@gmail.com',
-    pass: 'Mohsin123'
   }
 });
 
@@ -44,10 +43,15 @@ export const test = (req, res) => {
     console.log(`Python script exited with code ${code}`);
 
     // Create a zip file of the similarity results
-    const output = fs.createWriteStream(path.join(__dirname, '..', 'similarity_results.zip'));
+    const output = fs.createWriteStream(path.join(__dirname, '../..', 'similarity_results.zip'));
     const archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level
     });
+
+    archive.pipe(output);
+    archive.append(fs.createReadStream(path.join(__dirname, '../..', 'similarity_results.json')), { name: 'similarity_results.json' });
+
+    /*
 
     output.on('close', async () => {
       console.log(`Zip file created with ${archive.pointer()} total bytes`);
@@ -73,12 +77,14 @@ export const test = (req, res) => {
           attachments: [
             {
               filename: 'similarity_results.zip',
-              path: path.join(__dirname, '..', 'similarity_results.zip')
+              path: path.join(__dirname, '../..', 'similarity_results.zip')
             }
           ]
         });
 
         res.json({ message: 'Email sent!', info });
+
+        archive.finalize();
       } catch (error) {
         console.error('Error sending email:', error);
         res.status(500).json({ error: error.message });
@@ -89,11 +95,44 @@ export const test = (req, res) => {
       throw err;
     });
 
-    archive.pipe(output);
-
-    // Append files to the archive
-    archive.file(path.join(__dirname, '..', 'similarity_results.json'), { name: 'similarity_results.json' });
+    */
 
     archive.finalize();
+
+    archive.on('close', async () => {
+      console.log(`Zip file created with ${archive.pointer()} total bytes`);
+
+      // Clean up the files after the Python script completes
+      req.files.forEach(file => {
+        const filePath = path.join(uploadDir, file.originalname);
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error(`Error deleting file ${filePath}:`, err);
+          } else {
+            console.log(`File ${filePath} deleted successfully`);
+          }
+        });
+      });
+
+      try {
+        const info = await transporter.sendMail({
+          from: '"Syntax Sentinals" <syntaxsentinals@gmail.com>',
+          to: "mmohsink606@gmail.com",
+          subject: "Similarity Results",
+          text: "Please find the similarity results attached.",
+          attachments: [
+            {
+              filename: 'similarity_results.zip',
+              path: path.join(__dirname, '../..', 'similarity_results.zip')
+            }
+          ]
+        });
+
+        res.json({ message: 'Email sent!', info });
+      } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: error.message });
+      }
+  });
   });
 };
