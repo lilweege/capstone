@@ -106,10 +106,7 @@ router.post("/", multer().any(), async (req, res, next) => {
     const start = new Date();
     const pythonResponse = await fetch(pythonApiUrl, {
       method: "POST",
-      body: {
-        zipBuffer,
-        analysisName,
-      },
+      body: zipBuffer,
       headers: {
         "Content-Type": "application/zip",
       },
@@ -144,11 +141,28 @@ router.post("/", multer().any(), async (req, res, next) => {
         html: fs.readFileSync(templatePath, "utf8"),
         attachments: [
           {
-            filename: "similarity_results.zip",
+            filename: `${analysisName}.zip`,
             content: zipBufferResult,
             contentType: "application/zip",
           },
         ],
+      });
+
+      const resultsJsonPath = path.join(
+        __dirname,
+        "../..",
+        "similarity_results.json"
+      );
+
+      // delete similarilty_results.json file
+      fs.unlink(resultsJsonPath, (err) => {
+        if (err) {
+          logger.error(
+            `Error deleting file ${resultsJsonPath}: ${err.message}`
+          );
+        } else {
+          logger.info(`File deleted: ${resultsJsonPath}`);
+        }
       });
 
       logger.info(`Email sent successfully to ${userEmail}: ${info.messageId}`);
