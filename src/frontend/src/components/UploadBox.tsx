@@ -101,6 +101,7 @@ const UploadBox = ({ onFileListChange, mode }) => {
         onChange={handleFileChange}
         style={{ display: "none" }}
         id="file-upload"
+        multiple={mode === "analyze"}
       />
       <label
         htmlFor="file-upload"
