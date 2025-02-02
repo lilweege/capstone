@@ -17,6 +17,12 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const templatePath = path.join(
+  __dirname,
+  "..",
+  "templates",
+  "similarityResultsTemplate.html"
+);
 
 const router = express.Router();
 export default router;
@@ -143,13 +149,13 @@ router.post("/", multer().any(), async (req, res, next) => {
             });
           });
 
-          // 7) Send the email
+          // Send the email
           try {
             const info = await transporter.sendMail({
               from: '"Syntax Sentinels" <syntaxsentinals@gmail.com>',
               to: userEmail,
-              subject: "Similarity Results",
-              text: "Please find the similarity results attached.",
+              subject: "SyntaxSentinels: Analysis Report",
+              html: fs.readFileSync(templatePath, "utf8"),
               attachments: [
                 {
                   filename: "similarity_results.zip",
