@@ -261,6 +261,7 @@ def process_code_pairs(file_pairs, pipeline):
     def process_pair(pair):
         (file1, code1), (file2, code2) = pair
         token_sim, ast_sim, embed_sim = pipeline.compute_all(code1, code2)
+        '''
         return {
             "file1": file1,
             "file2": file2,
@@ -268,7 +269,13 @@ def process_code_pairs(file_pairs, pipeline):
             "ast_sim": ast_sim,
             "embed_sim": embed_sim
         }
+        '''
 
+        return {
+            "file1": file1,
+            "file2": file2,
+            "similarity_score": embed_sim
+        }
     with ThreadPoolExecutor() as executor:
         for result in tqdm(executor.map(process_pair, file_pairs), total=len(file_pairs), desc="Processing pairs"):
             results.append(result)
@@ -280,9 +287,11 @@ def process_code_pairs(file_pairs, pipeline):
 #  Main Execution
 # ===========================
 if __name__ == "__main__":
-    extraction_path = "data/Project_CodeNet_Python800"
-    sample_path = "p02618_3_small"
-    sample_files = ["cluster1_A.py", "cluster1_B.py", "cluster2_A.py", "cluster2_B.py", "cluster2_C.py"]
+    extraction_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'server'))
+    sample_path = "files"
+    # get the sample files in the sample
+    sample_files = os.path.join(extraction_path, sample_path)
+    sample_files = os.listdir(sample_files)
 
     file_pairs = []
     for i in range(len(sample_files)):
@@ -297,5 +306,5 @@ if __name__ == "__main__":
     pipeline = CodeSimilarityPipeline(model)
     results = process_code_pairs(file_pairs, pipeline)
 
-    with open("similarity_results.json", "w") as f:
+    with open("../similarity_results.json", "w") as f:
         json.dump(results, f, indent=4)
