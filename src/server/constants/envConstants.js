@@ -14,4 +14,5 @@ export class AuthVariables {
 
 export class SystemVariables {
   static PORT = process.env.PORT;
+  static PYTHON_API_URL = process.env.PYTHON_API_URL;
 }

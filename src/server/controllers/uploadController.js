@@ -8,7 +8,11 @@ import archiver from "archiver";
 import multer from "multer";
 
 // Import your environment, logger, and custom exceptions
-import { EmailVariables, AuthVariables } from "../constants/envConstants.js";
+import {
+  EmailVariables,
+  AuthVariables,
+  SystemVariables,
+} from "../constants/envConstants.js";
 import logger from "../utilities/loggerUtils.js";
 import {
   BadRequestException,
@@ -35,6 +39,20 @@ const transporter = nodemailer.createTransport({
     pass: EmailVariables.EMAIL_PASS,
   },
 });
+
+/**
+ * Helper function that converts a stream into a Buffer.
+ * @param {Stream} stream - The readable stream.
+ * @returns {Promise<Buffer>} - A promise that resolves with the Buffer.
+ */
+function streamToBuffer(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => chunks.push(chunk));
+    stream.on("end", () => resolve(Buffer.concat(chunks)));
+    stream.on("error", (err) => reject(err));
+  });
+}
 
 router.post("/", multer().any(), async (req, res, next) => {
   try {
@@ -72,154 +90,80 @@ router.post("/", multer().any(), async (req, res, next) => {
       throw new BadRequestException("No files uploaded.", "NO_FILES_UPLOADED");
     }
 
+    const archive = archiver("zip", { zlib: { level: 9 } });
     req.files.forEach((file) => {
-      const filePath = path.join(uploadDir, file.originalname);
-      fs.writeFileSync(filePath, file.buffer);
-      logger.info(`File written: ${filePath}`);
+      archive.append(file.buffer, { name: file.originalname });
+    });
+    archive.finalize();
+
+    // Wait until the archive stream is fully converted into a Buffer
+    const zipBuffer = await streamToBuffer(archive);
+
+    // Send the ZIP buffer to the Python API endpoint
+    const pythonApiUrl = SystemVariables.PYTHON_API_URL;
+
+    // log time it took to complete the request
+    const start = new Date();
+    const pythonResponse = await fetch(pythonApiUrl, {
+      method: "POST",
+      body: {
+        zipBuffer,
+        analysisName,
+      },
+      headers: {
+        "Content-Type": "application/zip",
+      },
     });
 
-    const pythonScriptPath = path.join(__dirname, "../..", "test.py");
-    logger.info(`Spawning Python script at ${pythonScriptPath}`);
+    const end = new Date();
+    const duration = end - start;
+    logger.info(`Python API request took ${duration}ms`);
 
-    const pythonProcess = spawn("python", [pythonScriptPath]);
+    if (!pythonResponse.ok) {
+      const errorData = await pythonResponse.json();
+      throw new Error(`Python API error: ${errorData.error}`);
+    }
 
-    pythonProcess.stdout.on("data", (data) => {
-      logger.info(`Python stdout: ${data}`);
+    const resultData = await pythonResponse.json();
+    logger.info("Python API response:", pythonResponse.ok === true);
+
+    const archiveResult = archiver("zip", { zlib: { level: 9 } });
+    archiveResult.append(JSON.stringify(resultData), {
+      name: "similarity_results.json",
     });
+    archiveResult.finalize();
 
-    pythonProcess.stderr.on("data", (data) => {
-      logger.error(`Python stderr: ${data}`);
-    });
+    const zipBufferResult = await streamToBuffer(archiveResult);
 
-    pythonProcess.on("close", async (code) => {
-      logger.info(`Python script exited with code ${code}`);
+    // Send the email
+    try {
+      const info = await transporter.sendMail({
+        from: '"Syntax Sentinels" <syntaxsentinals@gmail.com>',
+        to: userEmail,
+        subject: "SyntaxSentinels: Analysis Report",
+        html: fs.readFileSync(templatePath, "utf8"),
+        attachments: [
+          {
+            filename: "similarity_results.zip",
+            content: zipBufferResult,
+            contentType: "application/zip",
+          },
+        ],
+      });
 
-      if (code !== 0) {
-        return next(
-          new HttpRequestException(
-            500,
-            `Python script failed with exit code ${code}`,
-            "PYTHON_SCRIPT_ERROR"
-          )
-        );
-      }
-
-      try {
-        const zipPath = path.join(__dirname, "../..", `${analysisName}.zip`);
-        const output = fs.createWriteStream(zipPath);
-        const archive = archiver("zip", { zlib: { level: 9 } });
-
-        archive.pipe(output);
-
-        const resultsJsonPath = path.join(
-          __dirname,
-          "../..",
-          "similarity_results.json"
-        );
-        if (fs.existsSync(resultsJsonPath)) {
-          archive.append(fs.createReadStream(resultsJsonPath), {
-            name: "similarity_results.json",
-          });
-        } else {
-          logger.warn("similarity_results.json not found. Skipping in zip.");
-        }
-
-        archive.finalize();
-
-        // If archiver encounters an error, pass it to Express
-        archive.on("error", (err) => {
-          logger.error("Error creating zip archive:", err);
-          return next(
-            new HttpRequestException(500, err.message, "ZIP_CREATION_ERROR")
-          );
-        });
-
-        // Once the zip is finalized, send the email
-        archive.on("close", async () => {
-          logger.info(
-            `Zip file created at ${zipPath} with ${archive.pointer()} bytes.`
-          );
-
-          // Cleanup uploaded files
-          req.files.forEach((file) => {
-            const filePath = path.join(uploadDir, file.originalname);
-            fs.unlink(filePath, (err) => {
-              if (err) {
-                logger.error(`Error deleting file ${filePath}: ${err.message}`);
-              } else {
-                logger.info(`File deleted: ${filePath}`);
-              }
-            });
-          });
-
-          // Send the email
-          try {
-            const info = await transporter.sendMail({
-              from: '"Syntax Sentinels" <syntaxsentinals@gmail.com>',
-              to: userEmail,
-              subject: "SyntaxSentinels: Analysis Report",
-              html: fs.readFileSync(templatePath, "utf8"),
-              attachments: [
-                {
-                  filename: `${analysisName}.zip`,
-                  path: zipPath,
-                },
-              ],
-            });
-
-            logger.info(
-              `Email sent successfully to ${userEmail}: ${info.messageId}`
-            );
-
-            // Delete the zip file and results JSON
-            fs.unlink(zipPath, (err) => {
-              if (err) {
-                logger.error(`Error deleting file ${zipPath}: ${err.message}`);
-              } else {
-                logger.info(`File deleted: ${zipPath}`);
-              }
-            });
-
-            fs.unlink(resultsJsonPath, (err) => {
-              if (err) {
-                logger.error(
-                  `Error deleting file ${resultsJsonPath}: ${err.message}`
-                );
-              } else {
-                logger.info(`File deleted: ${resultsJsonPath}`);
-              }
-            });
-
-            return res.json({
-              message: "Email sent successfully!",
-              info,
-            });
-          } catch (err) {
-            logger.error("Error sending email:", err);
-            return next(
-              new HttpRequestException(500, err.message, "EMAIL_SENDING_ERROR")
-            );
-          }
-        });
-      } catch (err) {
-        logger.error("Error while zipping or emailing:", err);
-        // delete temp files
-        req.files.forEach((file) => {
-          const filePath = path.join(uploadDir, file.originalname);
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              logger.error(`Error deleting file ${filePath}: ${err.message}`);
-            } else {
-              logger.info(`File deleted: ${filePath}`);
-            }
-          });
-        });
-        return next(
-          new HttpRequestException(500, err.message, "POST_PROCESSING_ERROR")
-        );
-      }
-    });
+      logger.info(`Email sent successfully to ${userEmail}: ${info.messageId}`);
+      return res.json({
+        message: "Email sent successfully!",
+        info,
+      });
+    } catch (err) {
+      logger.error("Error sending email:", err);
+      return next(
+        new HttpRequestException(500, err.message, "EMAIL_SENDING_ERROR")
+      );
+    }
   } catch (error) {
+    logger.error("Error processing upload:", error);
     next(error);
   }
 });
