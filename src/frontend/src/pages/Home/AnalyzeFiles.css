@@ -18,6 +18,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
   max-width: 800px;
   width: 100%; /* Full width up to max */
+  transition: transform 0.3s ease;
+}
+
+.analyze-card:hover {
+  transform: translateY(-5px); /* Subtle hover effect */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .analyze-title {
