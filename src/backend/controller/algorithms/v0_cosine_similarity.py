@@ -7,20 +7,19 @@ class cosine_similarity(abstract_similarity_score):
 
     def score(data):
         snippets = data['snippets']
-        threshold = data['threshold']*3 #convert to deviation
+        threshold = data['threshold']*3 #convert to deviation 
 
         combined_predictions = nlp.combinedPredict(snippets)
         embeddings = combined_predictions['embeddings']
         clusters = combined_predictions['clusters']
         n = len(embeddings)
-        print(clusters)
         similarity_matrix = np.zeros((n, n))
 
         for i in range(n):
             for j in range(i+1, n):
                 if clusters[i] == clusters[j]:  
                     similarity = cos_sim([embeddings[i]], [embeddings[j]])[0][0]
-                    similarity_matrix[i][j] = similarity_matrix[j][i] = similarity  # 
+                    similarity_matrix[i][j] = similarity_matrix[j][i] = similarity
 
         flattened_similarities = similarity_matrix[np.triu_indices_from(similarity_matrix, k=1)]  # Get upper triangle values (excluding diagonal b/c they're identical)
         mean = np.mean(flattened_similarities)
