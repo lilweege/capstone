@@ -58,6 +58,9 @@ router.post("/", multer().any(), async (req, res, next) => {
       );
     }
 
+
+    const analysisName = req.body.analysisName;
+
     const uploadDir = path.join(__dirname, "..", "files");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
@@ -102,7 +105,7 @@ router.post("/", multer().any(), async (req, res, next) => {
       }
 
       try {
-        const zipPath = path.join(__dirname, "../..", "similarity_results.zip");
+        const zipPath = path.join(__dirname, "../..", `${analysisName}.zip`);
         const output = fs.createWriteStream(zipPath);
         const archive = archiver("zip", { zlib: { level: 9 } });
 
@@ -158,7 +161,7 @@ router.post("/", multer().any(), async (req, res, next) => {
               html: fs.readFileSync(templatePath, "utf8"),
               attachments: [
                 {
-                  filename: "similarity_results.zip",
+                  filename: `${analysisName}.zip`,
                   path: zipPath,
                 },
               ],
@@ -167,6 +170,26 @@ router.post("/", multer().any(), async (req, res, next) => {
             logger.info(
               `Email sent successfully to ${userEmail}: ${info.messageId}`
             );
+
+            // Delete the zip file and results JSON
+            fs.unlink(zipPath, (err) => {
+              if (err) {
+                logger.error(`Error deleting file ${zipPath}: ${err.message}`);
+              } else {
+                logger.info(`File deleted: ${zipPath}`);
+              }
+            });
+
+            fs.unlink(resultsJsonPath, (err) => {
+              if (err) {
+                logger.error(
+                  `Error deleting file ${resultsJsonPath}: ${err.message}`
+                );
+              } else {
+                logger.info(`File deleted: ${resultsJsonPath}`);
+              }
+            });
+
             return res.json({
               message: "Email sent successfully!",
               info,
