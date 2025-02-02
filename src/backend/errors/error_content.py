@@ -1,6 +1,5 @@
 import json
 from errors.exceptions import BaseAppException
-from constants.env_variables import AppConfig
 
 class ErrorContent:
     """
@@ -10,7 +9,7 @@ class ErrorContent:
 
     def __init__(self, *, status: int, code: str, message: str, details: dict):
         self.type = "Error"
-        self.target = AppConfig.APP_NAME
+        self.target = "SyntaxSentinel"
         self.status = status
         self.code = code
         self.message = message

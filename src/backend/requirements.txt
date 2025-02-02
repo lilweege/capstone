@@ -4,4 +4,4 @@ numpy
 scikit-learn
 tqdm
 Flask
-dotenv
+python-dotenv
