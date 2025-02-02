@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Input, Typography, Form, Row, Col } from "antd";
 import "./AnalyzeFiles.css";
 import UploadBox from "@/components/UploadBox";
-import axios from "axios";
+import { uploadFiles } from "@/services/ssApi";
 
 const { Title, Paragraph } = Typography;
 
@@ -53,21 +53,9 @@ const AnalyzeFiles: React.FC = () => {
       window.alert("Please upload a dataset file first.");
       return;
     }
-    const formData = new FormData();
-    analysisFile.forEach((file) => {
-      formData.append("files", file);
-    });
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/test",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await uploadFiles(analysisFile, "analyze");
       navigate("/home");
     } catch (error) {
       console.error("Error uploading files:", error);

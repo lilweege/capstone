@@ -6,6 +6,12 @@ import "./Navbar.css"; // CSS file for additional styling
 const Navbar = () => {
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
+  const handleLogout = () => {
+    logout({ logoutParams: { returnTo: window.location.origin } });
+    // remove token from local storage
+    localStorage.removeItem("access_token");
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -27,9 +33,7 @@ const Navbar = () => {
           {isAuthenticated && (
             <Button
               className="navbar-button bg-primary hover:bg-primary/90"
-              onClick={() =>
-                logout({ logoutParams: { returnTo: window.location.origin } })
-              }
+              onClick={() => handleLogout()}
             >
               Log Out
             </Button>
