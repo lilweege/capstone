@@ -8,7 +8,7 @@ import archiver from "archiver";
 import multer from "multer";
 
 // Import your environment, logger, and custom exceptions
-import { EmailVariables } from "../constants/envConstants.js";
+import { EmailVariables, AuthVariables } from "../constants/envConstants.js";
 import logger from "../utilities/loggerUtils.js";
 import {
   BadRequestException,
@@ -32,8 +32,17 @@ const transporter = nodemailer.createTransport({
 
 router.post("/", multer().any(), async (req, res, next) => {
   try {
-    const userClaims = req.auth.payload;
-    const userEmail = userClaims?.email;
+    const token = req.headers.authorization.split(" ")[1];
+    const response = await fetch(
+      `https://${AuthVariables.AUTH0_DOMAIN}/userinfo`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    const userEmail = data.email;
 
     if (!userEmail) {
       logger.warn("No email claim found in the Auth0 token payload");
@@ -165,6 +174,17 @@ router.post("/", multer().any(), async (req, res, next) => {
         });
       } catch (err) {
         logger.error("Error while zipping or emailing:", err);
+        // delete temp files
+        req.files.forEach((file) => {
+          const filePath = path.join(uploadDir, file.originalname);
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              logger.error(`Error deleting file ${filePath}: ${err.message}`);
+            } else {
+              logger.info(`File deleted: ${filePath}`);
+            }
+          });
+        });
         return next(
           new HttpRequestException(500, err.message, "POST_PROCESSING_ERROR")
         );

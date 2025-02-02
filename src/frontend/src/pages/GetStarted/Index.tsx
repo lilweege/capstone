@@ -9,7 +9,12 @@ import { Spin } from "antd";
 import "./LoadingPage.css"; // Custom CSS for styling the loader
 
 const Index = () => {
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
   const navigate = useNavigate();
   const [showLoading, setShowLoading] = useState(true);
 
@@ -22,6 +27,11 @@ const Index = () => {
       setShowLoading(true);
       const timeout = setTimeout(() => {
         setShowLoading(false);
+        // get token then set it to local storage
+        getAccessTokenSilently({}).then((token) => {
+          localStorage.setItem("access_token", token);
+        });
+
         navigate("/home");
       }, 500);
 
@@ -31,7 +41,7 @@ const Index = () => {
     if (!isAuthenticated && !isLoading) {
       setShowLoading(false);
     }
-  }, [isAuthenticated, isLoading, navigate]);
+  }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently]);
 
   if (isLoading || showLoading) {
     return (
