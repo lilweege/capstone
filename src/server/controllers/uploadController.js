@@ -2,7 +2,6 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { spawn } from "child_process";
 import nodemailer from "nodemailer";
 import archiver from "archiver";
 import multer from "multer";
@@ -76,7 +75,6 @@ router.post("/", multer().any(), async (req, res, next) => {
       );
     }
 
-
     const analysisName = req.body.analysisName;
 
     const uploadDir = path.join(__dirname, "..", "files");
@@ -148,27 +146,9 @@ router.post("/", multer().any(), async (req, res, next) => {
         ],
       });
 
-      const resultsJsonPath = path.join(
-        __dirname,
-        "../..",
-        "similarity_results.json"
-      );
-
-      // delete similarilty_results.json file
-      fs.unlink(resultsJsonPath, (err) => {
-        if (err) {
-          logger.error(
-            `Error deleting file ${resultsJsonPath}: ${err.message}`
-          );
-        } else {
-          logger.info(`File deleted: ${resultsJsonPath}`);
-        }
-      });
-
       logger.info(`Email sent successfully to ${userEmail}: ${info.messageId}`);
       return res.json({
-        message: "Email sent successfully!",
-        info,
+        data: resultData,
       });
     } catch (err) {
       logger.error("Error sending email:", err);
