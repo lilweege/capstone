@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Typography, Form, Row, Col } from "antd";
+import { Button, Input, Typography, Form, Row, Col, message } from "antd";
 import "./AnalyzeFiles.css";
 import UploadBox from "@/components/UploadBox";
 import { uploadFiles } from "@/services/ssApi";
@@ -70,7 +70,7 @@ const AnalyzeFiles: React.FC = () => {
       setFormKey((prevKey) => prevKey + 1);
       setClearFiles(true);
       
-      window.alert("Analysis uploaded successfully, an email will be sent to you once the analysis is complete.");
+      message.success("Analysis started successfully. You'll receive an email with the results once it's done!");
 
     } catch (error) {
       console.error("Error uploading files:", error);
