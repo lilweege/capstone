@@ -8,7 +8,11 @@ import archiver from "archiver";
 import multer from "multer";
 
 // Import your environment, logger, and custom exceptions
-import { EmailVariables, AuthVariables } from "../constants/envConstants.js";
+import {
+  EmailVariables,
+  AuthVariables,
+  SystemVariables,
+} from "../constants/envConstants.js";
 import logger from "../utilities/loggerUtils.js";
 import {
   BadRequestException,
@@ -93,7 +97,7 @@ router.post("/", multer().any(), async (req, res, next) => {
     const zipBuffer = await streamToBuffer(archive);
 
     // Send the ZIP buffer to the Python API endpoint
-    const pythonApiUrl = process.env.PYTHON_API_URL;
+    const pythonApiUrl = SystemVariables.PYTHON_API_URL;
 
     // log time it took to complete the request
     const start = new Date();
