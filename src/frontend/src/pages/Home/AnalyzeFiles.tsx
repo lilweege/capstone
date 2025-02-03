@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Typography, Form, Row, Col } from "antd";
+import { Button, Input, Typography, Form, Row, Col, message } from "antd";
 import "./AnalyzeFiles.css";
 import UploadBox from "@/components/UploadBox";
 import { uploadFiles } from "@/services/ssApi";
@@ -11,6 +11,9 @@ const AnalyzeFiles: React.FC = () => {
   const navigate = useNavigate();
   const [analysisFile, setAnalysisFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [analysisName, setAnalysisName] = useState("");
+  const [formKey, setFormKey] = useState(0); // Add a key to force re-render
+  const [clearFiles, setClearFiles] = useState(false);
 
   // Drag Event Handlers
   useEffect(() => {
@@ -49,14 +52,26 @@ const AnalyzeFiles: React.FC = () => {
   };
 
   const handleAnalyzeClick = async () => {
-    if (!analysisFile) {
+    if (!analysisFile || analysisFile.length === 0) {
       window.alert("Please upload a dataset file first.");
       return;
     }
 
+    if (!analysisName) {
+      window.alert("Please enter a name for this analysis.");
+      return;
+    }
+
     try {
-      const response = await uploadFiles(analysisFile, "analyze");
-      navigate("/home");
+      const response = uploadFiles(analysisFile, analysisName);
+
+      setAnalysisFile(null);
+      setAnalysisName("");
+      setFormKey((prevKey) => prevKey + 1);
+      setClearFiles(true);
+      
+      message.success("Analysis started successfully. You'll receive an email with the results once it's done!");
+
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -80,13 +95,15 @@ const AnalyzeFiles: React.FC = () => {
               ZIP file containing your project files.
             </Paragraph>
 
-            <UploadBox onFileListChange={handleFileUpload} mode="analyze" />
+            <UploadBox onFileListChange={handleFileUpload} mode="analyze" clearFiles={clearFiles} setClearFiles={setClearFiles} />
 
-            <Form layout="vertical" className="analyze-form">
-              <Form.Item label="Analysis Name" name="analysisName">
+            <Form key={formKey} layout="vertical" className="analyze-form">
+              <Form.Item label="Analysis Name" name="analysisName" required>
                 <Input
                   placeholder="Enter a name for this analysis"
                   size="large"
+                  value={analysisName}
+                  onChange={(e) => setAnalysisName(e.target.value)}
                 />
               </Form.Item>
 

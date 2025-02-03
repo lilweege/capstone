@@ -76,6 +76,9 @@ router.post("/", multer().any(), async (req, res, next) => {
       );
     }
 
+
+    const analysisName = req.body.analysisName;
+
     const uploadDir = path.join(__dirname, "..", "files");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
@@ -138,11 +141,28 @@ router.post("/", multer().any(), async (req, res, next) => {
         html: fs.readFileSync(templatePath, "utf8"),
         attachments: [
           {
-            filename: "similarity_results.zip",
+            filename: `${analysisName}.zip`,
             content: zipBufferResult,
             contentType: "application/zip",
           },
         ],
+      });
+
+      const resultsJsonPath = path.join(
+        __dirname,
+        "../..",
+        "similarity_results.json"
+      );
+
+      // delete similarilty_results.json file
+      fs.unlink(resultsJsonPath, (err) => {
+        if (err) {
+          logger.error(
+            `Error deleting file ${resultsJsonPath}: ${err.message}`
+          );
+        } else {
+          logger.info(`File deleted: ${resultsJsonPath}`);
+        }
       });
 
       logger.info(`Email sent successfully to ${userEmail}: ${info.messageId}`);

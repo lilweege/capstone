@@ -2,8 +2,18 @@ import { Input, message, List, Button } from "antd";
 import { InboxOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 
-const UploadBox = ({ onFileListChange, mode }) => {
+const UploadBox = ({ onFileListChange, mode, clearFiles, setClearFiles }) => {
   const [fileList, setFileList] = useState([]);
+
+  useEffect(() => {
+    if (clearFiles) {
+      setFileList([]);
+      if (onFileListChange) {
+        onFileListChange([]);
+      }
+      setClearFiles(false);
+    }
+  }, [clearFiles, onFileListChange, setClearFiles]);
 
   useEffect(() => {
     const handleWindowDrop = (e) => {
