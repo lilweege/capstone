@@ -28,6 +28,10 @@ interface SimilarityStats {
   totalSubmissions: number;
 }
 
+function numberOfFiles(x) {
+  return (1+ (1+8 *x)**0.5)/2
+}
+
 // Helper function to calculate median
 const calculateMedian = (values: number[]) => {
   if (values.length === 0) return 0;
@@ -181,14 +185,14 @@ const Results = () => {
                 <h3 className="text-sm font-medium text-muted-foreground mb-2">
                   Total Submissions
                 </h3>
-                <p className="text-4xl font-bold">{stats.totalSubmissions}</p>
+                <p className="text-4xl font-bold">{numberOfFiles(stats.totalSubmissions)}</p>
               </Card>
             </div>
 
             {/* Similarity Distribution Chart */}
             <Card className="p-6 mb-8">
               <h2 className="text-xl font-semibold mb-4">
-                Similarity Distribution
+                Similarity Distribution (pairs)
               </h2>
               <div className="w-full aspect-[2/1] min-h-[400px]">
                 <ChartContainer config={{}}>
