@@ -248,7 +248,7 @@ const Results = () => {
                 </Table>
                 <Pagination
                   current={currentPage}
-                  total={results.length}
+                  total={filteredResults.length}
                   pageSize={itemsPerPage}
                   onChange={(page) => setCurrentPage(page)}
                   className="mt-4 text-center"
