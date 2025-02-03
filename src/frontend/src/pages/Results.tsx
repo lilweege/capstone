@@ -11,7 +11,7 @@ import { Card } from "@/components/common/card";
 import { ChartContainer, ChartTooltip } from "@/components/common/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useEffect, useState, useMemo } from "react";
-import { Button, Pagination, Spin } from "antd";
+import { Button, Pagination, Spin, Slider } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 // Interfaces for our data structures
@@ -63,6 +63,8 @@ const Results = () => {
   });
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [threshold, setThreshold] = useState(50);
+  const [filteredResults, setFilteredResults] = useState<SimilarityResult[]>([]);
   const itemsPerPage = 20; // Show only 20 items per page
 
   useEffect(() => {
@@ -92,6 +94,12 @@ const Results = () => {
         setResults(
           jsonData.sort((a, b) => b.similarity_score - a.similarity_score)
         );
+
+        // Filter results based on threshold
+        setFilteredResults(
+          jsonData.sort((a, b) => b.similarity_score - a.similarity_score)
+        );
+
         setStats({
           highestSimilarity: highest,
           averageSimilarity: avg,
@@ -106,11 +114,18 @@ const Results = () => {
     }, 500); // Simulate a slight delay for smoother loading
   }, [navigate]);
 
+  // Filter results based on threshold
+  useEffect(() => {
+    setFilteredResults(
+      results.filter((r) => r.similarity_score * 100 >= threshold)
+    );
+  }, [results, threshold]);
+
   // Paginate table data
   const displayedResults = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return results.slice(startIndex, startIndex + itemsPerPage);
-  }, [results, currentPage]);
+    return filteredResults.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredResults, currentPage]);
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -193,6 +208,11 @@ const Results = () => {
                   </BarChart>
                 </ChartContainer>
               </div>
+            </Card>
+
+            <Card className="p-6 mb-6">
+              <h2 className="text-lg font-semibold mb-2">Similarity Threshold: {threshold}%</h2>
+              <Slider min={0} max={100} step={1} value={threshold} onChange={setThreshold} tooltipVisible className="w-full" />
             </Card>
 
             {/* Submissions Table with Pagination */}
