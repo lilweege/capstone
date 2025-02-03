@@ -11,7 +11,7 @@ import { Card } from "@/components/common/card";
 import { ChartContainer, ChartTooltip } from "@/components/common/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useEffect, useState, useMemo } from "react";
-import { Button, Pagination, Spin, Slider } from "antd";
+import { Button, Pagination, Spin, Slider, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 // Interfaces for our data structures
@@ -73,6 +73,7 @@ const Results = () => {
     setTimeout(() => {
       const storedData = localStorage.getItem("resultsData");
       if (!storedData) {
+        message.error("No data found. Please submit code files first.");
         navigate("/");
         return;
       }
@@ -80,6 +81,7 @@ const Results = () => {
       try {
         const jsonData: SimilarityResult[] = JSON.parse(storedData);
         if (!Array.isArray(jsonData) || jsonData.length === 0) {
+          message.error("No data found. Please submit code files first.");
           navigate("/");
           return;
         }
@@ -107,6 +109,7 @@ const Results = () => {
           totalSubmissions: jsonData.length,
         });
       } catch {
+        message.error("An error occurred while fetching data. Please try again.");
         navigate("/");
       } finally {
         setLoading(false);
